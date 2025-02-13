@@ -16,7 +16,7 @@
   .columnNormal {
     max-width: calc(50% - (var(--font-size) * 1px));
   }
-  
+
   .columnLarge {
     max-width: 100%;
   }
