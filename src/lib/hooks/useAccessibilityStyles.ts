@@ -35,6 +35,21 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
         }
       ` : ''}
 
+      ${settings.blackAndWhite ? `
+        * {
+          background-color: ${settings.backgroundColor} !important;
+          color: ${settings.foregroundColor} !important;
+          border-color: ${settings.foregroundColor} !important;
+        }
+        img, video, canvas, svg {
+          filter: grayscale(100%) !important;
+        }
+      ` : `
+        img, video, canvas, svg {
+          filter: none !important;
+        }
+      `}
+
       ${settings.cancelLayout ? `
         * {
           float: none !important;
@@ -60,13 +75,13 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
       ${settings.customLinks ? `
         a {
           text-decoration: underline !important;
-          color: blue !important;
+          color: ${settings.blackAndWhite ? settings.foregroundColor : 'blue'} !important;
         }
         a:visited {
-          color: purple !important;
+          color: ${settings.blackAndWhite ? settings.foregroundColor : 'purple'} !important;
         }
         a:hover {
-          color: red !important;
+          color: ${settings.blackAndWhite ? settings.foregroundColor : 'red'} !important;
         }
       ` : ''}
 
@@ -150,6 +165,7 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
     settings.cancelLayout,
     settings.leftAlignText,
     settings.numberListItems,
-    settings.customLinks
+    settings.customLinks,
+    settings.blackAndWhite
   ]);
 }

@@ -18,7 +18,8 @@ const defaultSettings: AccessibilitySettings = {
   backgroundColor: "#ffffff",
   foregroundColor: "#000000",
   removeBackgrounds: false,
-  currentProfile: 'none'
+  currentProfile: 'none',
+  blackAndWhite: false
 };
 
 interface StoredState {

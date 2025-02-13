@@ -33,6 +33,7 @@ export interface AccessibilitySettings {
   foregroundColor: string;
   removeBackgrounds: boolean;
   currentProfile: AccessibilityProfile;
+  blackAndWhite: boolean;
 }
 
 export const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySettings>> = {
