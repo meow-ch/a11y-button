@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { AccessibilitySettings, AccessibilityProfile, PROFILES, FONT_OPTIONS } from '../types';
+import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
+import { AccessibilitySettings, AccessibilityProfile, PROFILES, FONT_OPTIONS, Language } from '../types';
+import { translations, getTranslation } from '../i18n/translations';
 
 const STORAGE_KEY = 'a11y-settings';
 
@@ -19,7 +20,8 @@ const defaultSettings: AccessibilitySettings = {
   foregroundColor: "#000000",
   removeBackgrounds: false,
   currentProfile: 'none',
-  blackAndWhite: false
+  blackAndWhite: false,
+  language: 'en',
 };
 
 interface StoredState {
@@ -53,6 +55,7 @@ function saveStoredState(state: StoredState) {
 interface AccessibilityContextType {
   visibleSettings: AccessibilitySettings;
   savedSettings: AccessibilitySettings;
+  language: Language;
   isEnabled: boolean;
   hasChanges: boolean;
   updateSettings: (newSettings: Partial<AccessibilitySettings>) => void;
@@ -61,6 +64,7 @@ interface AccessibilityContextType {
   setProfile: (profile: AccessibilityProfile) => void;
   commitChanges: () => void;
   rollbackChanges: () => void;
+  t: (key: keyof typeof translations.en, params?: Record<string, string | number>) => string;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | null>(null);
@@ -83,11 +87,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   }, [savedSettings, isEnabled]);
 
   const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {
+    console.log("nes settings", newSettings);
     if (isEnabled) {
       setVisibleSettings(prev => ({
         ...prev,
         ...newSettings,
         currentProfile: 'none'
+      }));
+    } else if (newSettings.language) {
+      setSavedSettings(prev => ({
+        ...prev,
+        language: newSettings.language!,
       }));
     }
   };
@@ -134,11 +144,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const rollbackChanges = () => {
     setVisibleSettings(savedSettings);
   };
+  const language = isEnabled ? visibleSettings.language : (savedSettings.language || defaultSettings.language);
+
+  const t = useCallback((key: keyof typeof translations.en, params?: Record<string, string | number>) => {
+    return getTranslation(language, key, params);
+  }, [language]);
 
   return (
     <AccessibilityContext.Provider value={{
       visibleSettings: isEnabled ? visibleSettings : defaultSettings,
       savedSettings: isEnabled ? savedSettings : defaultSettings,
+      language,
       isEnabled,
       hasChanges,
       updateSettings,
@@ -146,7 +162,8 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       resetSettings,
       setProfile,
       commitChanges,
-      rollbackChanges
+      rollbackChanges,
+      t
     }}>
       {children}
     </AccessibilityContext.Provider>

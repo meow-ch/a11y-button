@@ -1,5 +1,6 @@
 import { Settings, LucideIcon, Eye, Palette, Type, LayoutGrid, PersonStanding } from 'lucide-react';
 import { ReactNode } from 'react';
+import { useAccessibility } from '../context/AccessibilityContext';
 
 interface AccessibilityButtonProps {
   isOpen: boolean;
@@ -43,7 +44,7 @@ export function AccessibilityButton({
 }: AccessibilityButtonProps) {
   const Icon = iconMap[iconHandle] || Settings;
 
-  console.log(top, right, bottom, left);
+  const { t } = useAccessibility();
 
   // Don't render if hideWhenOpen is true and the toolbar is open
   if ((hideWhenOpen || position === "absolute") && isOpen) {
@@ -66,7 +67,7 @@ export function AccessibilityButton({
     position: position,
     top: top || (position === 'absolute' ? SAFE_MARGIN : undefined),
     right: right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
-    bottom: (position === 'fixed' ? SAFE_MARGIN : undefined),
+    bottom: bottom || (position === 'fixed' ? SAFE_MARGIN : undefined),
     left: left || (position === 'absolute' ? SAFE_MARGIN : undefined),
     zIndex: 999998, // One less than toolbar to prevent overlap
     outline: 'none'
@@ -93,7 +94,7 @@ export function AccessibilityButton({
       onFocus={(e) => Object.assign(e.currentTarget.style, focusStyle)}
       onBlur={(e) => Object.assign(e.currentTarget.style, buttonStyle)}
       onClick={onClick}
-      aria-label={`${isOpen ? 'Hide' : 'Show'} Accessibility Settings`}
+      aria-label={t('{{hideShow}} Accessibility Settings', { hideShow: isOpen ? t('Hide') : t('Show') })}
     >
       {children || (
         <Icon

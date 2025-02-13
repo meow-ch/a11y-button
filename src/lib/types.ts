@@ -1,3 +1,5 @@
+export type Language = 'en' | 'fr' | 'de' | 'it';
+
 export type TextCase = 'none' | 'uppercase' | 'lowercase' | 'capitalize';
 
 export type AccessibilityProfile = 'none' | 'clear-reading' | 'easy-reading';
@@ -8,14 +10,14 @@ export interface FontOption {
   description: string;
 }
 
-export const FONT_OPTIONS: FontOption[] = [
+export const FONT_OPTIONS = [
   { value: 'Default', label: 'Default', description: 'From website' },
   { value: 'Arial', label: 'Arial', description: 'Standard sans-serif font' },
   { value: 'OpenDyslexic', label: 'OpenDyslexic', description: 'Designed for dyslexic readers' },
   { value: 'Atkinson Hyperlegible', label: 'Atkinson Hyperlegible', description: 'High legibility font' },
   { value: 'OpenSans', label: 'OpenSans', description: 'Good font font' },
   { value: 'Luciole', label: 'Luciole', description: 'Optimized for low vision' },
-];
+] as const;
 
 export interface AccessibilitySettings {
   fontSize: number;
@@ -34,6 +36,7 @@ export interface AccessibilitySettings {
   removeBackgrounds: boolean;
   currentProfile: AccessibilityProfile;
   blackAndWhite: boolean;
+  language: Language;
 }
 
 export const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySettings>> = {

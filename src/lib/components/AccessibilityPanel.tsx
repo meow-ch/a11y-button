@@ -4,6 +4,7 @@ import { VisualControls } from './accessibility-groups/VisualControls';
 import { Button } from './ui/Button';
 import { RotateCcw } from 'lucide-react';
 import styles from './AccessibilityPanel.module.css';
+import { useAccessibility } from '../context/AccessibilityContext';
 
 interface AccessibilityPanelProps {
   settings: AccessibilitySettings;
@@ -12,8 +13,9 @@ interface AccessibilityPanelProps {
 }
 
 export function AccessibilityPanel({ settings, updateSettings, resetSettings }: AccessibilityPanelProps) {
+  const { t } = useAccessibility();
   const handleReset = () => {
-    if (window.confirm('Are you sure you want to reset all settings to their defaults? You will need to save the changes to make them permanent.')) {
+    if (window.confirm(t('Are you sure you want to reset all settings to their defaults? You will need to save the changes to make them permanent.'))) {
       resetSettings();
     }
   };
@@ -68,7 +70,7 @@ export function AccessibilityPanel({ settings, updateSettings, resetSettings }: 
           fontSize={settings.fontSize}
           fullWidth
         >
-          Reset All Settings
+          {t('Reset All Settings')}
         </Button>
       </div>
     </div>

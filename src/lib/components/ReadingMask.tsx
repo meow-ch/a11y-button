@@ -14,7 +14,7 @@ export function ReadingMask({ isEnabled }: ReadingMaskProps) {
   });
   // State to control showing the close button inside the gap.
   const [showGapCloseButton, setShowGapCloseButton] = useState(false);
-  const { visibleSettings, updateSettings } = useAccessibility();
+  const { visibleSettings, updateSettings, t } = useAccessibility();
 
   // Determine the reading gap (line) height based on font size with fallback.
   const maskHeight = useMemo(() => {
@@ -98,7 +98,7 @@ export function ReadingMask({ isEnabled }: ReadingMaskProps) {
             pointerEvents: 'auto',
           }}
         >
-          Press Esc to close
+          {t('Press Esc to close')}
         </div>
       </div>
 
@@ -154,7 +154,7 @@ export function ReadingMask({ isEnabled }: ReadingMaskProps) {
               fontSize: '20px',
               color: '#ffffff',
             }}
-            aria-label="Close reading mask"
+            aria-label={t('Close reading mask')}
           >
             <X size={24} />
           </button>

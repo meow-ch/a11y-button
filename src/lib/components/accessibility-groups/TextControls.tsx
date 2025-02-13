@@ -2,6 +2,7 @@ import { ControlGroup } from './ControlGroup';
 import { AccessibilitySettings, TextCase, FONT_OPTIONS } from '../../types';
 import { IconButton } from '../ui/IconButton';
 import { ButtonGroup } from '../ui/ButtonGroup';
+import { useAccessibility } from '../../context/AccessibilityContext';
 
 interface TextControlsProps {
   settings: AccessibilitySettings;
@@ -10,11 +11,12 @@ interface TextControlsProps {
 }
 
 export function TextControls({ settings, onUpdate, labelStyle }: TextControlsProps) {
+  const { t } = useAccessibility();
   const handleFontSizeChange = (increase: boolean) => {
     const FONT_SIZES = [16, 24, 36, 54, 72];
     const currentIndex = FONT_SIZES.indexOf(settings.fontSize);
     const newIndex = increase ? currentIndex + 1 : currentIndex - 1;
-    
+
     if (newIndex >= 0 && newIndex < FONT_SIZES.length) {
       onUpdate({ fontSize: FONT_SIZES[newIndex] });
     }
@@ -43,14 +45,14 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
   };
 
   return (
-    <ControlGroup title="Text Readability" fontSize={settings.fontSize}>
+    <ControlGroup title={t('Text Readability')} fontSize={settings.fontSize}>
       <div style={controlStyle}>
-        <label style={labelStyle}>Font Size</label>
+        <label style={labelStyle}>{t('Font Size')}</label>
         <ButtonGroup gap={settings.fontSize * 0.5}>
           <IconButton
             icon={<span style={{ fontWeight: 'bold' }}>A</span>}
             text="-"
-            label="Decrease font size"
+            label={t('Decrease font size')}
             onClick={() => handleFontSizeChange(false)}
             disabled={settings.fontSize <= 16}
             size={settings.fontSize}
@@ -68,7 +70,7 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
           <IconButton
             icon={<span style={{ fontWeight: 'bold' }}>A</span>}
             text="+"
-            label="Increase font size"
+            label={t('Increase font size')}
             onClick={() => handleFontSizeChange(true)}
             disabled={settings.fontSize >= 72}
             size={settings.fontSize}
@@ -77,49 +79,49 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
       </div>
 
       <div style={controlStyle}>
-        <label style={labelStyle}>Font Family</label>
+        <label style={labelStyle}>{t('Font Family')}</label>
         <select
           value={settings.fontFamily}
           onChange={(e) => onUpdate({ fontFamily: e.target.value })}
           style={selectStyle}
         >
           {FONT_OPTIONS.map(font => (
-            <option 
-              key={font.value} 
+            <option
+              key={font.value}
               value={font.value}
               style={{ fontFamily: font.value }}
             >
-              {font.label} - {font.description}
+              {font.label} - {t(font.description)}
             </option>
           ))}
         </select>
       </div>
 
       <div style={controlStyle}>
-        <label style={labelStyle}>Text Case</label>
+        <label style={labelStyle}>{t('Text Case')}</label>
         <select
           value={settings.textCase}
           onChange={(e) => onUpdate({ textCase: e.target.value as TextCase })}
           style={selectStyle}
         >
-          <option value="none">Normal Case</option>
-          <option value="uppercase">UPPERCASE</option>
-          <option value="lowercase">lowercase</option>
-          <option value="capitalize">Capitalize Words</option>
+          <option value="none">{t('Normal Case')}</option>
+          <option value="uppercase">{t('UPPERCASE')}</option>
+          <option value="lowercase">{t('lowercase')}</option>
+          <option value="capitalize">{t('Capitalize Words')}</option>
         </select>
       </div>
 
       {[
-        { label: 'Word Spacing', key: 'wordSpacing', min: 0, max: 16 },
-        { label: 'Letter Spacing', key: 'letterSpacing', min: 0, max: 8 },
-        { label: 'Line Height', key: 'lineHeight', min: 1, max: 3 }
+        { label: t('Word Spacing'), key: 'wordSpacing', min: 0, max: 16 },
+        { label: t('Letter Spacing'), key: 'letterSpacing', min: 0, max: 8 },
+        { label: t('Line Height'), key: 'lineHeight', min: 1, max: 3 }
       ].map(({ label, key, min, max }) => (
         <div key={key} style={controlStyle}>
           <label style={labelStyle}>{label}</label>
           <ButtonGroup gap={settings.fontSize * 0.5}>
             <IconButton
               icon={<span>-</span>}
-              label={`Decrease ${label}`}
+              label={t('Decrease {{label}}', { label })}
               onClick={() => onUpdate({ [key]: Math.max(min, settings[key as keyof AccessibilitySettings] as number - 1) })}
               disabled={settings[key as keyof AccessibilitySettings] as number <= min}
               size={settings.fontSize}
@@ -136,7 +138,7 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
             </span>
             <IconButton
               icon={<span>+</span>}
-              label={`Increase ${label}`}
+              label={t('Increase {{label}}', { label })}
               onClick={() => onUpdate({ [key]: Math.min(max, settings[key as keyof AccessibilitySettings] as number + 1) })}
               disabled={settings[key as keyof AccessibilitySettings] as number >= max}
               size={settings.fontSize}

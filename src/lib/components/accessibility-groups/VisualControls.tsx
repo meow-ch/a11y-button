@@ -1,6 +1,7 @@
 import { ControlGroup } from './ControlGroup';
 import { AccessibilitySettings } from '../../types';
 import { validateColorContrast } from '../../utils/color';
+import { useAccessibility } from '../../context/AccessibilityContext';
 
 interface VisualControlsProps {
   settings: AccessibilitySettings;
@@ -9,6 +10,8 @@ interface VisualControlsProps {
 }
 
 export function VisualControls({ settings, onUpdate, labelStyle }: VisualControlsProps) {
+  const { t } = useAccessibility();
+
   const handleColorChange = async (key: 'backgroundColor' | 'foregroundColor', color: string) => {
     const otherColor = key === 'backgroundColor' ? settings.foregroundColor : settings.backgroundColor;
     const isValid = await validateColorContrast(color, otherColor);
@@ -35,9 +38,9 @@ export function VisualControls({ settings, onUpdate, labelStyle }: VisualControl
   };
 
   return (
-    <ControlGroup title="Visual Aids" fontSize={settings.fontSize}>
+    <ControlGroup title={t('Visual Aids')} fontSize={settings.fontSize}>
       <div style={controlStyle}>
-        <label style={labelStyle}>Background Color</label>
+        <label style={labelStyle}>{t('Background Color')}</label>
         <input
           type="color"
           value={settings.backgroundColor}
@@ -54,7 +57,7 @@ export function VisualControls({ settings, onUpdate, labelStyle }: VisualControl
       </div>
 
       <div style={controlStyle}>
-        <label style={labelStyle}>Text Color</label>
+        <label style={labelStyle}>{t('Text Color')}</label>
         <input
           type="color"
           value={settings.foregroundColor}
@@ -71,12 +74,12 @@ export function VisualControls({ settings, onUpdate, labelStyle }: VisualControl
       </div>
 
       {[
-        { label: 'Reading Mask', key: 'showReadingMask' },
-        { label: 'Remove Backgrounds', key: 'removeBackgrounds' },
-        { label: 'Simplify Layout', key: 'cancelLayout' },
-        { label: 'Left Align Text', key: 'leftAlignText' },
-        { label: 'Number Lists', key: 'numberListItems' },
-        { label: 'Highlight Links', key: 'customLinks' }
+        { label: t('Reading Mask'), key: 'showReadingMask' },
+        { label: t('Remove Backgrounds'), key: 'removeBackgrounds' },
+        { label: t('Simplify Layout'), key: 'cancelLayout' },
+        { label: t('Left Align Text'), key: 'leftAlignText' },
+        { label: t('Number Lists'), key: 'numberListItems' },
+        { label: t('Highlight Links'), key: 'customLinks' }
       ].map(({ label, key }) => (
         <div key={key} style={controlStyle}>
           <label style={labelStyle}>{label}</label>

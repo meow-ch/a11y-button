@@ -13,6 +13,8 @@ import { Button } from './ui/Button';
 import { IconButton } from './ui/IconButton';
 import { AccessibilityButton } from './AccessibilityButton';
 import { AccessibilitySettings } from '../types';
+import { languageNames } from '../i18n/translations';
+import { Language } from '../types';
 
 export interface AccessibilityToolbarProps {
   position?: 'fixed' | 'absolute';
@@ -38,6 +40,7 @@ function ToolbarContent({
 
   const {
     visibleSettings: settings,
+    language,
     isEnabled,
     hasChanges,
     updateSettings,
@@ -45,7 +48,8 @@ function ToolbarContent({
     resetSettings,
     setProfile,
     commitChanges,
-    rollbackChanges
+    rollbackChanges,
+    t
   } = useAccessibility();
 
   useAccessibilityStyles(settings);
@@ -53,7 +57,7 @@ function ToolbarContent({
   const handleClose = () => {
     if (hasChanges) {
       const shouldSave = window.confirm(
-        'You have unsaved changes. Would you like to save them before closing?'
+        t('You have unsaved changes. Would you like to save them before closing?')
       );
       if (shouldSave) {
         commitChanges();
@@ -77,9 +81,9 @@ function ToolbarContent({
 
       if (contrast < 4.5) {
         const proceed = window.confirm(
-          'Warning: The selected colors have low contrast (ratio: ' +
-          contrast.toFixed(2) + ':1). WCAG guidelines recommend a minimum of 4.5:1.\n\n' +
-          'Do you want to proceed with these colors anyway?'
+          t('Warning: The selected colors have low contrast (ratio: {{ratio}}:1).', { ratio: contrast.toFixed(2) })
+          + t(' WCAG guidelines recommend a minimum of 4.5:1.\n\n')
+          + t('Do you want to proceed with these colors anyway?')
         );
         if (!proceed) return;
       }
@@ -124,7 +128,7 @@ function ToolbarContent({
             fontWeight: 600,
             whiteSpace: 'nowrap'
           }}>
-            Accessibility
+            {t('Accessibility')}
           </h2>
           <Toggle
             checked={isEnabled}
@@ -163,7 +167,7 @@ function ToolbarContent({
                 onClick={handleSave}
                 fontSize={settings.fontSize}
               >
-                Save Changes
+                {t('Save Changes')}
               </Button>
               <Button
                 variant="ghost"
@@ -171,7 +175,7 @@ function ToolbarContent({
                 onClick={rollbackChanges}
                 fontSize={settings.fontSize}
               >
-                Revert
+                {t('Revert')}
               </Button>
             </>
           )}
@@ -182,9 +186,27 @@ function ToolbarContent({
               onClick={() => setShowAdvanced(!showAdvanced)}
               fontSize={settings.fontSize}
             >
-              {showAdvanced ? 'Less Options' : 'More Options'}
+              {showAdvanced ? t('Less Options') : t('More Options')}
             </Button>
           )}
+          <select
+            value={language}
+            onChange={(e) => handleSettingsUpdate({ language: e.target.value as Language })}
+            style={{
+              padding: `${settings.fontSize * 0.25}px ${settings.fontSize * 0.5}px`,
+              fontSize: `${settings.fontSize}px`,
+              height: `${settings.fontSize * 2}px`,
+              borderRadius: '4px',
+              border: '2px solid currentColor'
+            }}
+            aria-label={t('language')}
+          >
+            {Object.entries(languageNames).map(([code, name]) => (
+              <option key={code} value={code}>
+                {name}
+              </option>
+            ))}
+          </select>
           <IconButton
             icon={<XIcon size={settings.fontSize} />}
             label="Close"

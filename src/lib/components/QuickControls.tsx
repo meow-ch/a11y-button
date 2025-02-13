@@ -2,6 +2,7 @@ import { Eye, EyeOff, PaintBucket } from 'lucide-react';
 import { AccessibilitySettings } from '../types';
 import { ButtonGroup } from './ui/ButtonGroup';
 import { IconButton } from './ui/IconButton';
+import { useAccessibility } from '../context/AccessibilityContext';
 
 interface QuickControlsProps {
   settings: AccessibilitySettings;
@@ -12,6 +13,7 @@ interface QuickControlsProps {
 export function QuickControls({ settings, onSettingsChange, disabled }: QuickControlsProps) {
   const MIN_FONT_SIZE = 12;
   const MAX_FONT_SIZE = 72;
+  const { t } = useAccessibility();
 
   const toggleBlackAndWhite = () => {
     if (settings.blackAndWhite) {
@@ -46,7 +48,7 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
         <IconButton
           icon={<span style={{ fontWeight: 'bold' }}>A</span>}
           text="-"
-          label="Decrease font size"
+          label={t('Decrease font size')}
           onClick={() => onSettingsChange({ 
             fontSize: Math.max(MIN_FONT_SIZE, settings.fontSize / 1.5)
           })}
@@ -56,7 +58,7 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
         <IconButton
           icon={<span style={{ fontWeight: 'bold' }}>A</span>}
           text="+"
-          label="Increase font size"
+          label={t('Increase font size')}
           onClick={() => onSettingsChange({ 
             fontSize: Math.min(MAX_FONT_SIZE, settings.fontSize * 1.5)
           })}
@@ -78,7 +80,7 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
             <EyeOff size={settings.fontSize * 1.2} /> : 
             <Eye size={settings.fontSize * 1.2} />
           }
-          label={`${settings.showReadingMask ? 'Disable' : 'Enable'} reading mask`}
+          label={t(`{{enableDisable}} reading mask`, { enableDisable: settings.showReadingMask ? t('Disable') : t('Enable') })}
           onClick={() => onSettingsChange({ 
             showReadingMask: !settings.showReadingMask 
           })}
@@ -87,7 +89,7 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
         />
         <IconButton
           icon={<PaintBucket size={settings.fontSize * 1.2} />}
-          label={`${settings.blackAndWhite ? 'Disable' : 'Enable'} black and white mode`}
+          label={t(`{{enableDisable}} black and white mode`, { enableDisable: settings.blackAndWhite ? t('Disable') : t('Enable') })}
           onClick={toggleBlackAndWhite}
           size={settings.fontSize}
           active={settings.blackAndWhite}

@@ -1,4 +1,5 @@
 import { AccessibilityProfile, AccessibilitySettings, PROFILES } from '../types';
+import { useAccessibility } from '../context/AccessibilityContext';
 
 interface ProfileSelectorProps {
   currentProfile: AccessibilityProfile;
@@ -8,6 +9,7 @@ interface ProfileSelectorProps {
 }
 
 export function ProfileSelector({ currentProfile, onChange, disabled, fontSize }: ProfileSelectorProps) {
+  const { t } = useAccessibility();
   const handleChange = (profile: AccessibilityProfile) => {
     const settings = PROFILES[profile];
     onChange(profile, settings);
@@ -15,7 +17,7 @@ export function ProfileSelector({ currentProfile, onChange, disabled, fontSize }
 
   return (
     <div className="flex items-center gap-3 px-4">
-      <span style={{ fontSize: `${fontSize}px` }}>Profile</span>
+      <span style={{ fontSize: `${fontSize}px` }}>{t('Profile')}</span>
       <select
         value={currentProfile}
         onChange={(e) => handleChange(e.target.value as AccessibilityProfile)}
@@ -27,9 +29,9 @@ export function ProfileSelector({ currentProfile, onChange, disabled, fontSize }
           height: `${fontSize * 2}px`
         }}
       >
-        <option value="none">Custom</option>
-        <option value="clear-reading">Clear Reading</option>
-        <option value="easy-reading">Easy Reading</option>
+        <option value="none">{t('Custom')}</option>
+        <option value="clear-reading">{t('Clear Reading')}</option>
+        <option value="easy-reading">{t('Easy Reading')}</option>
       </select>
     </div>
   );
