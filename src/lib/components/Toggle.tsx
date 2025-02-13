@@ -1,3 +1,5 @@
+import { useAccessibility } from '../context/AccessibilityContext';
+
 interface ToggleProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
@@ -5,9 +7,14 @@ interface ToggleProps {
 }
 
 export function Toggle({ checked, onChange, size = 24 }: ToggleProps) {
+  const { visibleSettings } = useAccessibility();
+  const { removeBackgrounds, blackAndWhite, backgroundColor, foregroundColor } = visibleSettings;
+
   const width = size * 2;
   const height = size;
   const knobSize = height - 4;
+
+  const shouldShowBorder = removeBackgrounds || blackAndWhite;
 
   return (
     <button
@@ -21,7 +28,7 @@ export function Toggle({ checked, onChange, size = 24 }: ToggleProps) {
         backgroundColor: checked ? '#4CAF50' : '#ccc',
         borderRadius: `${height}px`,
         padding: '2px',
-        border: 'none',
+        border: shouldShowBorder ? `2px solid ${foregroundColor}` : 'none',
         cursor: 'pointer',
         transition: 'background-color 0.3s',
         display: 'inline-flex',
@@ -34,10 +41,12 @@ export function Toggle({ checked, onChange, size = 24 }: ToggleProps) {
           left: checked ? `${width - knobSize - 2}px` : '2px',
           width: `${knobSize}px`,
           height: `${knobSize}px`,
-          backgroundColor: 'white',
+          backgroundColor: backgroundColor,
           borderRadius: '50%',
           transition: 'left 0.3s',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+          boxShadow: shouldShowBorder
+            ? `0 0 0 2px ${foregroundColor}`
+            : '0 2px 4px rgba(0,0,0,0.2)',
         }}
       />
     </button>

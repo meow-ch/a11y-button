@@ -27,20 +27,98 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
 
     // Create global styles for various accessibility features
     const globalStyles = `
-      ${settings.removeBackgrounds ? `
+      ${settings.removeBackgrounds || settings.blackAndWhite ? `
         * {
           background-color: ${settings.backgroundColor} !important;
           color: ${settings.foregroundColor} !important;
           border-color: ${settings.foregroundColor} !important;
+        }
+
+        /* Ensure buttons and interactive elements are visible */
+        button,
+        [role="button"],
+        input[type="button"],
+        input[type="submit"],
+        input[type="reset"],
+        .button,
+        select,
+        input[type="checkbox"],
+        input[type="radio"] {
+          border: 2px solid ${settings.foregroundColor} !important;
+          color: ${settings.foregroundColor} !important;
+          background-color: ${settings.backgroundColor} !important;
+          outline-color: ${settings.foregroundColor} !important;
+        }
+
+        /* Style for focused and hovered states */
+        button:focus,
+        [role="button"]:focus,
+        input[type="button"]:focus,
+        input[type="submit"]:focus,
+        input[type="reset"]:focus,
+        .button:focus,
+        select:focus,
+        button:hover,
+        [role="button"]:hover,
+        input[type="button"]:hover,
+        input[type="submit"]:hover,
+        input[type="reset"]:hover,
+        .button:hover {
+          background-color: ${settings.foregroundColor} !important;
+          color: ${settings.backgroundColor} !important;
+          outline: 2px solid ${settings.foregroundColor} !important;
+        }
+
+        /* Style for checkboxes and radio buttons */
+        input[type="checkbox"],
+        input[type="radio"] {
+          border: 2px solid ${settings.foregroundColor} !important;
+          outline: none !important;
+        }
+
+        input[type="checkbox"]:checked,
+        input[type="radio"]:checked {
+          background-color: ${settings.foregroundColor} !important;
+          border-color: ${settings.foregroundColor} !important;
+        }
+
+        /* Style for select dropdowns */
+        select {
+          background-image: linear-gradient(45deg, transparent 50%, ${settings.foregroundColor} 50%),
+                           linear-gradient(135deg, ${settings.foregroundColor} 50%, transparent 50%) !important;
+          background-position: calc(100% - 20px) calc(1em + 2px),
+                             calc(100% - 15px) calc(1em + 2px) !important;
+          background-size: 5px 5px,
+                         5px 5px !important;
+          background-repeat: no-repeat !important;
+        }
+
+        /* Ensure toggle switches are visible */
+        input[type="checkbox"][role="switch"] {
+          background-color: ${settings.backgroundColor} !important;
+          border: 2px solid ${settings.foregroundColor} !important;
+        }
+
+        input[type="checkbox"][role="switch"]:checked {
+          background-color: ${settings.foregroundColor} !important;
+        }
+
+        /* Style for input fields */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        input[type="search"],
+        input[type="tel"],
+        input[type="url"],
+        textarea {
+          border: 2px solid ${settings.foregroundColor} !important;
+          background-color: ${settings.backgroundColor} !important;
+          color: ${settings.foregroundColor} !important;
         }
       ` : ''}
 
       ${settings.blackAndWhite ? `
-        * {
-          background-color: ${settings.backgroundColor} !important;
-          color: ${settings.foregroundColor} !important;
-          border-color: ${settings.foregroundColor} !important;
-        }
         img, video, canvas, svg {
           filter: grayscale(100%) !important;
         }
