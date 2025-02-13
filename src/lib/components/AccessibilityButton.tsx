@@ -63,7 +63,6 @@ export function AccessibilityButton({
     borderRadius: borderRadius,
     cursor: 'pointer',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    transition: 'all 0.2s ease',
     position: position,
     top: top || (position === 'absolute' ? SAFE_MARGIN : undefined),
     right: right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),

@@ -28,7 +28,7 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
     // Create global styles for various accessibility features
     const globalStyles = `
       ${settings.removeBackgrounds || settings.blackAndWhite ? `
-        * {
+        *:not(.a11y-button-main-switch) {
           background-color: ${settings.backgroundColor} !important;
           color: ${settings.foregroundColor} !important;
           border-color: ${settings.foregroundColor} !important;
@@ -51,22 +51,38 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
         }
 
         /* Style for focused and hovered states */
-        button:focus,
-        [role="button"]:focus,
-        input[type="button"]:focus,
-        input[type="submit"]:focus,
-        input[type="reset"]:focus,
-        .button:focus,
-        select:focus,
-        button:hover,
+        button:hover:not(.a11y-button-main-switch),
         [role="button"]:hover,
         input[type="button"]:hover,
         input[type="submit"]:hover,
         input[type="reset"]:hover,
-        .button:hover {
+        .button:hover /*,
+        button:focus:not(.a11y-button-main-switch),
+        [role="button"]:focus,
+        input[type="button"]:focus,
+        input[type="submit"]:focus,
+        input[type="reset"]:focus,
+        .button:focus:not(.a11y-button-main-switch) */ {
           background-color: ${settings.foregroundColor} !important;
           color: ${settings.backgroundColor} !important;
           outline: 2px solid ${settings.foregroundColor} !important;
+        }
+
+        /* Ensure button children inherit colors */
+        button:hover *,
+        [role="button"]:hover *,
+        input[type="button"]:hover *,
+        input[type="submit"]:hover *,
+        input[type="reset"]:hover *,
+        .button:hover *,
+        button:focus *,
+        [role="button"]:focus *,
+        input[type="button"]:focus *,
+        input[type="submit"]:focus *,
+        input[type="reset"]:focus *,
+        .button:focus * {
+          background-color: inherit !important;
+          color: inherit !important;
         }
 
         /* Style for checkboxes and radio buttons */

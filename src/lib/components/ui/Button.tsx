@@ -71,7 +71,7 @@ export function Button({
     borderRadius: '4px',
     fontWeight: 600,
     cursor: disabled ? 'not-allowed' : 'pointer',
-    transition: 'all 0.2s ease',
+    // transition: 'all 0.2s ease',
     opacity: disabled ? 0.5 : 1,
     width: fullWidth ? '100%' : 'auto',
     position: 'relative',
@@ -92,7 +92,7 @@ export function Button({
   };
 
   const focusStyles = {
-    boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)',
+    // boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)',
   };
 
   return (
@@ -102,7 +102,7 @@ export function Button({
       style={baseStyles}
       onMouseOver={(e) => {
         if (!disabled) {
-          Object.assign(e.currentTarget.style, hoverStyles);
+          Object.assign(e.currentTarget.style, { ...baseStyles, ...hoverStyles });
         }
       }}
       onMouseOut={(e) => {
@@ -116,8 +116,8 @@ export function Button({
       }}
     >
       {icon && (
-        <span style={{ 
-          display: 'flex', 
+        <span style={{
+          display: 'flex',
           alignItems: 'center',
           fontSize: `${fontSize * 1.2}px`
         }}>

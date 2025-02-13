@@ -18,6 +18,7 @@ export function Toggle({ checked, onChange, size = 24 }: ToggleProps) {
 
   return (
     <button
+      className="a11y-button-main-switch"
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}

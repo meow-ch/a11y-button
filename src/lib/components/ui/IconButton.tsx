@@ -32,7 +32,6 @@ export function IconButton({
     border: '2px solid #000000',
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.5 : 1,
-    transition: 'all 0.2s ease',
     padding: `${size * 0.25}px ${size * 0.5}px`,
     fontWeight: 600,
     fontSize: `${size * 0.75}px`,
@@ -44,7 +43,7 @@ export function IconButton({
   };
 
   const focusStyles = {
-    boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)',
+    // boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)',
   };
 
   return (
