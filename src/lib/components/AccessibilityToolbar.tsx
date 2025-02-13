@@ -1,5 +1,4 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { AccessibilityProvider } from '../context/AccessibilityContext';
 import { XIcon, Save, RotateCcw, Settings2 } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { AccessibilityPanel } from './AccessibilityPanel';
@@ -267,9 +266,5 @@ export function AccessibilityToolbar(props: AccessibilityToolbarProps) {
     };
   }, []);
 
-  return (
-    <AccessibilityProvider>
-      <ToolbarContent props={props} portalContainer={portalContainer} />
-    </AccessibilityProvider>
-  );
+  return <ToolbarContent props={props} portalContainer={portalContainer} />;
 }

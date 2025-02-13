@@ -1,5 +1,7 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { AccessibilitySettings, AccessibilityProfile, PROFILES, FONT_OPTIONS } from '../types';
+
+const STORAGE_KEY = 'a11y-settings';
 
 const defaultSettings: AccessibilitySettings = {
   fontSize: 16,
@@ -19,6 +21,34 @@ const defaultSettings: AccessibilitySettings = {
   currentProfile: 'none'
 };
 
+interface StoredState {
+  settings: AccessibilitySettings;
+  isEnabled: boolean;
+}
+
+function loadStoredState(): StoredState {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (error) {
+    console.error('Failed to load accessibility settings:', error);
+  }
+  return {
+    settings: defaultSettings,
+    isEnabled: true
+  };
+}
+
+function saveStoredState(state: StoredState) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (error) {
+    console.error('Failed to save accessibility settings:', error);
+  }
+}
+
 interface AccessibilityContextType {
   visibleSettings: AccessibilitySettings;
   savedSettings: AccessibilitySettings;
@@ -35,12 +65,21 @@ interface AccessibilityContextType {
 const AccessibilityContext = createContext<AccessibilityContextType | null>(null);
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
-  const [visibleSettings, setVisibleSettings] = useState<AccessibilitySettings>(defaultSettings);
-  const [savedSettings, setSavedSettings] = useState<AccessibilitySettings>(defaultSettings);
-  const [isEnabled, setIsEnabled] = useState(true);
+  const storedState = loadStoredState();
+  const [visibleSettings, setVisibleSettings] = useState<AccessibilitySettings>(storedState.settings);
+  const [savedSettings, setSavedSettings] = useState<AccessibilitySettings>(storedState.settings);
+  const [isEnabled, setIsEnabled] = useState(storedState.isEnabled);
   const [pausedSettings, setPausedSettings] = useState<AccessibilitySettings | null>(null);
 
   const hasChanges = JSON.stringify(visibleSettings) !== JSON.stringify(savedSettings);
+
+  useEffect(() => {
+    // Save settings whenever they are committed (saved)
+    saveStoredState({
+      settings: savedSettings,
+      isEnabled
+    });
+  }, [savedSettings, isEnabled]);
 
   const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {
     if (isEnabled) {
@@ -52,7 +91,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const setEnabled = (enabled: boolean) => {
+  const setEnabledState = (enabled: boolean) => {
     setIsEnabled(enabled);
     if (!enabled) {
       setPausedSettings(savedSettings);
@@ -62,10 +101,14 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       setVisibleSettings(pausedSettings);
       setSavedSettings(pausedSettings);
     }
+    // Save the enabled state immediately
+    saveStoredState({
+      settings: enabled && pausedSettings ? pausedSettings : defaultSettings,
+      isEnabled: enabled
+    });
   };
 
   const resetSettings = () => {
-    // Only update visible settings, requiring explicit save
     setVisibleSettings(defaultSettings);
   };
 
@@ -84,6 +127,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
   const commitChanges = () => {
     setSavedSettings(visibleSettings);
+    // Settings are automatically saved via useEffect
   };
 
   const rollbackChanges = () => {
@@ -97,7 +141,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       isEnabled,
       hasChanges,
       updateSettings,
-      setEnabled,
+      setEnabled: setEnabledState,
       resetSettings,
       setProfile,
       commitChanges,
