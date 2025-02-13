@@ -1,0 +1,23 @@
+.panel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .columnNormal {
+    max-width: calc(50% - (var(--font-size) * 1px));
+  }
+  
+  .columnLarge {
+    max-width: 100%;
+  }
+}
