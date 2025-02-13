@@ -25,6 +25,7 @@ npm install a11y-button
 
 ```jsx
 import { AccessibilityToolbar } from 'a11y-button';
+import 'a11y-button/dist/index.css';
 
 function App() {
   return (
