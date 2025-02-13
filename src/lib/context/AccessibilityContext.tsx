@@ -88,16 +88,20 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
   const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {
     console.log("nes settings", newSettings);
-    if (isEnabled) {
+    if (Object.keys(newSettings).length === 1 && newSettings.language) {
+      setVisibleSettings(prev => ({
+        ...prev,
+        language: newSettings.language!,
+      }));
+      setSavedSettings(prev => ({
+        ...prev,
+        language: newSettings.language!,
+      }));
+    } else if (isEnabled) {
       setVisibleSettings(prev => ({
         ...prev,
         ...newSettings,
         currentProfile: 'none'
-      }));
-    } else if (newSettings.language) {
-      setSavedSettings(prev => ({
-        ...prev,
-        language: newSettings.language!,
       }));
     }
   };
