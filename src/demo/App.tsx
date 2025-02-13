@@ -7,7 +7,7 @@ export function App() {
     <AccessibilityProvider>
       <div className="min-h-screen bg-white">
         {/* Default sticky toolbar */}
-        <AccessibilityToolbar bottom={'5rem'} />
+        <AccessibilityToolbar />
 
         {/* Example content */}
         <main className="container mx-auto p-8">

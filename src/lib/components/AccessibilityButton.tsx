@@ -1,4 +1,4 @@
-import { Settings, LucideIcon, Eye, Palette, Type, LayoutGrid } from 'lucide-react';
+import { Settings, LucideIcon, Eye, Palette, Type, LayoutGrid, PersonStanding } from 'lucide-react';
 import { ReactNode } from 'react';
 
 interface AccessibilityButtonProps {
@@ -11,7 +11,7 @@ interface AccessibilityButtonProps {
   bottom?: string;
   left?: string;
   borderRadius?: string;
-  iconHandle?: 'settings' | 'eye' | 'palette' | 'type' | 'layout';
+  iconHandle?: 'settings' | 'eye' | 'palette' | 'type' | 'layout' | 'accessibility';
   children?: ReactNode;
   hideWhenOpen?: boolean;
 }
@@ -19,6 +19,7 @@ interface AccessibilityButtonProps {
 const iconMap: Record<string, LucideIcon> = {
   settings: Settings,
   eye: Eye,
+  accessibility: PersonStanding,
   palette: Palette,
   type: Type,
   layout: LayoutGrid
@@ -36,7 +37,7 @@ export function AccessibilityButton({
   bottom = SAFE_MARGIN,
   left,
   borderRadius = '50%',
-  iconHandle = 'settings',
+  iconHandle = 'accessibility',
   children,
   hideWhenOpen = false
 }: AccessibilityButtonProps) {
@@ -45,7 +46,7 @@ export function AccessibilityButton({
   console.log(top, right, bottom, left);
 
   // Don't render if hideWhenOpen is true and the toolbar is open
-  if (hideWhenOpen && isOpen) {
+  if ((hideWhenOpen || position === "absolute") && isOpen) {
     return null;
   }
 
@@ -64,10 +65,10 @@ export function AccessibilityButton({
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     transition: 'all 0.2s ease',
     position: position,
-    top: top,
-    right: right || ((!left && position) ? SAFE_MARGIN : undefined),
-    bottom: (position === 'absolute' ? SAFE_MARGIN : undefined),
-    left: left,
+    top: top || (position === 'absolute' ? SAFE_MARGIN : undefined),
+    right: right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
+    bottom: (position === 'fixed' ? SAFE_MARGIN : undefined),
+    left: left || (position === 'absolute' ? SAFE_MARGIN : undefined),
     zIndex: 999998, // One less than toolbar to prevent overlap
     outline: 'none'
   };
