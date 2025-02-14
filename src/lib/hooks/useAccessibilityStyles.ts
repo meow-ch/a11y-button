@@ -14,6 +14,8 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
     document.documentElement.style.lineHeight = settings.lineHeight.toString();
     if (settings.fontFamily !== FONT_OPTIONS[0].value) {
       document.documentElement.style.fontFamily = settings.fontFamily;
+    } else {
+      document.documentElement.style.fontFamily = "";
     }
     document.documentElement.style.backgroundColor = settings.backgroundColor;
     document.documentElement.style.color = settings.foregroundColor;

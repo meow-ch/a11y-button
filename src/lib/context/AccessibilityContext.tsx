@@ -148,7 +148,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const rollbackChanges = () => {
     setVisibleSettings(savedSettings);
   };
-  const language = isEnabled ? visibleSettings.language : (savedSettings.language || defaultSettings.language);
+  const language = (isEnabled ? visibleSettings.language : savedSettings.language) || defaultSettings.language;
 
   const t = useCallback((key: keyof typeof translations.en, params?: Record<string, string | number>) => {
     return getTranslation(language, key, params);
