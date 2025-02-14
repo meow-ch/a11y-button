@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
-import { AccessibilitySettings, FONT_OPTIONS } from '../types';
+import { AccessibilitySettings, FONT_OPTIONS, FontOption, FontOptionLabel } from '../types';
 
-export function useAccessibilityStyles(settings: AccessibilitySettings) {
+function getNonDefaultFontValue(fontOptionLabel: Omit<FontOptionLabel, "Default">) {
+  return FONT_OPTIONS.filter(o => o.label === fontOptionLabel)[0].value
+}
+
+export function useAccessibilityStyles(settings: AccessibilitySettings, defaultFont: FontOption) {
   useEffect(() => {
     // Create a style element for global styles
     const styleElement = document.createElement('style');
@@ -12,10 +16,10 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
     document.documentElement.style.wordSpacing = `${settings.wordSpacing}px`;
     document.documentElement.style.letterSpacing = `${settings.letterSpacing}px`;
     document.documentElement.style.lineHeight = settings.lineHeight.toString();
-    if (settings.fontFamily !== FONT_OPTIONS[0].value) {
-      document.documentElement.style.fontFamily = settings.fontFamily;
+    if (settings.fontOptionLabel !== defaultFont.label) {
+      document.documentElement.style.fontFamily = getNonDefaultFontValue(settings.fontOptionLabel);
     } else {
-      document.documentElement.style.fontFamily = "";
+      document.documentElement.style.fontFamily = defaultFont.value;
     }
     document.documentElement.style.backgroundColor = settings.backgroundColor;
     document.documentElement.style.color = settings.foregroundColor;
@@ -186,7 +190,7 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
         word-spacing: ${settings.wordSpacing}px !important;
         letter-spacing: ${settings.letterSpacing}px !important;
         line-height: ${settings.lineHeight} !important;
-        ${(settings.fontFamily !== FONT_OPTIONS[0].value) ? `font-family: ${settings.fontFamily} !important;` : ''}
+        ${(settings.fontOptionLabel !== defaultFont.label) ? `font-family: ${getNonDefaultFontValue(settings.fontOptionLabel)} !important;` : defaultFont.value}
         background-color: ${settings.backgroundColor} !important;
         color: ${settings.foregroundColor} !important;
       }
@@ -254,7 +258,7 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
     settings.wordSpacing,
     settings.letterSpacing,
     settings.lineHeight,
-    settings.fontFamily,
+    settings.fontOptionLabel,
     settings.backgroundColor,
     settings.foregroundColor,
     settings.textCase,
@@ -263,6 +267,7 @@ export function useAccessibilityStyles(settings: AccessibilitySettings) {
     settings.leftAlignText,
     settings.numberListItems,
     settings.customLinks,
-    settings.blackAndWhite
+    settings.blackAndWhite,
+    defaultFont.value
   ]);
 }

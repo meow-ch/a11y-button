@@ -49,10 +49,11 @@ function ToolbarContent({
     setProfile,
     commitChanges,
     rollbackChanges,
-    t
+    t,
+    fontOptions
   } = useAccessibility();
 
-  useAccessibilityStyles(settings);
+  useAccessibilityStyles(settings, fontOptions[0]);
 
   const handleClose = () => {
     if (hasChanges) {

@@ -1,5 +1,5 @@
 import { ControlGroup } from './ControlGroup';
-import { AccessibilitySettings, TextCase, FONT_OPTIONS } from '../../types';
+import { AccessibilitySettings, FontOptionLabel, TextCase } from '../../types';
 import { IconButton } from '../ui/IconButton';
 import { ButtonGroup } from '../ui/ButtonGroup';
 import { useAccessibility } from '../../context/AccessibilityContext';
@@ -11,7 +11,7 @@ interface TextControlsProps {
 }
 
 export function TextControls({ settings, onUpdate, labelStyle }: TextControlsProps) {
-  const { t } = useAccessibility();
+  const { t, fontOptions } = useAccessibility();
   const handleFontSizeChange = (increase: boolean) => {
     const FONT_SIZES = [16, 24, 36, 54, 72];
     const currentIndex = FONT_SIZES.indexOf(settings.fontSize);
@@ -81,14 +81,14 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
       <div style={controlStyle}>
         <label style={labelStyle}>{t('Font Family')}</label>
         <select
-          value={settings.fontFamily}
-          onChange={(e) => onUpdate({ fontFamily: e.target.value })}
+          value={settings.fontOptionLabel}
+          onChange={(e) => onUpdate({ fontOptionLabel: e.target.value as FontOptionLabel })}
           style={selectStyle}
         >
-          {FONT_OPTIONS.map(font => (
+          {fontOptions.map(font => (
             <option
-              key={font.value}
-              value={font.value}
+              key={font.label}
+              value={font.label}
               style={{ fontFamily: font.value }}
             >
               {font.label} - {t(font.description)}

@@ -10,8 +10,10 @@ export interface FontOption {
   description: string;
 }
 
+export const DEFAULT_FONT_LABEL = 'Default';
+
 export const FONT_OPTIONS = [
-  { value: 'Default', label: 'Default', description: 'From website' },
+  { value: '' as string, label: DEFAULT_FONT_LABEL, description: 'From website' },
   { value: 'Arial', label: 'Arial', description: 'Standard sans-serif font' },
   { value: 'OpenDyslexic', label: 'OpenDyslexic', description: 'Designed for dyslexic readers' },
   { value: 'Atkinson Hyperlegible', label: 'Atkinson Hyperlegible', description: 'High legibility font' },
@@ -19,12 +21,14 @@ export const FONT_OPTIONS = [
   { value: 'Luciole', label: 'Luciole', description: 'Optimized for low vision' },
 ] as const;
 
+export type FontOptionLabel = typeof FONT_OPTIONS[number]["label"];
+
 export interface AccessibilitySettings {
   fontSize: number;
   wordSpacing: number;
   letterSpacing: number;
   lineHeight: number;
-  fontFamily: string;
+  fontOptionLabel: FontOptionLabel;
   textCase: TextCase;
   cancelLayout: boolean;
   leftAlignText: boolean;
