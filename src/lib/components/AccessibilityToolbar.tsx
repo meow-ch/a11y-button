@@ -5,16 +5,15 @@ import { AccessibilityPanel } from './AccessibilityPanel';
 import { ReadingMask } from './ReadingMask';
 import { QuickControls } from './QuickControls';
 import { useAccessibilityStyles } from '../hooks/useAccessibilityStyles';
-import { getContrastRatio } from '../utils/color';
 import { Toggle } from './Toggle';
 import { useAccessibility } from '../context/AccessibilityContext';
 import { ProfileSelector } from './ProfileSelector';
 import { Button } from './ui/Button';
 import { IconButton } from './ui/IconButton';
 import { AccessibilityButton } from './AccessibilityButton';
-import { AccessibilitySettings } from '../types';
 import { languageNames } from '../i18n/translations';
 import { Language } from '../types';
+import styles from './AccessibilityToolbar.module.css';
 
 export interface AccessibilityToolbarProps {
   position?: 'fixed' | 'absolute';
@@ -53,7 +52,7 @@ function ToolbarContent({
     fontOptions
   } = useAccessibility();
 
-  useAccessibilityStyles(settings, fontOptions[0]);
+  useAccessibilityStyles(settings, fontOptions[0], isEnabled);
 
   const handleClose = () => {
     if (hasChanges) {
@@ -74,61 +73,20 @@ function ToolbarContent({
     setIsOpen(false);
   };
 
-  const handleSettingsUpdate = async (newSettings: Partial<AccessibilitySettings>) => {
-    if (newSettings.backgroundColor || newSettings.foregroundColor) {
-      const bgColor = newSettings.backgroundColor || settings.backgroundColor;
-      const fgColor = newSettings.foregroundColor || settings.foregroundColor;
-      const contrast = getContrastRatio(bgColor, fgColor);
-
-      if (contrast < 4.5) {
-        const proceed = window.confirm(
-          t('Warning: The selected colors have low contrast (ratio: {{ratio}}:1).', { ratio: contrast.toFixed(2) })
-          + t(' WCAG guidelines recommend a minimum of 4.5:1.\n\n')
-          + t('Do you want to proceed with these colors anyway?')
-        );
-        if (!proceed) return;
-      }
-    }
-
-    updateSettings(newSettings);
-  };
+  const toolbarVars = {
+    '--a11y-toolbar-gap': `${settings.fontSize}px`,
+    '--a11y-toolbar-padding': `${settings.fontSize * 0.75}px`,
+    '--a11y-toolbar-title-size': `${settings.fontSize * 1.25}px`,
+    '--a11y-toolbar-controls-gap': `${settings.fontSize * 0.75}px`,
+    '--a11y-toolbar-controls-margin': `${settings.fontSize * 0.25}px 0`,
+    '--a11y-toolbar-advanced-padding': `${settings.fontSize}px`,
+  } as React.CSSProperties;
 
   const toolbarContent = isOpen && portalContainer ? (
-    <div
-      style={{
-        backgroundColor: settings.backgroundColor,
-        color: settings.foregroundColor,
-        fontSize: `${settings.fontSize}px`,
-        maxWidth: '100vw',
-        overflowX: 'hidden',
-        borderBottom: '1px solid',
-        borderColor: settings.foregroundColor,
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        zIndex: 999999
-      }}
-    >
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        gap: `${settings.fontSize}px`,
-        padding: `${settings.fontSize * 0.75}px`,
-        maxWidth: '100%'
-      }}>
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          gap: `${settings.fontSize}px`,
-          flex: '1 1 auto',
-          minWidth: '200px',
-          maxWidth: '100%'
-        }}>
-          <h2 style={{
-            fontSize: `${settings.fontSize * 1.25}px`,
-            fontWeight: 600,
-            whiteSpace: 'nowrap'
-          }}>
+    <div className={styles['a11y-button-toolbar']} style={toolbarVars}>
+      <div className={styles['a11y-button-toolbar-header']}>
+        <div className={styles['a11y-button-toolbar-main']}>
+          <h2 className={styles['a11y-button-toolbar-title']}>
             {t('Accessibility')}
           </h2>
           <Toggle
@@ -146,20 +104,14 @@ function ToolbarContent({
               />
               <QuickControls
                 settings={settings}
-                onSettingsChange={handleSettingsUpdate}
+                onSettingsChange={updateSettings}
                 disabled={showAdvanced}
               />
             </>
           )}
         </div>
 
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          gap: `${settings.fontSize * 0.75}px`,
-          margin: `${settings.fontSize * 0.25}px 0`
-        }}>
+        <div className={styles['a11y-button-toolbar-controls']}>
           {isEnabled && hasChanges && (
             <>
               <Button
@@ -192,7 +144,7 @@ function ToolbarContent({
           )}
           <select
             value={language}
-            onChange={(e) => handleSettingsUpdate({ language: e.target.value as Language })}
+            onChange={(e) => updateSettings({ language: e.target.value as Language })}
             style={{
               padding: `${settings.fontSize * 0.25}px ${settings.fontSize * 0.5}px`,
               fontSize: `${settings.fontSize}px`,
@@ -219,14 +171,10 @@ function ToolbarContent({
       </div>
 
       {showAdvanced && isEnabled && (
-        <div style={{
-          padding: `${settings.fontSize}px`,
-          maxWidth: '100%',
-          overflowX: 'hidden'
-        }}>
+        <div className={styles['a11y-button-toolbar-advanced']}>
           <AccessibilityPanel
             settings={settings}
-            updateSettings={handleSettingsUpdate}
+            updateSettings={updateSettings}
             resetSettings={resetSettings}
           />
         </div>

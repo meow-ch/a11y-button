@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import styles from './ButtonGroup.module.css';
 
 interface ButtonGroupProps {
   children: ReactNode;
@@ -6,12 +7,12 @@ interface ButtonGroupProps {
 }
 
 export function ButtonGroup({ children, gap = 8 }: ButtonGroupProps) {
+  const groupVars = {
+    '--a11y-button-group-gap': `${gap}px`,
+  } as React.CSSProperties;
+
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: `${gap}px`,
-    }}>
+    <div className={styles['a11y-button-group']} style={groupVars}>
       {children}
     </div>
   );

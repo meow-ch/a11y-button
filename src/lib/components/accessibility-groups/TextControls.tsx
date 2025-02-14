@@ -3,15 +3,16 @@ import { AccessibilitySettings, FontOptionLabel, TextCase } from '../../types';
 import { IconButton } from '../ui/IconButton';
 import { ButtonGroup } from '../ui/ButtonGroup';
 import { useAccessibility } from '../../context/AccessibilityContext';
+import styles from './TextControls.module.css';
 
 interface TextControlsProps {
   settings: AccessibilitySettings;
   onUpdate: (settings: Partial<AccessibilitySettings>) => void;
-  labelStyle: React.CSSProperties;
 }
 
-export function TextControls({ settings, onUpdate, labelStyle }: TextControlsProps) {
+export function TextControls({ settings, onUpdate }: TextControlsProps) {
   const { t, fontOptions } = useAccessibility();
+
   const handleFontSizeChange = (increase: boolean) => {
     const FONT_SIZES = [16, 24, 36, 54, 72];
     const currentIndex = FONT_SIZES.indexOf(settings.fontSize);
@@ -22,32 +23,22 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
     }
   };
 
-  const controlStyle: React.CSSProperties = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: `${settings.fontSize}px`,
-    padding: `${settings.fontSize * 0.5}px 0`,
-  };
-
-  const selectStyle: React.CSSProperties = {
-    backgroundColor: '#ffffff',
-    color: '#000000',
-    border: '2px solid #000000',
-    borderRadius: '4px',
-    padding: `${settings.fontSize * 0.25}px ${settings.fontSize * 0.5}px`,
-    fontSize: `${settings.fontSize}px`,
-    fontWeight: 600,
-    cursor: 'pointer',
-    height: `${settings.fontSize * 2}px`,
-    minWidth: `${settings.fontSize * 10}px`,
-    flex: 1
-  };
+  const controlVars = {
+    '--a11y-control-gap': `${settings.fontSize}px`,
+    '--a11y-control-padding': `${settings.fontSize * 0.5}px 0`,
+    '--a11y-label-font-size': `${settings.fontSize}px`,
+    '--a11y-select-padding': `${settings.fontSize * 0.25}px ${settings.fontSize * 0.5}px`,
+    '--a11y-select-font-size': `${settings.fontSize}px`,
+    '--a11y-select-height': `${settings.fontSize * 2}px`,
+    '--a11y-select-min-width': `${settings.fontSize * 10}px`,
+    '--a11y-value-min-width': `${settings.fontSize * 2}px`,
+    '--a11y-value-font-size': `${settings.fontSize}px`,
+  } as React.CSSProperties;
 
   return (
     <ControlGroup title={t('Text Readability')} fontSize={settings.fontSize}>
-      <div style={controlStyle}>
-        <label style={labelStyle}>{t('Font Size')}</label>
+      <div className={styles['a11y-button-text-control']} style={controlVars}>
+        <label className={styles['a11y-button-text-label']}>{t('Font Size')}</label>
         <ButtonGroup gap={settings.fontSize * 0.5}>
           <IconButton
             icon={<span style={{ fontWeight: 'bold' }}>A</span>}
@@ -57,14 +48,7 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
             disabled={settings.fontSize <= 16}
             size={settings.fontSize}
           />
-          <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minWidth: `${settings.fontSize * 2}px`,
-            fontSize: `${settings.fontSize}px`,
-            fontWeight: 600,
-          }}>
+          <span className={styles['a11y-button-text-value']}>
             {settings.fontSize}
           </span>
           <IconButton
@@ -78,12 +62,12 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
         </ButtonGroup>
       </div>
 
-      <div style={controlStyle}>
-        <label style={labelStyle}>{t('Font Family')}</label>
+      <div className={styles['a11y-button-text-control']} style={controlVars}>
+        <label className={styles['a11y-button-text-label']}>{t('Font Family')}</label>
         <select
           value={settings.fontOptionLabel}
           onChange={(e) => onUpdate({ fontOptionLabel: e.target.value as FontOptionLabel })}
-          style={selectStyle}
+          className={styles['a11y-button-text-select']}
         >
           {fontOptions.map(font => (
             <option
@@ -97,12 +81,12 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
         </select>
       </div>
 
-      <div style={controlStyle}>
-        <label style={labelStyle}>{t('Text Case')}</label>
+      <div className={styles['a11y-button-text-control']} style={controlVars}>
+        <label className={styles['a11y-button-text-label']}>{t('Text Case')}</label>
         <select
           value={settings.textCase}
           onChange={(e) => onUpdate({ textCase: e.target.value as TextCase })}
-          style={selectStyle}
+          className={styles['a11y-button-text-select']}
         >
           <option value="none">{t('Normal Case')}</option>
           <option value="uppercase">{t('UPPERCASE')}</option>
@@ -116,8 +100,8 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
         { label: t('Letter Spacing'), key: 'letterSpacing', min: 0, max: 8 },
         { label: t('Line Height'), key: 'lineHeight', min: 1, max: 3 }
       ].map(({ label, key, min, max }) => (
-        <div key={key} style={controlStyle}>
-          <label style={labelStyle}>{label}</label>
+        <div key={key} className={styles['a11y-button-text-control']} style={controlVars}>
+          <label className={styles['a11y-button-text-label']}>{label}</label>
           <ButtonGroup gap={settings.fontSize * 0.5}>
             <IconButton
               icon={<span>-</span>}
@@ -126,14 +110,7 @@ export function TextControls({ settings, onUpdate, labelStyle }: TextControlsPro
               disabled={settings[key as keyof AccessibilitySettings] as number <= min}
               size={settings.fontSize}
             />
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minWidth: `${settings.fontSize * 2}px`,
-              fontSize: `${settings.fontSize}px`,
-              fontWeight: 600,
-            }}>
+            <span className={styles['a11y-button-text-value']}>
               {settings[key as keyof AccessibilitySettings]}
             </span>
             <IconButton

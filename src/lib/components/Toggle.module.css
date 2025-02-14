@@ -1,0 +1,32 @@
+.a11y-button-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--a11y-toggle-width);
+  height: var(--a11y-toggle-height);
+  padding: 2px;
+  border-radius: var(--a11y-toggle-height);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: var(--a11y-toggle-bg, #ccc);
+  border: var(--a11y-toggle-border);
+}
+
+.a11y-button-toggle[aria-checked="true"] {
+  --a11y-toggle-bg: #4CAF50;
+}
+
+.a11y-button-toggle-knob {
+  position: absolute;
+  left: var(--a11y-toggle-knob-left, 2px);
+  width: var(--a11y-toggle-knob-size);
+  height: var(--a11y-toggle-knob-size);
+  background-color: var(--a11y-toggle-knob-bg, #ffffff);
+  border-radius: 50%;
+  transition: left 0.3s;
+  box-shadow: var(--a11y-toggle-knob-shadow);
+}
+
+.a11y-button-toggle[aria-checked="true"] .a11y-button-toggle-knob {
+  --a11y-toggle-knob-left: calc(var(--a11y-toggle-width) - var(--a11y-toggle-knob-size) - 2px);
+}

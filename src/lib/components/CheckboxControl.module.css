@@ -1,0 +1,36 @@
+.a11y-button-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: var(--a11y-checkbox-gap);
+  min-width: fit-content;
+  padding: var(--a11y-checkbox-padding);
+  min-height: var(--a11y-checkbox-min-height);
+}
+
+.a11y-button-checkbox-label {
+  font-size: var(--a11y-label-font-size);
+  font-weight: 500;
+  min-width: var(--a11y-label-min-width);
+  white-space: nowrap;
+}
+
+.a11y-button-checkbox-input {
+  width: var(--a11y-checkbox-size);
+  height: var(--a11y-checkbox-size);
+  min-width: var(--a11y-checkbox-size);
+  min-height: var(--a11y-checkbox-size);
+  flex-shrink: 0;
+  cursor: pointer;
+  border: 2px solid var(--a11y-border-color, currentColor);
+  border-radius: 4px;
+}
+
+.a11y-button-checkbox-input:checked {
+  background-color: var(--a11y-checkbox-checked-bg, currentColor);
+  border-color: var(--a11y-checkbox-checked-border, currentColor);
+}
+
+.a11y-button-checkbox-input:focus {
+  outline: 2px solid var(--a11y-focus-color, rgba(0, 0, 0, 0.4));
+  outline-offset: 2px;
+}

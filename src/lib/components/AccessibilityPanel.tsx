@@ -20,12 +20,6 @@ export function AccessibilityPanel({ settings, updateSettings, resetSettings }: 
     }
   };
 
-  const labelStyle = {
-    fontSize: `${settings.fontSize}px`,
-    fontWeight: 600,
-    whiteSpace: 'nowrap' as const
-  };
-
   const columnClassName = `${styles.column} ${
     settings.fontSize <= 24 ? styles.columnNormal : styles.columnLarge
   }`;
@@ -47,7 +41,6 @@ export function AccessibilityPanel({ settings, updateSettings, resetSettings }: 
         <TextControls
           settings={settings}
           onUpdate={updateSettings}
-          labelStyle={labelStyle}
         />
       </div>
       
@@ -60,7 +53,6 @@ export function AccessibilityPanel({ settings, updateSettings, resetSettings }: 
         <VisualControls
           settings={settings}
           onUpdate={updateSettings}
-          labelStyle={labelStyle}
         />
 
         <Button

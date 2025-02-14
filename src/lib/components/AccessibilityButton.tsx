@@ -1,6 +1,7 @@
 import { Settings, LucideIcon, Eye, Palette, Type, LayoutGrid, PersonStanding } from 'lucide-react';
 import { ReactNode } from 'react';
 import { useAccessibility } from '../context/AccessibilityContext';
+import styles from './AccessibilityButton.module.css';
 
 interface AccessibilityButtonProps {
   isOpen: boolean;
@@ -43,7 +44,6 @@ export function AccessibilityButton({
   hideWhenOpen = false
 }: AccessibilityButtonProps) {
   const Icon = iconMap[iconHandle] || Settings;
-
   const { t } = useAccessibility();
 
   // Don't render if hideWhenOpen is true and the toolbar is open
@@ -51,58 +51,36 @@ export function AccessibilityButton({
     return null;
   }
 
-  const buttonStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: `${fontSize * 3}px`,
-    height: `${fontSize * 3}px`,
-    padding: `${fontSize * 0.75}px`,
-    backgroundColor: '#ffffff',
-    color: '#000000',
-    border: '2px solid #000000',
-    borderRadius: borderRadius,
-    cursor: 'pointer',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    position: position,
-    top: top || (position === 'absolute' ? SAFE_MARGIN : undefined),
-    right: right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
-    bottom: bottom || (position === 'fixed' ? SAFE_MARGIN : undefined),
-    left: left || (position === 'absolute' ? SAFE_MARGIN : undefined),
-    zIndex: 999998, // One less than toolbar to prevent overlap
-    outline: 'none'
-  };
-
-  const hoverStyle: React.CSSProperties = {
-    ...buttonStyle,
-    backgroundColor: '#000000',
-    color: '#ffffff',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    transform: 'translateY(-1px)'
-  };
-
-  const focusStyle: React.CSSProperties = {
-    ...buttonStyle,
-    boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)'
-  };
+  // Set CSS Custom Properties for the button
+  const buttonVars = {
+    '--a11y-button-position': position,
+    '--a11y-button-top': top || (position === 'absolute' ? SAFE_MARGIN : undefined),
+    '--a11y-button-right': right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
+    '--a11y-button-bottom': bottom || (position === 'fixed' ? SAFE_MARGIN : undefined),
+    '--a11y-button-left': left || (position === 'absolute' ? SAFE_MARGIN : undefined),
+    '--a11y-button-size': `${fontSize * 3}px`,
+    '--a11y-button-padding': `${fontSize * 0.75}px`,
+    '--a11y-button-radius': borderRadius,
+    '--a11y-button-bg': '#ffffff',
+    '--a11y-button-color': '#000000',
+    '--a11y-button-border-color': '#000000',
+    '--a11y-button-hover-bg': '#000000',
+    '--a11y-button-hover-color': '#ffffff',
+    '--a11y-button-focus-ring-color': 'rgba(0, 0, 0, 0.4)',
+    '--a11y-button-icon-size': `${fontSize * 1.5}px`,
+  } as React.CSSProperties;
 
   return (
     <button
-      style={buttonStyle}
-      onMouseOver={(e) => Object.assign(e.currentTarget.style, hoverStyle)}
-      onMouseOut={(e) => Object.assign(e.currentTarget.style, buttonStyle)}
-      onFocus={(e) => Object.assign(e.currentTarget.style, focusStyle)}
-      onBlur={(e) => Object.assign(e.currentTarget.style, buttonStyle)}
+      className={styles['a11y-button-trigger']}
+      style={buttonVars}
       onClick={onClick}
-      aria-label={t('{{hideShow}} Accessibility Settings', { hideShow: isOpen ? t('Hide') : t('Show') })}
+      aria-label={t('{{hideShow}} Accessibility Settings', { 
+        hideShow: isOpen ? t('Hide') : t('Show') 
+      })}
     >
       {children || (
-        <Icon
-          style={{
-            width: `${fontSize * 1.5}px`,
-            height: `${fontSize * 1.5}px`
-          }}
-        />
+        <Icon className={styles['a11y-button-icon']} />
       )}
     </button>
   );

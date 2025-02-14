@@ -1,0 +1,35 @@
+.a11y-button-text-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--a11y-control-gap);
+  padding: var(--a11y-control-padding);
+}
+
+.a11y-button-text-label {
+  font-size: var(--a11y-label-font-size);
+  font-weight: 600;
+}
+
+.a11y-button-text-select {
+  background-color: var(--a11y-select-bg, #ffffff);
+  color: var(--a11y-select-color, #000000);
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  padding: var(--a11y-select-padding);
+  font-size: var(--a11y-select-font-size);
+  font-weight: 600;
+  cursor: pointer;
+  height: var(--a11y-select-height);
+  min-width: var(--a11y-select-min-width);
+  flex: 1;
+}
+
+.a11y-button-text-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--a11y-value-min-width);
+  font-size: var(--a11y-value-font-size);
+  font-weight: 600;
+}

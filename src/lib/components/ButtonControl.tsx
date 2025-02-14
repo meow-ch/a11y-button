@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import styles from './ButtonControl.module.css';
 
 interface ButtonControlProps {
   label: string;
@@ -51,57 +52,33 @@ export function ButtonControl({
     }
   };
 
-  const buttonStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: `${parseInt(labelStyle?.fontSize as string || '16') * 2}px`,
-    height: `${parseInt(labelStyle?.fontSize as string || '16') * 2}px`,
-    border: '1px solid currentColor',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    opacity: 1,
-    transition: 'opacity 0.2s ease'
-  };
-
-  const disabledButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    opacity: 0.5,
-    cursor: 'not-allowed'
-  };
+  const controlVars = {
+    '--a11y-control-gap': `${parseInt(labelStyle?.fontSize as string || '16') * 0.5}px`,
+    '--a11y-label-font-size': labelStyle?.fontSize,
+    '--a11y-button-size': `${parseInt(labelStyle?.fontSize as string || '16') * 2}px`,
+    '--a11y-value-font-size': labelStyle?.fontSize,
+    '--a11y-value-min-width': `${parseInt(labelStyle?.fontSize as string || '16') * 2}px`,
+  } as React.CSSProperties;
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: `${parseInt(labelStyle?.fontSize as string || '16') * 0.5}px`,
-      width: '100%'
-    }}>
-      <label style={labelStyle}>{label}</label>
-      <div style={{
-        display: 'flex',
-        gap: `${parseInt(labelStyle?.fontSize as string || '16') * 0.5}px`,
-        alignItems: 'center'
-      }}>
+    <div className={styles['a11y-button-control']} style={controlVars}>
+      <label className={styles['a11y-button-control-label']}>{label}</label>
+      <div className={styles['a11y-button-control-group']}>
         <button
+          className={styles['a11y-button-control-button']}
           onClick={decrement}
           disabled={disabled || (isCustomRange ? isAtMin : value <= min)}
-          style={(isCustomRange ? isAtMin : value <= min) ? disabledButtonStyle : buttonStyle}
           aria-label={`Decrease ${label}`}
         >
           {leftIcon}
         </button>
-        <span style={{
-          fontSize: labelStyle?.fontSize,
-          minWidth: `${parseInt(labelStyle?.fontSize as string || '16') * 2}px`,
-          textAlign: 'center'
-        }}>
+        <span className={styles['a11y-button-control-value']}>
           {value}
         </span>
         <button
+          className={styles['a11y-button-control-button']}
           onClick={increment}
           disabled={disabled || (isCustomRange ? isAtMax : value >= max)}
-          style={(isCustomRange ? isAtMax : value >= max) ? disabledButtonStyle : buttonStyle}
           aria-label={`Increase ${label}`}
         >
           {rightIcon}

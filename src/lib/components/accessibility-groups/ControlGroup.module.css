@@ -1,0 +1,22 @@
+.a11y-button-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a11y-group-gap);
+  width: 100%;
+  min-width: 250px;
+  max-width: 100%;
+}
+
+.a11y-button-control-group-title {
+  font-size: var(--a11y-title-font-size);
+  font-weight: 600;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: var(--a11y-title-padding);
+}
+
+.a11y-button-control-group-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a11y-content-gap);
+  width: 100%;
+}

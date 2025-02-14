@@ -1,0 +1,37 @@
+.a11y-button-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: var(--a11y-button-position, fixed);
+  top: var(--a11y-button-top);
+  right: var(--a11y-button-right);
+  bottom: var(--a11y-button-bottom);
+  left: var(--a11y-button-left);
+  width: var(--a11y-button-size);
+  height: var(--a11y-button-size);
+  padding: var(--a11y-button-padding);
+  border-radius: var(--a11y-button-radius, 50%);
+  border: 2px solid var(--a11y-button-border-color);
+  background-color: var(--a11y-button-bg);
+  color: var(--a11y-button-color);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999998;
+  outline: none;
+}
+
+.a11y-button-trigger:hover {
+  background-color: var(--a11y-button-hover-bg);
+  color: var(--a11y-button-hover-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.a11y-button-trigger:focus {
+  box-shadow: 0 0 0 3px var(--a11y-button-focus-ring-color);
+}
+
+.a11y-button-icon {
+  width: var(--a11y-button-icon-size);
+  height: var(--a11y-button-icon-size);
+}

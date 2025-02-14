@@ -1,4 +1,5 @@
 import { ReactNode, ButtonHTMLAttributes } from 'react';
+import styles from './IconButton.module.css';
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactNode;
@@ -17,55 +18,24 @@ export function IconButton({
   active = false,
   disabled = false,
   text,
+  className,
   ...props
 }: IconButtonProps) {
-  const baseStyles: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: `${size * 0.25}px`,
-    minWidth: text ? `${size * 2.5}px` : `${size * 1.5}px`,
-    height: `${size * 1.5}px`,
-    borderRadius: '4px',
-    backgroundColor: active ? '#000000' : '#ffffff',
-    color: active ? '#ffffff' : '#000000',
-    border: '2px solid #000000',
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 0.5 : 1,
-    padding: `${size * 0.25}px ${size * 0.5}px`,
-    fontWeight: 600,
-    fontSize: `${size * 0.75}px`,
-  };
-
-  const hoverStyles = disabled ? {} : {
-    backgroundColor: '#000000',
-    color: '#ffffff',
-  };
-
-  const focusStyles = {
-    // boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)',
-  };
+  const iconVars = {
+    '--a11y-icon-button-gap': `${size * 0.25}px`,
+    '--a11y-icon-button-min-width': text ? `${size * 2.5}px` : `${size * 1.5}px`,
+    '--a11y-icon-button-height': `${size * 1.5}px`,
+    '--a11y-icon-button-padding': `${size * 0.25}px ${size * 0.5}px`,
+    '--a11y-icon-button-font-size': `${size * 0.75}px`,
+  } as React.CSSProperties;
 
   return (
     <button
       {...props}
       aria-label={label}
       disabled={disabled}
-      style={baseStyles}
-      onMouseOver={(e) => {
-        if (!disabled) {
-          Object.assign(e.currentTarget.style, { ...baseStyles, ...hoverStyles });
-        }
-      }}
-      onMouseOut={(e) => {
-        Object.assign(e.currentTarget.style, baseStyles);
-      }}
-      onFocus={(e) => {
-        Object.assign(e.currentTarget.style, { ...baseStyles, ...focusStyles });
-      }}
-      onBlur={(e) => {
-        Object.assign(e.currentTarget.style, baseStyles);
-      }}
+      className={`${styles['a11y-button-icon']} ${active ? styles['a11y-button-icon-active'] : ''} ${className || ''}`}
+      style={iconVars}
     >
       {icon}
       {text && <span>{text}</span>}

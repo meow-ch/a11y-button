@@ -3,6 +3,7 @@ import { AccessibilitySettings } from '../types';
 import { ButtonGroup } from './ui/ButtonGroup';
 import { IconButton } from './ui/IconButton';
 import { useAccessibility } from '../context/AccessibilityContext';
+import styles from './QuickControls.module.css';
 
 interface QuickControlsProps {
   settings: AccessibilitySettings;
@@ -17,7 +18,6 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
 
   const toggleBlackAndWhite = () => {
     if (settings.blackAndWhite) {
-      // Turning off black and white mode - restore original settings
       onSettingsChange({
         blackAndWhite: false,
         removeBackgrounds: false,
@@ -25,7 +25,6 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
         foregroundColor: '#000000'
       });
     } else {
-      // Turning on black and white mode
       onSettingsChange({
         blackAndWhite: true,
         removeBackgrounds: true,
@@ -35,21 +34,23 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
     }
   };
 
+  const controlVars = {
+    '--a11y-controls-gap': `${settings.fontSize * 0.5}px`,
+    '--a11y-controls-opacity': disabled ? 0.5 : 1,
+    '--a11y-controls-events': disabled ? 'none' : 'auto',
+    '--a11y-divider-padding': `0 ${settings.fontSize * 0.5}px`,
+    '--a11y-divider-margin': `${settings.fontSize * 0.25}px 0`,
+    '--a11y-divider-gap': `${settings.fontSize * 0.5}px`,
+  } as React.CSSProperties;
+
   return (
-    <div style={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      gap: `${settings.fontSize * 0.5}px`,
-      opacity: disabled ? 0.5 : 1,
-      pointerEvents: disabled ? 'none' : 'auto'
-    }}>
+    <div className={styles['a11y-button-quick-controls']} style={controlVars}>
       <ButtonGroup gap={settings.fontSize * 0.25}>
         <IconButton
           icon={<span style={{ fontWeight: 'bold' }}>A</span>}
           text="-"
           label={t('Decrease font size')}
-          onClick={() => onSettingsChange({ 
+          onClick={() => onSettingsChange({
             fontSize: Math.max(MIN_FONT_SIZE, settings.fontSize / 1.5)
           })}
           disabled={settings.fontSize <= MIN_FONT_SIZE}
@@ -59,7 +60,7 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
           icon={<span style={{ fontWeight: 'bold' }}>A</span>}
           text="+"
           label={t('Increase font size')}
-          onClick={() => onSettingsChange({ 
+          onClick={() => onSettingsChange({
             fontSize: Math.min(MAX_FONT_SIZE, settings.fontSize * 1.5)
           })}
           disabled={settings.fontSize >= MAX_FONT_SIZE}
@@ -67,29 +68,26 @@ export function QuickControls({ settings, onSettingsChange, disabled }: QuickCon
         />
       </ButtonGroup>
 
-      <div style={{
-        borderLeft: '2px solid currentColor',
-        borderRight: '2px solid currentColor',
-        padding: `0 ${settings.fontSize * 0.5}px`,
-        margin: `${settings.fontSize * 0.25}px 0`,
-        display: 'flex',
-        gap: `${settings.fontSize * 0.5}px`
-      }}>
+      <div className={styles['a11y-button-quick-divider']}>
         <IconButton
-          icon={settings.showReadingMask ? 
-            <EyeOff size={settings.fontSize * 1.2} /> : 
+          icon={settings.showReadingMask ?
+            <EyeOff size={settings.fontSize * 1.2} /> :
             <Eye size={settings.fontSize * 1.2} />
           }
-          label={t(`{{enableDisable}} reading mask`, { enableDisable: settings.showReadingMask ? t('Disable') : t('Enable') })}
-          onClick={() => onSettingsChange({ 
-            showReadingMask: !settings.showReadingMask 
+          label={t(`{{enableDisable}} reading mask`, {
+            enableDisable: settings.showReadingMask ? t('Disable') : t('Enable')
+          })}
+          onClick={() => onSettingsChange({
+            showReadingMask: !settings.showReadingMask
           })}
           size={settings.fontSize}
           active={settings.showReadingMask}
         />
         <IconButton
           icon={<PaintBucket size={settings.fontSize * 1.2} />}
-          label={t(`{{enableDisable}} black and white mode`, { enableDisable: settings.blackAndWhite ? t('Disable') : t('Enable') })}
+          label={t(`{{enableDisable}} black and white mode`, {
+            enableDisable: settings.blackAndWhite ? t('Disable') : t('Enable')
+          })}
           onClick={toggleBlackAndWhite}
           size={settings.fontSize}
           active={settings.blackAndWhite}

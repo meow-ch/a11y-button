@@ -1,0 +1,30 @@
+.a11y-button-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--a11y-profile-gap);
+  padding: var(--a11y-profile-padding);
+}
+
+.a11y-button-profile-label {
+  font-size: var(--a11y-label-font-size);
+}
+
+.a11y-button-profile-select {
+  padding: var(--a11y-select-padding);
+  font-size: var(--a11y-select-font-size);
+  height: var(--a11y-select-height);
+  border: 2px solid var(--a11y-border-color, currentColor);
+  border-radius: 4px;
+  background-color: var(--a11y-select-bg, #ffffff);
+  cursor: pointer;
+}
+
+.a11y-button-profile-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.a11y-button-profile-select:focus {
+  outline: 2px solid var(--a11y-focus-color, rgba(0, 0, 0, 0.4));
+  outline-offset: 2px;
+}

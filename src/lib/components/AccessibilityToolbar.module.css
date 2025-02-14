@@ -1,0 +1,49 @@
+.a11y-button-toolbar {
+  background-color: var(--a11y-toolbar-background);
+  color: var(--a11y-toolbar-foreground);
+  font-size: var(--a11y-toolbar-font-size);
+  max-width: 100vw;
+  overflow-x: hidden;
+  border-bottom: 1px solid var(--a11y-toolbar-border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999999;
+}
+
+.a11y-button-toolbar-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--a11y-toolbar-gap);
+  padding: var(--a11y-toolbar-padding);
+  max-width: 100%;
+}
+
+.a11y-button-toolbar-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--a11y-toolbar-gap);
+  flex: 1 1 auto;
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.a11y-button-toolbar-title {
+  font-size: var(--a11y-toolbar-title-size);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.a11y-button-toolbar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--a11y-toolbar-controls-gap);
+  margin: var(--a11y-toolbar-controls-margin);
+}
+
+.a11y-button-toolbar-advanced {
+  padding: var(--a11y-toolbar-advanced-padding);
+  max-width: 100%;
+  overflow-x: hidden;
+}

@@ -1,0 +1,49 @@
+.a11y-button-mask-top,
+.a11y-button-mask-bottom {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999998;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.a11y-button-mask-gap {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 999999;
+  background-color: transparent !important;
+}
+
+.a11y-button-mask-close-container {
+  position: fixed;
+  right: 20px;
+  z-index: 1000000;
+  pointer-events: auto;
+}
+
+.a11y-button-mask-close-button {
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.a11y-button-mask-close-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.a11y-button-mask-hint {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  pointer-events: auto;
+}

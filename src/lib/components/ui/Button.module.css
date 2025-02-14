@@ -1,0 +1,74 @@
+.a11y-button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--a11y-button-gap);
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: var(--a11y-button-padding);
+  font-size: var(--a11y-button-font-size);
+  width: var(--a11y-button-width, auto);
+  background-color: var(--a11y-button-bg);
+  color: var(--a11y-button-color);
+  border: var(--a11y-button-border);
+}
+
+.a11y-button-base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.a11y-button-base:not(:disabled):hover {
+  background-color: var(--a11y-button-hover-bg);
+  color: var(--a11y-button-hover-color);
+}
+
+.a11y-button-base:focus {
+  outline: 2px solid var(--a11y-button-focus-color);
+  outline-offset: 2px;
+}
+
+.a11y-button-icon {
+  display: flex;
+  align-items: center;
+  font-size: var(--a11y-button-icon-size);
+}
+
+/* Variants */
+.a11y-button-primary {
+  --a11y-button-bg: #000000;
+  --a11y-button-color: #ffffff;
+  --a11y-button-border: 2px solid #000000;
+  --a11y-button-hover-bg: #ffffff;
+  --a11y-button-hover-color: #000000;
+}
+
+.a11y-button-secondary {
+  --a11y-button-bg: #ffffff;
+  --a11y-button-color: #000000;
+  --a11y-button-border: 2px solid #000000;
+  --a11y-button-hover-bg: #000000;
+  --a11y-button-hover-color: #ffffff;
+}
+
+.a11y-button-danger {
+  --a11y-button-bg: #ffffff;
+  --a11y-button-color: #dc2626;
+  --a11y-button-border: 2px solid #dc2626;
+  --a11y-button-hover-bg: #dc2626;
+  --a11y-button-hover-color: #ffffff;
+}
+
+.a11y-button-ghost {
+  --a11y-button-bg: transparent;
+  --a11y-button-color: #000000;
+  --a11y-button-border: 2px solid transparent;
+  --a11y-button-hover-bg: rgba(0, 0, 0, 0.1);
+  --a11y-button-hover-color: #000000;
+}

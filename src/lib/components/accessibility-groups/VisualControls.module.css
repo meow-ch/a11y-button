@@ -1,0 +1,46 @@
+.a11y-button-visual-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--a11y-control-gap);
+  padding: var(--a11y-control-padding);
+}
+
+.a11y-button-visual-label {
+  font-size: var(--a11y-label-font-size);
+  font-weight: 600;
+  min-width: var(--a11y-label-min-width);
+  white-space: nowrap;
+}
+
+.a11y-button-visual-color {
+  width: var(--a11y-color-size);
+  height: var(--a11y-color-size);
+  padding: 2px;
+  border: 2px solid var(--a11y-border-color, currentColor);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.a11y-button-visual-color:focus {
+  outline: 2px solid var(--a11y-focus-color, rgba(0, 0, 0, 0.4));
+  outline-offset: 2px;
+}
+
+.a11y-button-visual-checkbox {
+  width: var(--a11y-checkbox-size);
+  height: var(--a11y-checkbox-size);
+  border: 2px solid var(--a11y-border-color, currentColor);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.a11y-button-visual-checkbox:checked {
+  background-color: var(--a11y-checkbox-checked-bg, currentColor);
+  border-color: var(--a11y-checkbox-checked-border, currentColor);
+}
+
+.a11y-button-visual-checkbox:focus {
+  outline: 2px solid var(--a11y-focus-color, rgba(0, 0, 0, 0.4));
+  outline-offset: 2px;
+}

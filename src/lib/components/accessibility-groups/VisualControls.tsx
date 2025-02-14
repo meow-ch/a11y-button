@@ -2,74 +2,55 @@ import { ControlGroup } from './ControlGroup';
 import { AccessibilitySettings } from '../../types';
 import { validateColorContrast } from '../../utils/color';
 import { useAccessibility } from '../../context/AccessibilityContext';
+import styles from './VisualControls.module.css';
 
 interface VisualControlsProps {
   settings: AccessibilitySettings;
   onUpdate: (settings: Partial<AccessibilitySettings>) => void;
-  labelStyle: React.CSSProperties;
 }
 
-export function VisualControls({ settings, onUpdate, labelStyle }: VisualControlsProps) {
+export function VisualControls({ settings, onUpdate }: VisualControlsProps) {
   const { t } = useAccessibility();
 
   const handleColorChange = async (key: 'backgroundColor' | 'foregroundColor', color: string) => {
     const otherColor = key === 'backgroundColor' ? settings.foregroundColor : settings.backgroundColor;
     const isValid = await validateColorContrast(color, otherColor);
-    
+
     if (isValid) {
       onUpdate({ [key]: color });
     }
   };
 
-  const controlStyle: React.CSSProperties = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: `${settings.fontSize}px`,
-    padding: `${settings.fontSize * 0.5}px 0`,
-  };
-
-  const checkboxStyle: React.CSSProperties = {
-    width: `${settings.fontSize * 1.5}px`,
-    height: `${settings.fontSize * 1.5}px`,
-    border: '2px solid #000000',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  };
+  const controlVars = {
+    '--a11y-control-gap': `${settings.fontSize}px`,
+    '--a11y-control-padding': `${settings.fontSize * 0.5}px 0`,
+    '--a11y-label-font-size': `${settings.fontSize}px`,
+    '--a11y-label-min-width': `${settings.fontSize * 7}px`,
+    '--a11y-color-size': `${settings.fontSize * 2}px`,
+    '--a11y-checkbox-size': `${settings.fontSize * 1.5}px`,
+    '--a11y-border-color': settings.foregroundColor,
+    '--a11y-focus-color': 'rgba(0, 0, 0, 0.4)',
+  } as React.CSSProperties;
 
   return (
     <ControlGroup title={t('Visual Aids')} fontSize={settings.fontSize}>
-      <div style={controlStyle}>
-        <label style={labelStyle}>{t('Background Color')}</label>
+      <div className={styles['a11y-button-visual-control']} style={controlVars}>
+        <label className={styles['a11y-button-visual-label']}>{t('Background Color')}</label>
         <input
           type="color"
           value={settings.backgroundColor}
           onChange={(e) => handleColorChange('backgroundColor', e.target.value)}
-          style={{
-            width: `${settings.fontSize * 2}px`,
-            height: `${settings.fontSize * 2}px`,
-            padding: '2px',
-            border: '2px solid #000000',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
+          className={styles['a11y-button-visual-color']}
         />
       </div>
 
-      <div style={controlStyle}>
-        <label style={labelStyle}>{t('Text Color')}</label>
+      <div className={styles['a11y-button-visual-control']} style={controlVars}>
+        <label className={styles['a11y-button-visual-label']}>{t('Text Color')}</label>
         <input
           type="color"
           value={settings.foregroundColor}
           onChange={(e) => handleColorChange('foregroundColor', e.target.value)}
-          style={{
-            width: `${settings.fontSize * 2}px`,
-            height: `${settings.fontSize * 2}px`,
-            padding: '2px',
-            border: '2px solid #000000',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
+          className={styles['a11y-button-visual-color']}
         />
       </div>
 
@@ -81,13 +62,13 @@ export function VisualControls({ settings, onUpdate, labelStyle }: VisualControl
         { label: t('Number Lists'), key: 'numberListItems' },
         { label: t('Highlight Links'), key: 'customLinks' }
       ].map(({ label, key }) => (
-        <div key={key} style={controlStyle}>
-          <label style={labelStyle}>{label}</label>
+        <div key={key} className={styles['a11y-button-visual-control']} style={controlVars}>
+          <label className={styles['a11y-button-visual-label']}>{label}</label>
           <input
             type="checkbox"
             checked={settings[key as keyof AccessibilitySettings] as boolean}
             onChange={(e) => onUpdate({ [key]: e.target.checked })}
-            style={checkboxStyle}
+            className={styles['a11y-button-visual-checkbox']}
           />
         </div>
       ))}

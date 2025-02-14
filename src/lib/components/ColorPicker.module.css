@@ -1,0 +1,25 @@
+.a11y-button-color-container {
+  display: flex;
+  align-items: center;
+  gap: var(--a11y-color-gap);
+}
+
+.a11y-button-color-label {
+  font-size: var(--a11y-label-font-size);
+  font-weight: 600;
+  min-width: var(--a11y-label-min-width);
+}
+
+.a11y-button-color-input {
+  width: var(--a11y-color-input-size);
+  height: var(--a11y-color-input-size);
+  padding: 2px;
+  border: 2px solid var(--a11y-border-color, #000000);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.a11y-button-color-input:focus {
+  outline: 2px solid var(--a11y-focus-color, rgba(0, 0, 0, 0.4));
+  outline-offset: 2px;
+}

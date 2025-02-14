@@ -1,4 +1,5 @@
 import { ReactNode, ButtonHTMLAttributes } from 'react';
+import styles from './Button.module.css';
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -12,42 +13,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fontSize?: number;
 }
 
-const variants = {
-  primary: {
-    background: '#000000',
-    color: '#ffffff',
-    border: '2px solid #000000',
-  },
-  secondary: {
-    background: '#ffffff',
-    color: '#000000',
-    border: '2px solid #000000',
-  },
-  danger: {
-    background: '#ffffff',
-    color: '#000000',
-    border: '2px solid #000000',
-  },
-  ghost: {
-    background: '#ffffff',
-    color: '#000000',
-    border: '2px solid #000000',
-  },
-};
-
-const sizes = {
-  sm: {
-    padding: '0.5rem',
-    fontSize: '0.875rem',
-  },
-  md: {
-    padding: '0.75rem',
-    fontSize: '1rem',
-  },
-  lg: {
-    padding: '1rem',
-    fontSize: '1.125rem',
-  },
+const sizeMap = {
+  sm: 0.5,
+  md: 0.75,
+  lg: 1,
 };
 
 export function Button({
@@ -58,69 +27,27 @@ export function Button({
   fullWidth = false,
   fontSize = 16,
   disabled,
+  className,
   ...props
 }: ButtonProps) {
-  const variantStyles = variants[variant];
-  const sizeStyles = sizes[size];
-
-  const baseStyles: React.CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: `${fontSize * 0.5}px`,
-    borderRadius: '4px',
-    fontWeight: 600,
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    // transition: 'all 0.2s ease',
-    opacity: disabled ? 0.5 : 1,
-    width: fullWidth ? '100%' : 'auto',
-    position: 'relative',
-    outline: 'none',
-    fontSize: `${fontSize}px`,
-    padding: sizeStyles.padding,
-    backgroundColor: variantStyles.background,
-    color: variantStyles.color,
-    border: variantStyles.border,
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  };
-
-  const hoverStyles = disabled ? {} : {
-    backgroundColor: variantStyles.color,
-    color: variantStyles.background,
-  };
-
-  const focusStyles = {
-    // boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.4)',
-  };
+  const buttonVars = {
+    '--a11y-button-font-size': `${fontSize}px`,
+    '--a11y-button-gap': `${fontSize * 0.5}px`,
+    '--a11y-button-padding': `${fontSize * sizeMap[size]}px`,
+    '--a11y-button-width': fullWidth ? '100%' : 'auto',
+    '--a11y-button-icon-size': `${fontSize * 1.2}px`,
+    '--a11y-button-focus-color': 'rgba(0, 0, 0, 0.4)',
+  } as React.CSSProperties;
 
   return (
     <button
       {...props}
       disabled={disabled}
-      style={baseStyles}
-      onMouseOver={(e) => {
-        if (!disabled) {
-          Object.assign(e.currentTarget.style, { ...baseStyles, ...hoverStyles });
-        }
-      }}
-      onMouseOut={(e) => {
-        Object.assign(e.currentTarget.style, baseStyles);
-      }}
-      onFocus={(e) => {
-        Object.assign(e.currentTarget.style, { ...baseStyles, ...focusStyles });
-      }}
-      onBlur={(e) => {
-        Object.assign(e.currentTarget.style, baseStyles);
-      }}
+      className={`${styles['a11y-button-base']} ${styles[`a11y-button-${variant}`]} ${className || ''}`}
+      style={buttonVars}
     >
       {icon && (
-        <span style={{
-          display: 'flex',
-          alignItems: 'center',
-          fontSize: `${fontSize * 1.2}px`
-        }}>
+        <span className={styles['a11y-button-icon']}>
           {icon}
         </span>
       )}

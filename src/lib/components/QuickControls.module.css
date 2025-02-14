@@ -1,0 +1,17 @@
+.a11y-button-quick-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--a11y-controls-gap);
+  opacity: var(--a11y-controls-opacity);
+  pointer-events: var(--a11y-controls-events);
+}
+
+.a11y-button-quick-divider {
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  padding: var(--a11y-divider-padding);
+  margin: var(--a11y-divider-margin);
+  display: flex;
+  gap: var(--a11y-divider-gap);
+}
