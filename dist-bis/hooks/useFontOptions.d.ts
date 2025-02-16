@@ -1,6 +1,6 @@
 declare const useFontOptions: () => readonly [{
     readonly value: string;
-    readonly label: 0;
+    readonly label: "Default";
     readonly description: "From website";
 }, {
     readonly value: "Arial";

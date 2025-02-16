@@ -1,8 +1,7 @@
 import React from 'react';
 type ComponentProps = {
     onChange: (newScale: number, index: number, scaleArray: number[]) => void;
-    initialPosition?: number;
-    initialValue?: number;
+    currentIndex: number;
     labelIncrease: string;
     labelDecrease: string;
     textScaleFactor: number;

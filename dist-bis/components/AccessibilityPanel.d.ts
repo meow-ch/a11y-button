@@ -4,5 +4,5 @@ interface AccessibilityPanelProps {
     updateSettings: (settings: Partial<AccessibilitySettings>) => void;
     resetSettings: () => void;
 }
-export declare function AccessibilityPanel({ settings, updateSettings, resetSettings }: AccessibilityPanelProps): import("react/jsx-runtime").JSX.Element;
+export declare function AccessibilityPanel({ settings, resetSettings }: AccessibilityPanelProps): import("react/jsx-runtime").JSX.Element;
 export {};

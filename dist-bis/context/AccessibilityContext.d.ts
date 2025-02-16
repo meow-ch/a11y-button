@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { AccessibilitySettings, AccessibilityProfile, fontFamilyOptions, Language } from '../types';
+import { AccessibilitySettings, AccessibilityProfile, Language, FontFamilyOptions } from '../types';
 import { translations } from '../i18n/translations';
 export declare const defaultSettings: AccessibilitySettings;
 interface AccessibilityContextType {
@@ -15,7 +15,7 @@ interface AccessibilityContextType {
     commitChanges: () => void;
     rollbackChanges: () => void;
     t: (key: keyof typeof translations.en, params?: Record<string, string | number>) => string;
-    fontOptions: typeof fontFamilyOptions;
+    fontOptions: FontFamilyOptions;
 }
 export declare function AccessibilityProvider({ children }: {
     children: ReactNode;

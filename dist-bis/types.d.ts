@@ -1,7 +1,6 @@
 export type Language = 'en' | 'fr' | 'de' | 'it';
-export type CssUnit = "px" | "pt" | "in" | "cm" | "mm" | "pc" | "em" | "rem" | "%";
 export declare const BASE_FONT_SIZE = 16;
-export declare const BASE_FONT_UNIT: CssUnit;
+export declare const BASE_FONT_UNIT = "px";
 export declare const textTransformOptions: readonly [{
     readonly value: "none";
     readonly label: "Normal Case";
@@ -29,7 +28,7 @@ export interface FontOption {
 export declare const DEFAULT_FONT_OPTION_INDEX = 0;
 export declare const fontFamilyOptions: readonly [{
     readonly value: string;
-    readonly label: 0;
+    readonly label: "Default";
     readonly description: "From website";
 }, {
     readonly value: "Arial";
@@ -52,10 +51,11 @@ export declare const fontFamilyOptions: readonly [{
     readonly label: "Luciole";
     readonly description: "Optimized for low vision";
 }];
+export type FontFamilyOptions = typeof fontFamilyOptions;
 export declare const fontSizeScaleOptions: readonly [0.75, 1, 1.5, 2.25, 3.375, 4.5];
-export declare const wordSpacingScaleOptions: readonly [0, 1, 1.25, 1.5, 2];
-export declare const letterSpacingScaleOptions: readonly [0, 1, 1.15, 1.3, 1.5];
-export declare const lineHeightScaleOptions: readonly [0.8, 1, 1.3, 1.67, 2];
+export declare const wordSpacingScaleOptions: readonly [1, 1.25, 1.5, 2];
+export declare const letterSpacingScaleOptions: readonly [1, 1.15, 1.3, 1.5];
+export declare const lineHeightScaleOptions: readonly [1, 1.3, 1.67, 2];
 export type TextScaleFactor = typeof fontSizeScaleOptions[number];
 export type FontOptionIndex = NumericTupleIndices<typeof fontFamilyOptions>;
 export type TextTransformOptionIndex = NumericTupleIndices<typeof textTransformOptions>;
@@ -81,4 +81,8 @@ export interface AccessibilitySettings {
     backgroundColor?: string;
     color?: string;
 }
+export type AccessibilitySettingsProps = keyof AccessibilitySettings;
+export type NumericAccessibilitySettingsProps = Exclude<{
+    [K in keyof AccessibilitySettings]: AccessibilitySettings[K] extends number ? K : never;
+}[keyof AccessibilitySettings], undefined>;
 export declare const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySettings>>;

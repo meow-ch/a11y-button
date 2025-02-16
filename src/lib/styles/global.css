@@ -5,17 +5,3 @@
   --a11y-button-base-spacing: 1rem;
 }
 
-/* Style for reading mask container */
-#accessibility-toolbar-root {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: 999999;
-}
-
-/* Ensure reading mask children can receive pointer events */
-#accessibility-toolbar-root > *:not(.reading-mask) {
-  pointer-events: auto;
-}
