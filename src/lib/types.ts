@@ -35,7 +35,7 @@ export interface FontOption {
 export const DEFAULT_FONT_OPTION_INDEX = 0;
 
 export const fontFamilyOptions = [
-  { value: '' as string, label: DEFAULT_FONT_OPTION_INDEX, description: 'From website' },
+  { value: '' as string, label: 'Default', description: 'From website' },
   { value: 'Arial', label: 'Arial', description: 'Standard sans-serif font' },
   { value: 'OpenDyslexic', label: 'OpenDyslexic', description: 'Designed for dyslexic readers' },
   { value: 'Atkinson Hyperlegible', label: 'Atkinson Hyperlegible', description: 'High legibility font' },

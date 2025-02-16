@@ -25,7 +25,7 @@ export function ReadingMask({ isEnabled }: ReadingMaskProps) {
   const handleMouseMove = useCallback((e: MouseEvent) => {
     setMousePosition({
       x: e.clientX,
-      y: e.clientY + window.scrollY,
+      y: e.clientY,
     });
 
     setShowGapCloseButton(e.clientX > window.innerWidth - 100);
