@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { FONT_OPTIONS } from "../types";
+import { fontFamilyOptions } from "../types";
 
 const useFontOptions = () => {
-  const [fontOptions, setFontOptions] = useState<typeof FONT_OPTIONS>(FONT_OPTIONS);
+  const [fontOptions, setFontOptions] = useState<typeof fontFamilyOptions>(fontFamilyOptions);
 
   useEffect(() => {
     if (fontOptions[0].value !== '') return;

@@ -245,7 +245,6 @@ export function replace(template: string, params: Record<string, string | number
 }
 
 export function getTranslation(lang: Language, key: keyof typeof translations.en, params?: Record<string, string | number>) {
-  console.log("TR---" , lang, key, params)
   let text = translations[lang][key] || translations.en[key];
   if (typeof text === 'undefined') {
     console.log(`Missing translation for: '${key}' in language: ${lang}`);

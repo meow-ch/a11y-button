@@ -4,15 +4,15 @@ import styles from './ControlGroup.module.css';
 interface ControlGroupProps {
   title: string;
   children: ReactNode;
-  fontSize: number;
+  textScaleFactor: number;
 }
 
-export function ControlGroup({ title, children, fontSize }: ControlGroupProps) {
+export function ControlGroup({ title, children, textScaleFactor }: ControlGroupProps) {
   const groupVars = {
-    '--a11y-group-gap': `${fontSize * 0.5}px`,
-    '--a11y-title-font-size': `${fontSize * 1.25}px`,
-    '--a11y-title-padding': `${fontSize * 0.5}px`,
-    '--a11y-content-gap': `${fontSize * 0.75}px`,
+    '--a11y-group-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
+    '--a11y-title-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 1.25})`,
+    '--a11y-title-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
+    '--a11y-content-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.75})`,
   } as React.CSSProperties;
 
   return (

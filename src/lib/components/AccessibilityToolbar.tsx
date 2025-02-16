@@ -11,9 +11,10 @@ import { ProfileSelector } from './ProfileSelector';
 import { Button } from './ui/Button';
 import { IconButton } from './ui/IconButton';
 import { AccessibilityButton } from './AccessibilityButton';
-import { languageNames } from '../i18n/translations';
-import { Language } from '../types';
 import styles from './AccessibilityToolbar.module.css';
+import { getScaledFontSize } from '../utils/size';
+import { LanguageSelect } from './LanguageSelect';
+import { getOption } from '../utils/option';
 
 export interface AccessibilityToolbarProps {
   position?: 'fixed' | 'absolute';
@@ -39,7 +40,6 @@ function ToolbarContent({
 
   const {
     visibleSettings: settings,
-    language,
     isEnabled,
     hasChanges,
     updateSettings,
@@ -49,10 +49,11 @@ function ToolbarContent({
     commitChanges,
     rollbackChanges,
     t,
-    fontOptions
   } = useAccessibility();
 
-  useAccessibilityStyles(settings, fontOptions[0], isEnabled);
+  console.log("SETTINGS", settings)
+
+  useAccessibilityStyles(settings, isEnabled);
 
   const handleClose = () => {
     if (hasChanges) {
@@ -74,13 +75,15 @@ function ToolbarContent({
   };
 
   const toolbarVars = {
-    '--a11y-toolbar-gap': `${settings.fontSize}px`,
-    '--a11y-toolbar-padding': `${settings.fontSize * 0.75}px`,
-    '--a11y-toolbar-title-size': `${settings.fontSize * 1.25}px`,
-    '--a11y-toolbar-controls-gap': `${settings.fontSize * 0.75}px`,
-    '--a11y-toolbar-controls-margin': `${settings.fontSize * 0.25}px 0`,
-    '--a11y-toolbar-advanced-padding': `${settings.fontSize}px`,
+    '--a11y-toolbar-gap': `calc(var(--a11y-button-base-font-size) * ${settings.fontSizeScaleOptionIndex})`,
+    '--a11y-toolbar-padding': `calc(var(--a11y-button-base-font-size) * 0.75)`,
+    '--a11y-toolbar-title-size': `calc(var(--a11y-button-base-font-size) * 1.25)`,
+    '--a11y-toolbar-controls-gap': `calc(var(--a11y-button-base-font-size) * 0.75)`,
+    '--a11y-toolbar-controls-margin': `calc(var(--a11y-button-base-font-size) * 0.25) 0`,
+    '--a11y-toolbar-advanced-padding': `var(--a11y-button-base-font-size)`,
   } as React.CSSProperties;
+
+  const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
 
   const toolbarContent = isOpen && portalContainer ? (
     <div className={styles['a11y-button-toolbar']} style={toolbarVars}>
@@ -92,7 +95,7 @@ function ToolbarContent({
           <Toggle
             checked={isEnabled}
             onChange={setEnabled}
-            size={settings.fontSize * 1.5}
+            scale={1.5}
           />
           {isEnabled && (
             <>
@@ -100,10 +103,12 @@ function ToolbarContent({
                 currentProfile={settings.currentProfile}
                 onChange={setProfile}
                 disabled={false}
-                fontSize={settings.fontSize}
+                textScaleFactor={textScaleFactor}
               />
               <QuickControls
-                settings={settings}
+                blackAndWhite={settings?.blackAndWhite}
+                textScaleFactor={textScaleFactor}
+                showReadingMask={settings?.showReadingMask}
                 onSettingsChange={updateSettings}
                 disabled={showAdvanced}
               />
@@ -116,17 +121,17 @@ function ToolbarContent({
             <>
               <Button
                 variant="primary"
-                icon={<Save size={settings.fontSize} />}
+                icon={<Save size={getScaledFontSize(settings)} />}
                 onClick={handleSave}
-                fontSize={settings.fontSize}
+                textScaleFactor={textScaleFactor}
               >
                 {t('Save Changes')}
               </Button>
               <Button
                 variant="ghost"
-                icon={<RotateCcw size={settings.fontSize} />}
+                icon={<RotateCcw size={getScaledFontSize(settings)} />}
                 onClick={rollbackChanges}
-                fontSize={settings.fontSize}
+                textScaleFactor={textScaleFactor}
               >
                 {t('Revert')}
               </Button>
@@ -135,37 +140,20 @@ function ToolbarContent({
           {isEnabled && (
             <Button
               variant="secondary"
-              icon={<Settings2 size={settings.fontSize} />}
+              icon={<Settings2 size={getScaledFontSize(settings)} />}
               onClick={() => setShowAdvanced(!showAdvanced)}
-              fontSize={settings.fontSize}
+              textScaleFactor={textScaleFactor}
             >
               {showAdvanced ? t('Less Options') : t('More Options')}
             </Button>
           )}
-          <select
-            value={language}
-            onChange={(e) => updateSettings({ language: e.target.value as Language })}
-            style={{
-              padding: `${settings.fontSize * 0.25}px ${settings.fontSize * 0.5}px`,
-              fontSize: `${settings.fontSize}px`,
-              height: `${settings.fontSize * 2}px`,
-              borderRadius: '4px',
-              border: '2px solid currentColor'
-            }}
-            aria-label={t('language')}
-          >
-            {Object.entries(languageNames).map(([code, name]) => (
-              <option key={code} value={code}>
-                {name}
-              </option>
-            ))}
-          </select>
+          <LanguageSelect aria-label={t('language')} />
           <IconButton
-            icon={<XIcon size={settings.fontSize} />}
+            icon={<XIcon size={getScaledFontSize(settings)} />}
             label="Close"
             onClick={handleClose}
             variant="danger"
-            size={settings.fontSize * 1.2}
+            scale={settings.fontSizeScaleOptionIndex * 1.2}
           />
         </div>
       </div>
@@ -192,7 +180,7 @@ function ToolbarContent({
         <AccessibilityButton
           isOpen={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          fontSize={settings.fontSize}
+          textScaleFactor={textScaleFactor}
           position={props.position}
           top={props.top}
           right={props.right}

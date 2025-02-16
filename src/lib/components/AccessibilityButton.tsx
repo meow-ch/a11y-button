@@ -6,7 +6,7 @@ import styles from './AccessibilityButton.module.css';
 interface AccessibilityButtonProps {
   isOpen: boolean;
   onClick: () => void;
-  fontSize: number;
+  textScaleFactor: number;
   position?: 'fixed' | 'absolute';
   top?: string;
   right?: string;
@@ -32,7 +32,7 @@ const SAFE_MARGIN = '1.5rem';
 export function AccessibilityButton({
   isOpen,
   onClick,
-  fontSize,
+  textScaleFactor,
   position = 'absolute',
   top,
   right,
@@ -58,8 +58,8 @@ export function AccessibilityButton({
     '--a11y-button-right': right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
     '--a11y-button-bottom': bottom || (position === 'fixed' ? SAFE_MARGIN : undefined),
     '--a11y-button-left': left || (position === 'absolute' ? SAFE_MARGIN : undefined),
-    '--a11y-button-size': `${fontSize * 3}px`,
-    '--a11y-button-padding': `${fontSize * 0.75}px`,
+    '--a11y-button-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 3})`,
+    '--a11y-button-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.75})`,
     '--a11y-button-radius': borderRadius,
     '--a11y-button-bg': '#ffffff',
     '--a11y-button-color': '#000000',
@@ -67,7 +67,7 @@ export function AccessibilityButton({
     '--a11y-button-hover-bg': '#000000',
     '--a11y-button-hover-color': '#ffffff',
     '--a11y-button-focus-ring-color': 'rgba(0, 0, 0, 0.4)',
-    '--a11y-button-icon-size': `${fontSize * 1.5}px`,
+    '--a11y-button-icon-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 1.5})`,
   } as React.CSSProperties;
 
   return (
@@ -75,8 +75,8 @@ export function AccessibilityButton({
       className={styles['a11y-button-trigger']}
       style={buttonVars}
       onClick={onClick}
-      aria-label={t('{{hideShow}} Accessibility Settings', { 
-        hideShow: isOpen ? t('Hide') : t('Show') 
+      aria-label={t('{{hideShow}} Accessibility Settings', {
+        hideShow: isOpen ? t('Hide') : t('Show')
       })}
     >
       {children || (

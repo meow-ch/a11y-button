@@ -1,20 +1,24 @@
 import { ReactNode, ButtonHTMLAttributes } from 'react';
 import styles from './IconButton.module.css';
 
-interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: ReactNode;
+type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   label: string;
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  size?: number;
+  scale?: number;
   active?: boolean;
+} & ({
   text?: string;
-}
+  icon: ReactNode;
+} | {
+  text: string;
+  icon?: ReactNode;
+})
 
 export function IconButton({
   icon,
   label,
   variant = 'secondary',
-  size = 24,
+  scale = 1.5,
   active = false,
   disabled = false,
   text,
@@ -22,11 +26,13 @@ export function IconButton({
   ...props
 }: IconButtonProps) {
   const iconVars = {
-    '--a11y-icon-button-gap': `${size * 0.25}px`,
-    '--a11y-icon-button-min-width': text ? `${size * 2.5}px` : `${size * 1.5}px`,
-    '--a11y-icon-button-height': `${size * 1.5}px`,
-    '--a11y-icon-button-padding': `${size * 0.25}px ${size * 0.5}px`,
-    '--a11y-icon-button-font-size': `${size * 0.75}px`,
+    '--a11y-icon-button-gap': `calc(var(--a11y-button-base-font-size) * ${scale * 0.25})`,
+    '--a11y-icon-button-min-width': text 
+      ? `calc(var(--a11y-button-base-font-size) * ${scale * 2.5})` 
+      : `calc(var(--a11y-button-base-font-size) * ${scale * 1.5})`,
+    '--a11y-icon-button-height': `calc(var(--a11y-button-base-font-size) * ${scale * 1.5})`,
+    '--a11y-icon-button-padding': `calc(var(--a11y-button-base-font-size) * ${scale * 0.25}) calc(var(--a11y-button-base-font-size) * ${scale * 0.5})`,
+    '--a11y-icon-button-font-size': `calc(var(--a11y-button-base-font-size) * ${scale * 0.75})`,
   } as React.CSSProperties;
 
   return (

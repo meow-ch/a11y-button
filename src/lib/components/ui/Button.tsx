@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   children?: ReactNode;
   fullWidth?: boolean;
-  fontSize?: number;
+  textScaleFactor?: number;
 }
 
 const sizeMap = {
@@ -25,17 +25,17 @@ export function Button({
   icon,
   children,
   fullWidth = false,
-  fontSize = 16,
+  textScaleFactor = 1,
   disabled,
   className,
   ...props
 }: ButtonProps) {
   const buttonVars = {
-    '--a11y-button-font-size': `${fontSize}px`,
-    '--a11y-button-gap': `${fontSize * 0.5}px`,
-    '--a11y-button-padding': `${fontSize * sizeMap[size]}px`,
+    '--a11y-button-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-button-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
+    '--a11y-button-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * sizeMap[size]})`,
     '--a11y-button-width': fullWidth ? '100%' : 'auto',
-    '--a11y-button-icon-size': `${fontSize * 1.2}px`,
+    '--a11y-button-icon-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 1.2})`,
     '--a11y-button-focus-color': 'rgba(0, 0, 0, 0.4)',
   } as React.CSSProperties;
 
@@ -55,3 +55,4 @@ export function Button({
     </button>
   );
 }
+

@@ -32,14 +32,14 @@ export function App() {
                 This section has its own toolbar with different settings:
               </p>
               {/* Additional toolbar with custom position and icon */}
-              <AccessibilityToolbar
+              {/* <AccessibilityToolbar
                 position="fixed"
                 bottom="1rem"
                 right="1rem"
                 iconHandle="palette"
                 borderRadius="4px"
                 hideButtonWhenOpen={true}
-              />
+              /> */}
               <p>
                 Content in this section can have different accessibility settings
                 than the main content. The button hides when the toolbar is open.
@@ -50,11 +50,11 @@ export function App() {
           {/* Custom trigger example */}
           <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">Custom Trigger Example</h2>
-            <AccessibilityToolbar>
+            {/* <AccessibilityToolbar>
               <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                 Customize Accessibility
               </button>
-            </AccessibilityToolbar>
+            </AccessibilityToolbar> */}
           </section>
         </main>
       </div>

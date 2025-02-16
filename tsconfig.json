@@ -10,7 +10,7 @@
     "isolatedModules": true,
     "emitDeclarationOnly": true,
     "declaration": true,
-    "declarationDir": "dist",
+    "declarationDir": "dist-bis",
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": true,

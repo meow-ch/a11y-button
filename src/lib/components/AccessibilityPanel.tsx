@@ -5,6 +5,8 @@ import { Button } from './ui/Button';
 import { RotateCcw } from 'lucide-react';
 import styles from './AccessibilityPanel.module.css';
 import { useAccessibility } from '../context/AccessibilityContext';
+import { getScaledFontSize } from '../utils/size';
+import { getOption } from '../utils/option';
 
 interface AccessibilityPanelProps {
   settings: AccessibilitySettings;
@@ -12,7 +14,7 @@ interface AccessibilityPanelProps {
   resetSettings: () => void;
 }
 
-export function AccessibilityPanel({ settings, updateSettings, resetSettings }: AccessibilityPanelProps) {
+export function AccessibilityPanel({ settings, resetSettings }: AccessibilityPanelProps) {
   const { t } = useAccessibility();
   const handleReset = () => {
     if (window.confirm(t('Are you sure you want to reset all settings to their defaults? You will need to save the changes to make them permanent.'))) {
@@ -21,45 +23,42 @@ export function AccessibilityPanel({ settings, updateSettings, resetSettings }: 
   };
 
   const columnClassName = `${styles.column} ${
-    settings.fontSize <= 24 ? styles.columnNormal : styles.columnLarge
+    settings.fontSizeScaleOptionIndex <= 1.4 ? styles.columnNormal : styles.columnLarge
   }`;
 
+  const fontSize = getScaledFontSize(settings);
+  const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex })
+
   return (
-    <div 
+    <div
       className={styles.panel}
       style={{
-        gap: `${settings.fontSize * 2}px`,
-        ['--font-size' as string]: settings.fontSize * 2
+        gap: `${fontSize * 2}px`,
+        ['--font-size' as string]: fontSize * 2
       }}
     >
-      <div 
+      <div
         className={columnClassName}
         style={{
-          gap: `${settings.fontSize * 2}px`,
+          gap: `${fontSize * 2}px`,
         }}
       >
-        <TextControls
-          settings={settings}
-          onUpdate={updateSettings}
-        />
+        <TextControls />
       </div>
-      
-      <div 
+
+      <div
         className={columnClassName}
         style={{
-          gap: `${settings.fontSize * 2}px`,
+          gap: `${fontSize * 2}px`,
         }}
       >
-        <VisualControls
-          settings={settings}
-          onUpdate={updateSettings}
-        />
+        <VisualControls />
 
         <Button
           variant="danger"
-          icon={<RotateCcw size={settings.fontSize} />}
+          icon={<RotateCcw size={fontSize} />}
           onClick={handleReset}
-          fontSize={settings.fontSize}
+          textScaleFactor={textScaleFactor}
           fullWidth
         >
           {t('Reset All Settings')}

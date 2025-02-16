@@ -1,33 +1,33 @@
 import { createContext, useContext, useState, ReactNode, useEffect, useCallback, useMemo } from 'react';
-import { AccessibilitySettings, AccessibilityProfile, PROFILES, FONT_OPTIONS, Language, DEFAULT_FONT_LABEL } from '../types';
+import { AccessibilitySettings, AccessibilityProfile, PROFILES, Language, DEFAULT_FONT_OPTION_INDEX, FontFamilyOptions } from '../types';
 import { translations, getTranslation } from '../i18n/translations';
 import useFontOptions from '../hooks/useFontOptions';
 
 const STORAGE_KEY = 'a11y-settings';
 
-const defaultSettings: AccessibilitySettings = {
-  fontSize: 16,
-  wordSpacing: 3,
-  letterSpacing: 2,
-  lineHeight: 1.5,
+export const defaultSettings: AccessibilitySettings = {
+  fontSizeScaleOptionIndex: 1,
+  wordSpacingScaleOptionIndex: 0,
+  letterSpacingScaleOptionIndex: 0,
+  lineHeightScaleOptionIndex: 0,
+  textTransformOptionIndex: 0,
   // saving the label instead of full option prevents rerender after website fontFamily value lodaded
-  fontOptionLabel: DEFAULT_FONT_LABEL,
-  textCase: 'none',
+  fontOptionIndex: DEFAULT_FONT_OPTION_INDEX,
+  currentProfile: 'none',
+  showReadingMask: false,
+  blackAndWhite: false,
+  removeBackgrounds: false,
   cancelLayout: false,
   leftAlignText: false,
   numberListItems: false,
   customLinks: false,
-  showReadingMask: false,
-  backgroundColor: "#ffffff",
-  foregroundColor: "#000000",
-  removeBackgrounds: false,
-  currentProfile: 'none',
-  blackAndWhite: false,
-  language: 'en',
+  backgroundColor: undefined,
+  color: undefined,
 };
 
 interface StoredState {
-  settings: AccessibilitySettings;
+  settings: AccessibilitySettings | null;
+  language: Language;
   isEnabled: boolean;
 }
 
@@ -51,7 +51,8 @@ function loadStoredState(): StoredState {
   }
 
   return {
-    settings: defaultSettings,
+    settings: null,
+    language: 'en',
     isEnabled: true
   };
 }
@@ -66,10 +67,10 @@ function saveStoredState(state: StoredState) {
 
 interface AccessibilityContextType {
   visibleSettings: AccessibilitySettings;
-  savedSettings: AccessibilitySettings;
   language: Language;
   isEnabled: boolean;
   hasChanges: boolean;
+  setLanguage: (language: Language) => void;
   updateSettings: (newSettings: Partial<AccessibilitySettings>) => void;
   setEnabled: (enabled: boolean) => void;
   resetSettings: () => void;
@@ -77,15 +78,16 @@ interface AccessibilityContextType {
   commitChanges: () => void;
   rollbackChanges: () => void;
   t: (key: keyof typeof translations.en, params?: Record<string, string | number>) => string;
-  fontOptions: typeof FONT_OPTIONS;
+  fontOptions: FontFamilyOptions;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | null>(null);
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const storedState = loadStoredState();
-  const [visibleSettings, setVisibleSettings] = useState<AccessibilitySettings>(storedState.settings);
-  const [savedSettings, setSavedSettings] = useState<AccessibilitySettings>(storedState.settings);
+  const [language, setLanguage] = useState<Language>(storedState.language);
+  const [visibleSettings, setVisibleSettings] = useState<AccessibilitySettings | null>(storedState.settings || defaultSettings);
+  const [savedSettings, setSavedSettings] = useState<AccessibilitySettings | null>(storedState.settings);
   const [isEnabled, setIsEnabled] = useState(storedState.isEnabled);
   const [pausedSettings, setPausedSettings] = useState<AccessibilitySettings | null>(null);
   const fontOptions = useFontOptions();
@@ -94,33 +96,27 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     saveStoredState({
       settings: savedSettings,
-      isEnabled
+      isEnabled,
+      language
     });
-  }, [savedSettings, isEnabled]);
+  }, [savedSettings, isEnabled, language]);
 
   const updateSettings = useCallback((newSettings: Partial<AccessibilitySettings>) => {
     console.log("nes settings", newSettings);
-    if (Object.keys(newSettings).length === 1 && newSettings.language) {
-      setVisibleSettings(prev => ({
-        ...prev,
-        language: newSettings.language!,
-      }));
-      setSavedSettings(prev => ({
-        ...prev,
-        language: newSettings.language!,
-      }));
-    } else if (isEnabled) {
-      setVisibleSettings(prev => ({
+    console.log("isen", isEnabled);
+    console.log("sett", visibleSettings);
+    if (isEnabled) {
+      setVisibleSettings(prev => (prev && {
         ...prev,
         ...newSettings,
         currentProfile: 'none'
-      }));
+      } || null));
     }
   }, [isEnabled]);
 
-  const setEnabledState = useCallback((enabled: boolean) => {
-    setIsEnabled(enabled);
-    if (!enabled) {
+  const setEnabledState = useCallback((isEnabled: boolean) => {
+    setIsEnabled(isEnabled);
+    if (!isEnabled) {
       setPausedSettings(savedSettings);
       setVisibleSettings(defaultSettings);
       setSavedSettings(defaultSettings);
@@ -130,10 +126,11 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
     // Save the enabled state immediately
     saveStoredState({
-      settings: enabled && pausedSettings ? pausedSettings : defaultSettings,
-      isEnabled: enabled
+      settings: isEnabled && pausedSettings ? pausedSettings : defaultSettings,
+      isEnabled,
+      language
     });
-  }, [savedSettings, defaultSettings, pausedSettings]);
+  }, [savedSettings, defaultSettings, pausedSettings, language]);
 
   const resetSettings = useCallback(() => {
     setVisibleSettings(defaultSettings);
@@ -161,15 +158,12 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     setVisibleSettings(savedSettings);
   }, [savedSettings]);
 
-  const language = (isEnabled ? visibleSettings.language : savedSettings.language) || defaultSettings.language;
-
   const t = useCallback((key: keyof typeof translations.en, params?: Record<string, string | number>) => {
     return getTranslation(language, key, params);
   }, [language]);
 
   const contextValue = useMemo(() => ({
-    visibleSettings: isEnabled ? visibleSettings : defaultSettings,
-    savedSettings: isEnabled ? savedSettings : defaultSettings,
+    visibleSettings: isEnabled && visibleSettings || defaultSettings,
     language,
     isEnabled,
     hasChanges,
@@ -181,12 +175,14 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     commitChanges,
     rollbackChanges,
     t,
+    setLanguage,
   }), [
     isEnabled, visibleSettings, savedSettings,
     language, hasChanges, fontOptions,
     updateSettings, setEnabledState, resetSettings,
     setProfile, commitChanges, rollbackChanges,
     t,
+    setLanguage,
   ]);
 
   return (

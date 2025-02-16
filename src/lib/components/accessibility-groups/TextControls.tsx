@@ -1,78 +1,63 @@
 import { ControlGroup } from './ControlGroup';
-import { AccessibilitySettings, FontOptionLabel, TextCase } from '../../types';
-import { IconButton } from '../ui/IconButton';
-import { ButtonGroup } from '../ui/ButtonGroup';
+import { FontOptionIndex, fontSizeScaleOptions, FontSizeScaleOptionsIndex, letterSpacingScaleOptions, lineHeightScaleOptions, NumericAccessibilitySettingsProps, TextTransformOptionIndex, textTransformOptions, wordSpacingScaleOptions } from '../../types';
 import { useAccessibility } from '../../context/AccessibilityContext';
 import styles from './TextControls.module.css';
+import ScaleButtons from '../ui/ScaleButtons';
+import { getOption } from '../../utils/option';
+import { useMemo } from 'react';
 
-interface TextControlsProps {
-  settings: AccessibilitySettings;
-  onUpdate: (settings: Partial<AccessibilitySettings>) => void;
-}
+const controls = [
+  { label: 'Word Spacing', key: 'wordSpacingScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: wordSpacingScaleOptions },
+  { label: 'Letter Spacing', key: 'letterSpacingScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: letterSpacingScaleOptions },
+  { label: 'Line Height', key: 'lineHeightScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: lineHeightScaleOptions }
+] as const;
 
-export function TextControls({ settings, onUpdate }: TextControlsProps) {
-  const { t, fontOptions } = useAccessibility();
+export function TextControls() {
+  const { t, fontOptions, visibleSettings: settings, updateSettings: onUpdate } = useAccessibility();
 
-  const handleFontSizeChange = (increase: boolean) => {
-    const FONT_SIZES = [16, 24, 36, 54, 72];
-    const currentIndex = FONT_SIZES.indexOf(settings.fontSize);
-    const newIndex = increase ? currentIndex + 1 : currentIndex - 1;
+  const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
 
-    if (newIndex >= 0 && newIndex < FONT_SIZES.length) {
-      onUpdate({ fontSize: FONT_SIZES[newIndex] });
-    }
-  };
+  const controlVars = useMemo(() => ({
+    '--a11y-control-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-control-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5}) 0`,
+    '--a11y-label-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-select-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.25}) calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
+    '--a11y-select-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-select-height': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
+    '--a11y-select-min-width': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 10})`,
+    '--a11y-value-min-width': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
+    '--a11y-value-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+  } as React.CSSProperties), [textScaleFactor]);
 
-  const controlVars = {
-    '--a11y-control-gap': `${settings.fontSize}px`,
-    '--a11y-control-padding': `${settings.fontSize * 0.5}px 0`,
-    '--a11y-label-font-size': `${settings.fontSize}px`,
-    '--a11y-select-padding': `${settings.fontSize * 0.25}px ${settings.fontSize * 0.5}px`,
-    '--a11y-select-font-size': `${settings.fontSize}px`,
-    '--a11y-select-height': `${settings.fontSize * 2}px`,
-    '--a11y-select-min-width': `${settings.fontSize * 10}px`,
-    '--a11y-value-min-width': `${settings.fontSize * 2}px`,
-    '--a11y-value-font-size': `${settings.fontSize}px`,
-  } as React.CSSProperties;
+  console.log("Text scale factor", textScaleFactor);
 
   return (
-    <ControlGroup title={t('Text Readability')} fontSize={settings.fontSize}>
+    <ControlGroup title={t('Text Readability')} textScaleFactor={settings.fontSizeScaleOptionIndex}>
       <div className={styles['a11y-button-text-control']} style={controlVars}>
         <label className={styles['a11y-button-text-label']}>{t('Font Size')}</label>
-        <ButtonGroup gap={settings.fontSize * 0.5}>
-          <IconButton
-            icon={<span style={{ fontWeight: 'bold' }}>A</span>}
-            text="-"
-            label={t('Decrease font size')}
-            onClick={() => handleFontSizeChange(false)}
-            disabled={settings.fontSize <= 16}
-            size={settings.fontSize}
-          />
-          <span className={styles['a11y-button-text-value']}>
-            {settings.fontSize}
-          </span>
-          <IconButton
-            icon={<span style={{ fontWeight: 'bold' }}>A</span>}
-            text="+"
-            label={t('Increase font size')}
-            onClick={() => handleFontSizeChange(true)}
-            disabled={settings.fontSize >= 72}
-            size={settings.fontSize}
-          />
-        </ButtonGroup>
+        <ScaleButtons
+          stepsArray={fontSizeScaleOptions as unknown as number[]}
+          icon={<span style={{ fontWeight: 'bold' }}>A</span>}
+          gapScale={0.25}
+          currentIndex={settings["fontSizeScaleOptionIndex"]}
+          onChange={(_, index) => onUpdate({ fontSizeScaleOptionIndex: index as FontSizeScaleOptionsIndex })}
+          labelIncrease={t('Increase font size')}
+          labelDecrease={t('Decrease font size')}
+          textScaleFactor={textScaleFactor}
+        />
       </div>
 
       <div className={styles['a11y-button-text-control']} style={controlVars}>
         <label className={styles['a11y-button-text-label']}>{t('Font Family')}</label>
         <select
-          value={settings.fontOptionLabel}
-          onChange={(e) => onUpdate({ fontOptionLabel: e.target.value as FontOptionLabel })}
+          value={settings.fontOptionIndex}
+          onChange={(e) => onUpdate({ fontOptionIndex: parseInt(e.target.value) as FontOptionIndex })}
           className={styles['a11y-button-text-select']}
         >
-          {fontOptions.map(font => (
+          {fontOptions.map((font, i) => (
             <option
               key={font.label}
-              value={font.label}
+              value={i}
               style={{ fontFamily: font.value }}
             >
               {font.label} - {t(font.description)}
@@ -84,43 +69,27 @@ export function TextControls({ settings, onUpdate }: TextControlsProps) {
       <div className={styles['a11y-button-text-control']} style={controlVars}>
         <label className={styles['a11y-button-text-label']}>{t('Text Case')}</label>
         <select
-          value={settings.textCase}
-          onChange={(e) => onUpdate({ textCase: e.target.value as TextCase })}
+          value={settings.textTransformOptionIndex}
+          onChange={(e) => onUpdate({ textTransformOptionIndex: parseInt(e.target.value) as TextTransformOptionIndex })}
           className={styles['a11y-button-text-select']}
         >
-          <option value="none">{t('Normal Case')}</option>
-          <option value="uppercase">{t('UPPERCASE')}</option>
-          <option value="lowercase">{t('lowercase')}</option>
-          <option value="capitalize">{t('Capitalize Words')}</option>
+          {textTransformOptions.map((o, i) => (
+            <option key={o.value} value={i}>{t(o.label)}</option>
+          ))}
         </select>
       </div>
-
-      {[
-        { label: t('Word Spacing'), key: 'wordSpacing', min: 0, max: 16 },
-        { label: t('Letter Spacing'), key: 'letterSpacing', min: 0, max: 8 },
-        { label: t('Line Height'), key: 'lineHeight', min: 1, max: 3 }
-      ].map(({ label, key, min, max }) => (
+      {controls.map(({ label, key, stepsArray }) => (
         <div key={key} className={styles['a11y-button-text-control']} style={controlVars}>
-          <label className={styles['a11y-button-text-label']}>{label}</label>
-          <ButtonGroup gap={settings.fontSize * 0.5}>
-            <IconButton
-              icon={<span>-</span>}
-              label={t('Decrease {{label}}', { label })}
-              onClick={() => onUpdate({ [key]: Math.max(min, settings[key as keyof AccessibilitySettings] as number - 1) })}
-              disabled={settings[key as keyof AccessibilitySettings] as number <= min}
-              size={settings.fontSize}
-            />
-            <span className={styles['a11y-button-text-value']}>
-              {settings[key as keyof AccessibilitySettings]}
-            </span>
-            <IconButton
-              icon={<span>+</span>}
-              label={t('Increase {{label}}', { label })}
-              onClick={() => onUpdate({ [key]: Math.min(max, settings[key as keyof AccessibilitySettings] as number + 1) })}
-              disabled={settings[key as keyof AccessibilitySettings] as number >= max}
-              size={settings.fontSize}
-            />
-          </ButtonGroup>
+          <label className={styles['a11y-button-text-label']}>{t(label)}</label>
+          <ScaleButtons
+            stepsArray={stepsArray as unknown as number[]}
+            gapScale={settings.fontSizeScaleOptionIndex * 0.5}
+            currentIndex={settings[key]}
+            onChange={(_, index) => onUpdate({ [key]: index })}
+            labelIncrease={t('Increase {{label}}', { label })}
+            labelDecrease={t('Decrease {{label}}', { label })}
+            textScaleFactor={textScaleFactor}
+          />
         </div>
       ))}
     </ControlGroup>

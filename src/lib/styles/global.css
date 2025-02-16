@@ -1,5 +1,10 @@
 @import './fonts.css';
 
+:root {
+  --a11y-button-base-font-size: 16px;
+  --a11y-button-base-spacing: 1rem;
+}
+
 /* Style for reading mask container */
 #accessibility-toolbar-root {
   position: absolute;

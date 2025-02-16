@@ -1,161 +1,191 @@
 import { useEffect } from 'react';
-import { AccessibilitySettings, FONT_OPTIONS, FontOption, FontOptionLabel } from '../types';
-
-function getNonDefaultFontValue(fontOptionLabel: Omit<FontOptionLabel, "Default">) {
-  return FONT_OPTIONS.filter(o => o.label === fontOptionLabel)[0].value;
-}
+import {
+  AccessibilitySettings,
+  BASE_FONT_SIZE,
+  BASE_FONT_UNIT,
+} from '../types';
+import { useOriginalStyles } from './useOriginalStyles';
+import { getOption } from '../utils/option';
+import { getScaledSpacing, getScaledUnitlessValue, splitCssSize } from '../utils/size';
 
 export function useAccessibilityStyles(
-  settings: AccessibilitySettings, 
-  defaultFont: FontOption,
-  isEnabled: boolean // Add isEnabled parameter
+  settings: AccessibilitySettings,
+  isEnabled: boolean
 ) {
-  useEffect(() => {
-    // Always create toolbar styles for the toolbar UI itself
-    const toolbarStyleElement = document.createElement('style');
-    document.head.appendChild(toolbarStyleElement);
+  const { originalStyles } = useOriginalStyles();
 
-    // Create global style element only if enabled
-    const globalStyleElement = isEnabled ? document.createElement('style') : null;
-    if (globalStyleElement) {
+  useEffect(() => {
+    if (originalStyles === null) return;
+
+    // Create style elements for the toolbar and global overrides.
+    const toolbarStyleElement = document.createElement('style');
+    const globalStyleElement = document.createElement('style');
+
+    toolbarStyleElement.setAttribute('data-a11y', 'toolbar');
+    globalStyleElement.setAttribute('data-a11y', 'global');
+
+    document.head.appendChild(toolbarStyleElement);
+    if (isEnabled) {
       document.head.appendChild(globalStyleElement);
     }
 
-    // Always set toolbar-specific CSS Custom Properties
+    // ----- Font Size -----
+    const { value: originalFontSize, unit } = originalStyles.fontSize
+      ? splitCssSize(originalStyles.fontSize)
+      : { value: BASE_FONT_SIZE, unit: BASE_FONT_UNIT };
+
+    const fontSizeScaleFactor = getOption({
+      fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex,
+    });
+    const scaledFontSize = originalFontSize * fontSizeScaleFactor;
+
+    const letterSpacingFactor = getOption({
+      letterSpacingScaleOptionIndex: settings.letterSpacingScaleOptionIndex,
+    });
+    const lsDefault = 0.5; // default baseline in em
+    const letterSpacingCSS = getScaledSpacing(
+      originalStyles.letterSpacing,
+      letterSpacingFactor,
+      lsDefault,
+      originalFontSize
+    );
+
+    console.log("LETTER SPACING",
+      'settingsindex',settings.letterSpacingScaleOptionIndex,
+      'originalStyles.letterSpacing',
+      originalStyles.letterSpacing,
+      'letterSpacingFactor',
+      letterSpacingFactor,
+      'lsDefault',
+      lsDefault,
+      'originalFontSize',
+      originalFontSize,
+      'final',
+      letterSpacingCSS
+    );
+
+    const wordSpacingFactor = getOption({
+      wordSpacingScaleOptionIndex: settings.wordSpacingScaleOptionIndex,
+    });
+    const wsDefault = 0.5; // default baseline in em
+    const wordSpacingCSS = getScaledSpacing(
+      originalStyles.wordSpacing,
+      wordSpacingFactor,
+      wsDefault,
+      originalFontSize
+    );
+
+    // ----- Line Height -----
+    const lineHeightFactor = getOption({
+      lineHeightScaleOptionIndex: settings.lineHeightScaleOptionIndex,
+    });
+    const lineHeightCSS = getScaledUnitlessValue(
+      originalStyles.lineHeight,
+      lineHeightFactor,
+      1  // default baseline for line-height
+    );
+
+    // ----- Text Transform -----
+    const textTransform = getOption({
+      textTransformOptionIndex: settings.textTransformOptionIndex,
+    });
+
+    // ----- Font Family -----
+    const fontFamily =
+      settings.fontOptionIndex !== 0
+        ? getOption({ fontOptionIndex: settings.fontOptionIndex }).value
+        : originalStyles.fontFamily || "inherit";
+
+    // ----- Toolbar Styles -----
     const toolbarStyles = `
       :root {
-        /* Toolbar-specific variables */
-        --a11y-toolbar-font-size: ${settings.fontSize}px;
-        --a11y-toolbar-background: ${settings.backgroundColor};
-        --a11y-toolbar-foreground: ${settings.foregroundColor};
-        --a11y-toolbar-border-color: ${settings.foregroundColor};
+        --a11y-toolbar-font-size: calc(var(--a11y-button-base-font-size) * ${fontSizeScaleFactor});
+        --a11y-toolbar-background: ${settings.backgroundColor || "initial"};
+        --a11y-toolbar-foreground: ${settings.color || "initial"};
+        --a11y-toolbar-border-color: ${settings.color || "initial"};
         --a11y-toolbar-focus-ring: rgba(0, 0, 0, 0.4);
       }
     `;
 
-    // Global styles that affect the consuming application - only if enabled
-    const globalStyles = isEnabled ? `
-      html {
-        font-size: ${settings.fontSize}px !important;
-        word-spacing: ${settings.wordSpacing}px !important;
-        letter-spacing: ${settings.letterSpacing}px !important;
-        line-height: ${settings.lineHeight} !important;
-        ${settings.fontOptionLabel !== defaultFont.label 
-          ? `font-family: ${getNonDefaultFontValue(settings.fontOptionLabel)} !important;` 
-          : ''
-        }
-        background-color: ${settings.backgroundColor} !important;
-        color: ${settings.foregroundColor} !important;
+    // ----- Global Styles -----
+    const globalStyles = isEnabled
+      ? `
+      /* Apply to all elements except toolbar components */
+      *:not([class*="a11y-button-"]) {
+        ${letterSpacingCSS ? `letter-spacing: ${letterSpacingCSS} !important;` : ""}
+        ${wordSpacingCSS ? `word-spacing: ${wordSpacingCSS} !important;` : ""}
+        ${lineHeightCSS ? `line-height: ${lineHeightCSS} !important;` : ""}
+        ${settings.fontOptionIndex !== 0 ? `font-family: ${fontFamily} !important;` : ""}
+        ${textTransform.value !== "none" ? `text-transform: ${textTransform.value} !important;` : ""}
       }
 
-      ${settings.removeBackgrounds || settings.blackAndWhite ? `
-        *:not(.a11y-button-*) {
-          background-color: ${settings.backgroundColor} !important;
-          color: ${settings.foregroundColor} !important;
-          border-color: ${settings.foregroundColor} !important;
-        }
+      /* Background and text colors */
+      html, body {
+        font-size: ${scaledFontSize}${unit} !important;
+        ${settings.backgroundColor ? `background-color: ${settings.backgroundColor} !important;` : ""}
+        ${settings.color ? `color: ${settings.color} !important;` : ""}
+      }
 
-        button:not(.a11y-button-*),
-        [role="button"]:not(.a11y-button-*),
-        input[type="button"]:not(.a11y-button-*),
-        input[type="submit"]:not(.a11y-button-*),
-        input[type="reset"]:not(.a11y-button-*),
-        .button:not(.a11y-button-*),
-        select:not(.a11y-button-*) {
-          border: 2px solid ${settings.foregroundColor} !important;
-          color: ${settings.foregroundColor} !important;
-          background-color: ${settings.backgroundColor} !important;
-        }
-
-        button:hover:not(.a11y-button-*),
-        [role="button"]:hover:not(.a11y-button-*),
-        input[type="button"]:hover:not(.a11y-button-*),
-        input[type="submit"]:hover:not(.a11y-button-*),
-        input[type="reset"]:hover:not(.a11y-button-*),
-        .button:hover:not(.a11y-button-*) {
-          background-color: ${settings.foregroundColor} !important;
-          color: ${settings.backgroundColor} !important;
-        }
-      ` : ''}
-
+      /* Black and white mode */
       ${settings.blackAndWhite ? `
-        img:not(.a11y-button-*), 
-        video:not(.a11y-button-*), 
-        canvas:not(.a11y-button-*), 
-        svg:not(.a11y-button-*) {
-          filter: grayscale(100%) !important;
-        }
-      ` : ''}
+      img:not([class*="a11y-button-"]),
+      video:not([class*="a11y-button-"]),
+      canvas:not([class*="a11y-button-"]),
+      svg:not([class*="a11y-button-"]) {
+        filter: grayscale(100%) !important;
+      }
+      ` : ""}
 
+      /* Layout modifications */
       ${settings.cancelLayout ? `
-        *:not(.a11y-button-*) {
-          float: none !important;
-          position: static !important;
-          transform: none !important;
-        }
-      ` : ''}
+      *:not([class*="a11y-button-"]) {
+        float: none !important;
+        position: static !important;
+        transform: none !important;
+      }
+      ` : ""}
 
+      /* Text alignment */
       ${settings.leftAlignText ? `
-        *:not(.a11y-button-*) {
-          text-align: left !important;
-        }
-      ` : ''}
+      *:not([class*="a11y-button-"]) {
+        text-align: left !important;
+      }
+      ` : ""}
 
+      /* List styling */
       ${settings.numberListItems ? `
-        ul:not(.a11y-button-*) {
-          list-style-type: decimal !important;
-        }
-      ` : ''}
+      ul:not([class*="a11y-button-"]) {
+        list-style-type: decimal !important;
+      }
+      ` : ""}
 
+      /* Custom link styling */
       ${settings.customLinks ? `
-        a:not(.a11y-button-*) {
-          text-decoration: underline !important;
-          color: ${settings.blackAndWhite ? settings.foregroundColor : 'blue'} !important;
-        }
-        a:visited:not(.a11y-button-*) {
-          color: ${settings.blackAndWhite ? settings.foregroundColor : 'purple'} !important;
-        }
-        a:hover:not(.a11y-button-*) {
-          color: ${settings.blackAndWhite ? settings.foregroundColor : 'red'} !important;
-        }
-      ` : ''}
+      a:not([class*="a11y-button-"]) {
+        text-decoration: underline !important;
+        color: ${settings.blackAndWhite ? settings.color : "blue"} !important;
+      }
+      a:visited:not([class*="a11y-button-"]) {
+        color: ${settings.blackAndWhite ? settings.color : "purple"} !important;
+      }
+      a:hover:not([class*="a11y-button-"]) {
+        color: ${settings.blackAndWhite ? settings.color : "red"} !important;
+      }
+      ` : ""}
+    `
+      : "";
 
-      ${settings.textCase !== 'none' ? `
-        *:not(.a11y-button-*) {
-          text-transform: ${settings.textCase} !important;
-        }
-      ` : ''}
-    ` : '';
-
-    // Apply the styles
     toolbarStyleElement.textContent = toolbarStyles;
-    if (globalStyleElement) {
+    if (isEnabled) {
       globalStyleElement.textContent = globalStyles;
     }
 
-    // Cleanup function
+    // Cleanup: remove these style elements when dependencies change or when the component unmounts.
     return () => {
       document.head.removeChild(toolbarStyleElement);
-      if (globalStyleElement) {
+      if (document.head.contains(globalStyleElement)) {
         document.head.removeChild(globalStyleElement);
       }
     };
-  }, [
-    isEnabled, // Add isEnabled to dependencies
-    settings.fontSize,
-    settings.wordSpacing,
-    settings.letterSpacing,
-    settings.lineHeight,
-    settings.fontOptionLabel,
-    settings.backgroundColor,
-    settings.foregroundColor,
-    settings.textCase,
-    settings.removeBackgrounds,
-    settings.cancelLayout,
-    settings.leftAlignText,
-    settings.numberListItems,
-    settings.customLinks,
-    settings.blackAndWhite,
-    defaultFont.value
-  ]);
+  }, [isEnabled, settings, originalStyles]);
 }

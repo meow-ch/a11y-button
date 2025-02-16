@@ -3,12 +3,12 @@ import styles from './ButtonGroup.module.css';
 
 interface ButtonGroupProps {
   children: ReactNode;
-  gap?: number;
+  gapScale?: number;
 }
 
-export function ButtonGroup({ children, gap = 8 }: ButtonGroupProps) {
+export function ButtonGroup({ children, gapScale = 0.5 }: ButtonGroupProps) {
   const groupVars = {
-    '--a11y-button-group-gap': `${gap}px`,
+    '--a11y-button-group-gap': `calc(var(--a11y-button-base-font-size) * ${gapScale})`,
   } as React.CSSProperties;
 
   return (

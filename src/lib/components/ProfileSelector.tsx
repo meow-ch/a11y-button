@@ -6,24 +6,29 @@ interface ProfileSelectorProps {
   currentProfile: AccessibilityProfile;
   onChange: (profile: AccessibilityProfile, settings: Partial<AccessibilitySettings>) => void;
   disabled?: boolean;
-  fontSize: number;
+  textScaleFactor: number;
 }
 
-export function ProfileSelector({ currentProfile, onChange, disabled, fontSize }: ProfileSelectorProps) {
+export function ProfileSelector({
+  currentProfile,
+  onChange,
+  disabled,
+  textScaleFactor
+}: ProfileSelectorProps) {
   const { t } = useAccessibility();
-  
+
   const handleChange = (profile: AccessibilityProfile) => {
     const settings = PROFILES[profile];
     onChange(profile, settings);
   };
 
   const profileVars = {
-    '--a11y-profile-gap': '0.75rem',
-    '--a11y-profile-padding': '0 1rem',
-    '--a11y-label-font-size': `${fontSize}px`,
-    '--a11y-select-padding': `${fontSize * 0.25}px ${fontSize * 0.5}px`,
-    '--a11y-select-font-size': `${fontSize}px`,
-    '--a11y-select-height': `${fontSize * 2}px`,
+    '--a11y-profile-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.75})`,
+    '--a11y-profile-padding': `0 calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-label-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-select-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.25}) calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
+    '--a11y-select-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
+    '--a11y-select-height': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
   } as React.CSSProperties;
 
   return (
@@ -44,3 +49,4 @@ export function ProfileSelector({ currentProfile, onChange, disabled, fontSize }
     </div>
   );
 }
+

@@ -16,11 +16,9 @@ export function ReadingMask({ isEnabled }: ReadingMaskProps) {
   const { visibleSettings, updateSettings, t } = useAccessibility();
 
   const maskHeight = useMemo(() => {
-    const fontSize = visibleSettings?.fontSize ?? 16;
     const baseHeight = 50;
-    const scaleFactor = fontSize / 16;
-    return Math.max(baseHeight, baseHeight * scaleFactor);
-  }, [visibleSettings?.fontSize]);
+    return Math.max(baseHeight, baseHeight * (visibleSettings?.fontSizeScaleOptionIndex || 1));
+  }, [visibleSettings?.fontSizeScaleOptionIndex]);
 
   const margin = maskHeight / 2;
 
