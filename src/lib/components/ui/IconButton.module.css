@@ -2,19 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--a11y-icon-button-gap);
-  min-width: var(--a11y-icon-button-min-width);
-  height: var(--a11y-icon-button-height);
+  gap: 0.25rem;
+  min-width: max-content;
+  height: max-content;
   border-radius: 4px;
-  background-color: var(--a11y-icon-button-bg, #ffffff);
-  color: var(--a11y-icon-button-color, #000000);
+  background-color: var(--a11y-toolbar-background, #ffffff);
+  color: var(--a11y-toolbar-foreground, #000000);
   border: 2px solid currentColor;
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.2s ease;
-  padding: var(--a11y-icon-button-padding);
+  padding: 0.25rem;
   font-weight: 600;
-  font-size: var(--a11y-icon-button-font-size);
+  font-size: 0.75rem;
 }
 
 .a11y-button-button-icon:disabled {
@@ -33,6 +33,7 @@
 }
 
 .a11y-button-button-icon-active {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--a11y-toolbar-foreground);
+  color: var(--a11y-toolbar-background);
+  border: 2px solid var(--a11y-toolbar-foreground);
 }
