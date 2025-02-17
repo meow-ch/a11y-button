@@ -1,18 +1,18 @@
 .a11y-button-profile {
   display: flex;
   align-items: center;
-  gap: 0.75em;
-  padding: 1em;
+  gap: 0.75rem;
+  padding: 1rem;
 }
 
 .a11y-button-profile-label {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 .a11y-button-profile-select {
-  padding: 0.25em;
-  font-size: 1em;
-  height: 2em;
+  padding: 0.25rem;
+  font-size: 1rem;
+  height: 2rem;
   border: 2px solid var(--a11y-border-color, currentColor);
   border-radius: 4px;
   background-color: var(--a11y-select-bg, #ffffff);

@@ -56,7 +56,7 @@ function isSupportedUnit(unit: string): unit is CssSizeUnit {
 }
 
 /**
- * Converts a CSS size string (e.g., "16px", "1.2em", "12pt", "150%") into a pixel estimate.
+ * Converts a CSS size string (e.g., "16px", "1.2rem", "12pt", "150%") into a pixel estimate.
  *
  * Supports absolute units:
  *  - px: pixels
@@ -114,7 +114,7 @@ export interface CssSize {
 }
 
 /**
- * Splits a CSS size string (e.g., "16px", "1.2em", "12pt", "150%") into its numeric value and unit.
+ * Splits a CSS size string (e.g., "16px", "1.2rem", "12pt", "150%") into its numeric value and unit.
  *
  * @param cssSize - The CSS size string to split.
  * @returns An object with the numeric value and the unit.

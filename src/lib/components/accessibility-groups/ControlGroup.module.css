@@ -1,22 +1,22 @@
 .a11y-button-control-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 0.5rem;
   width: 100%;
   min-width: 250px;
   max-width: 100%;
 }
 
 .a11y-button-control-group-title {
-  font-size: 1.25em;
+  font-size: 1.25rem;
   font-weight: 600;
   border-bottom: 1px solid currentColor;
-  padding-bottom: 0.5em;
+  padding-bottom: 0.5rem;
 }
 
 .a11y-button-control-group-content {
   display: flex;
   flex-direction: column;
-  gap: 0.75em;
+  gap: 0.75rem;
   width: 100%;
 }

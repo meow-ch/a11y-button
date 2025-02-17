@@ -2,8 +2,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1em;
-  padding: 0.5em;
+  gap: 1rem;
+  padding: 0.5rem;
 }
 
 .a11y-button-text-label {
@@ -16,12 +16,12 @@
   color: var(--a11y-select-color, #000000);
   border: 2px solid currentColor;
   border-radius: 4px;
-  padding: 0.25em;
+  padding: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  height: 2em;
-  min-width: 10em;
+  height: 2rem;
+  min-width: 10rem;
   flex: 1;
 }
 
@@ -29,7 +29,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2em;
+  min-width: 2rem;
   font-size: 1rem;
   font-weight: 600;
 }

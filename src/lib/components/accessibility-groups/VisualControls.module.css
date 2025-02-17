@@ -2,14 +2,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1em;
+  gap: 1rem;
   padding: 0.5rem;
 }
 
 .a11y-button-visual-label {
   font-size: 1rem;
   font-weight: 600;
-  min-width: 7em;
+  min-width: 7rem;
   white-space: nowrap;
 }
 

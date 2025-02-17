@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.5rem;
   opacity: 1;
   pointer-events: auto;
 }
@@ -14,8 +14,8 @@
 .a11y-button-quick-divider {
   border-left: 2px solid currentColor;
   border-right: 2px solid currentColor;
-  padding: 0.5em;
-  margin: 0.25em;
+  padding: 0.5rem;
+  margin: 0.25rem;
   display: flex;
-  gap: 0.5em;
+  gap: 0.5rem;
 }

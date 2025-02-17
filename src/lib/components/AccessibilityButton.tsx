@@ -27,7 +27,7 @@ const iconMap: Record<string, LucideIcon> = {
   layout: LayoutGrid
 };
 
-const SAFE_MARGIN = '1.5em';
+const SAFE_MARGIN = '1.5rem';
 
 export function AccessibilityButton({
   isOpen,
