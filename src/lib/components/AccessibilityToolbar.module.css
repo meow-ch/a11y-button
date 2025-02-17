@@ -61,7 +61,7 @@
 
 @media (768px <= width <= 1000px) {
   .a11y-button-toolbar-footer {
-    max-width: calc(100% - calc(calc(800 / 2) * calc(calc(100vw - 768px) / 372)));
+    max-width: calc(100% - calc(calc(37em / 2) * calc(calc(100vw - 768px) / 372)));
     margin-left: auto;
     margin-right: auto;
   }
@@ -69,7 +69,7 @@
 
 @media (1000px < width) {
   .a11y-button-toolbar-footer {
-    max-width: 650px;
+    max-width: 33em;
     margin-left: auto;
     margin-right: auto;
   }
