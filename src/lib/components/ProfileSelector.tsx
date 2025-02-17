@@ -13,7 +13,6 @@ export function ProfileSelector({
   currentProfile,
   onChange,
   disabled,
-  textScaleFactor
 }: ProfileSelectorProps) {
   const { t } = useAccessibility();
 
@@ -22,17 +21,8 @@ export function ProfileSelector({
     onChange(profile, settings);
   };
 
-  const profileVars = {
-    '--a11y-profile-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.75})`,
-    '--a11y-profile-padding': `0 calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-label-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-select-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.25}) calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
-    '--a11y-select-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-select-height': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
-  } as React.CSSProperties;
-
   return (
-    <div className={styles['a11y-button-profile']} style={profileVars}>
+    <div className={styles['a11y-button-profile']}>
       <span className={styles['a11y-button-profile-label']}>
         {t('Profile')}
       </span>

@@ -33,15 +33,6 @@ export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask,
     }
   };
 
-  const controlVars = useMemo(() => ({
-    '--a11y-controls-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
-    '--a11y-controls-opacity': disabled ? 0.5 : 1,
-    '--a11y-controls-events': disabled ? 'none' : 'auto',
-    '--a11y-divider-padding': `0 calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
-    '--a11y-divider-margin': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.25}) 0`,
-    '--a11y-divider-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
-  } as React.CSSProperties), [textScaleFactor, disabled]);
-
   const scaleButtons = useMemo(() => (
     <ScaleButtons
       stepsArray={fontSizeScaleOptions as unknown as number[]}
@@ -53,10 +44,12 @@ export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask,
       labelDecrease={t('Decrease font size')}
       textScaleFactor={textScaleFactor}
     />
-  ), [t, onSettingsChange, controlVars, textScaleFactor])
+  ), [t, onSettingsChange, textScaleFactor])
+
+  const controlsClassName = `${styles['a11y-button-quick-controls']} ${disabled ? styles['a11y-button-quick-controls--disabled'] : ''}`
 
   return (
-    <div className={styles['a11y-button-quick-controls']} style={controlVars}>
+    <div className={controlsClassName}>
       {scaleButtons}
       <div className={styles['a11y-button-quick-divider']}>
         <IconButton

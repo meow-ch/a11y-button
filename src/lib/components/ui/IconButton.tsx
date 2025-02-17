@@ -40,7 +40,7 @@ export function IconButton({
       {...props}
       aria-label={label}
       disabled={disabled}
-      className={`${styles['a11y-button-icon']} ${active ? styles['a11y-button-icon-active'] : ''} ${className || ''}`}
+      className={`${styles['a11y-button-button-icon']} ${active ? styles['a11y-button-button-icon-active'] : ''} ${className || ''}`}
       style={iconVars}
     >
       {icon}

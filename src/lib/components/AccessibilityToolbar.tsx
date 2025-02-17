@@ -12,9 +12,8 @@ import { Button } from './ui/Button';
 import { IconButton } from './ui/IconButton';
 import { AccessibilityButton } from './AccessibilityButton';
 import styles from './AccessibilityToolbar.module.css';
-import { getScaledFontSize } from '../utils/size';
-import { LanguageSelect } from './LanguageSelect';
 import { getOption } from '../utils/option';
+import { LanguageSelect } from './LanguageSelect';
 
 export interface AccessibilityToolbarProps {
   position?: 'fixed' | 'absolute';
@@ -79,19 +78,10 @@ function ToolbarContent({
     }
   };
 
-  const toolbarVars = {
-    '--a11y-toolbar-gap': `calc(var(--a11y-button-base-font-size) * ${settings.fontSizeScaleOptionIndex})`,
-    '--a11y-toolbar-padding': `calc(var(--a11y-button-base-font-size) * 0.75)`,
-    '--a11y-toolbar-title-size': `calc(var(--a11y-button-base-font-size) * 1.25)`,
-    '--a11y-toolbar-controls-gap': `calc(var(--a11y-button-base-font-size) * 0.75)`,
-    '--a11y-toolbar-controls-margin': `calc(var(--a11y-button-base-font-size) * 0.25) 0`,
-    '--a11y-toolbar-advanced-padding': `var(--a11y-button-base-font-size)`,
-  } as React.CSSProperties;
-
   const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
 
   const toolbarContent = isOpen && portalContainer ? (
-    <div className={styles['a11y-button-toolbar']} style={toolbarVars}>
+    <div className={styles['a11y-button-toolbar']}>
       <div className={styles['a11y-button-toolbar-header']}>
         <div className={styles['a11y-button-toolbar-main']}>
           <h2 className={styles['a11y-button-toolbar-title']}>
@@ -125,20 +115,20 @@ function ToolbarContent({
           {isEnabled && (
             <Button
               variant="secondary"
-              icon={<Settings2 size={getScaledFontSize(settings)} />}
+              icon={<Settings2 />}
               onClick={() => setShowAdvanced(!showAdvanced)}
               textScaleFactor={textScaleFactor}
             >
               {showAdvanced ? t('Less Options') : t('More Options')}
             </Button>
           )}
-          <LanguageSelect aria-label={t('language')} />
+          <LanguageSelect />
           <IconButton
-            icon={<XIcon size={getScaledFontSize(settings)} />}
+            icon={<XIcon />}
             label="Close"
             onClick={handleClose}
             variant="danger"
-            scale={settings.fontSizeScaleOptionIndex * 1.2}
+            scale={textScaleFactor}
           />
         </div>
       </div>
@@ -155,7 +145,7 @@ function ToolbarContent({
               <Button
                 className={styles['a11y-button-toolbar-footer-button']}
                 variant="danger"
-                icon={<RotateCcw size={getScaledFontSize(settings)} />}
+                icon={<RotateCcw />}
                 onClick={handleReset}
                 textScaleFactor={textScaleFactor}
               >
@@ -168,7 +158,7 @@ function ToolbarContent({
                   <Button
                     className={styles['a11y-button-toolbar-footer-button']}
                     variant="ghost"
-                    icon={<RotateCcw size={getScaledFontSize(settings)} />}
+                    icon={<RotateCcw />}
                     onClick={rollbackChanges}
                     textScaleFactor={textScaleFactor}
                   >
@@ -177,7 +167,7 @@ function ToolbarContent({
                   <Button
                     className={styles['a11y-button-toolbar-footer-button']}
                     variant="primary"
-                    icon={<Save size={getScaledFontSize(settings)} />}
+                    icon={<Save />}
                     onClick={handleSave}
                     textScaleFactor={textScaleFactor}
                   >

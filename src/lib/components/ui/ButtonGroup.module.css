@@ -1,5 +1,5 @@
 .a11y-button-group {
   display: flex;
   align-items: center;
-  gap: var(--a11y-button-group-gap);
+  gap: 0.5em;
 }

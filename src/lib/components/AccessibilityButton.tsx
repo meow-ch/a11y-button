@@ -27,16 +27,15 @@ const iconMap: Record<string, LucideIcon> = {
   layout: LayoutGrid
 };
 
-const SAFE_MARGIN = '1.5rem';
+const SAFE_MARGIN = '1.5em';
 
 export function AccessibilityButton({
   isOpen,
   onClick,
-  textScaleFactor,
   position = 'absolute',
   top,
   right,
-  bottom = SAFE_MARGIN,
+  bottom,
   left,
   borderRadius = '50%',
   iconHandle = 'accessibility',
@@ -51,36 +50,27 @@ export function AccessibilityButton({
     return null;
   }
 
-  // Set CSS Custom Properties for the button
-  const buttonVars = {
-    '--a11y-button-position': position,
-    '--a11y-button-top': top || (position === 'absolute' ? SAFE_MARGIN : undefined),
-    '--a11y-button-right': right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
-    '--a11y-button-bottom': bottom || (position === 'fixed' ? SAFE_MARGIN : undefined),
-    '--a11y-button-left': left || (position === 'absolute' ? SAFE_MARGIN : undefined),
-    '--a11y-button-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 3})`,
-    '--a11y-button-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.75})`,
-    '--a11y-button-radius': borderRadius,
-    '--a11y-button-bg': '#ffffff',
-    '--a11y-button-color': '#000000',
-    '--a11y-button-border-color': '#000000',
-    '--a11y-button-hover-bg': '#000000',
-    '--a11y-button-hover-color': '#ffffff',
-    '--a11y-button-focus-ring-color': 'rgba(0, 0, 0, 0.4)',
-    '--a11y-button-icon-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 1.5})`,
+  console.log("BUTTON", top, right, bottom, left);
+  const buttonStyle = {
+    position,
+    top: top || (position === 'absolute' ? SAFE_MARGIN : undefined),
+    right: right || (!left && position === 'fixed' ? SAFE_MARGIN : undefined),
+    bottom: bottom || (position === 'fixed' ? SAFE_MARGIN : undefined),
+    left: left || (position === 'absolute' ? SAFE_MARGIN : undefined),
+    borderRadius,
   } as React.CSSProperties;
 
   return (
     <button
-      className={styles['a11y-button-trigger']}
-      style={buttonVars}
+      className={styles['a11y-button-trigger-button']}
+      style={buttonStyle}
       onClick={onClick}
       aria-label={t('{{hideShow}} Accessibility Settings', {
         hideShow: isOpen ? t('Hide') : t('Show')
       })}
     >
       {children || (
-        <Icon className={styles['a11y-button-icon']} />
+        <Icon className={styles['a11y-button-trigger-button-icon']} />
       )}
     </button>
   );

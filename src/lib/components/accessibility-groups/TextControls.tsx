@@ -4,7 +4,6 @@ import { useAccessibility } from '../../context/AccessibilityContext';
 import styles from './TextControls.module.css';
 import ScaleButtons from '../ui/ScaleButtons';
 import { getOption } from '../../utils/option';
-import { useMemo } from 'react';
 
 const controls = [
   { label: 'Word Spacing', key: 'wordSpacingScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: wordSpacingScaleOptions },
@@ -17,23 +16,11 @@ export function TextControls() {
 
   const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
 
-  const controlVars = useMemo(() => ({
-    '--a11y-control-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-control-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5}) 0`,
-    '--a11y-label-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-select-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.25}) calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5})`,
-    '--a11y-select-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-select-height': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
-    '--a11y-select-min-width': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 10})`,
-    '--a11y-value-min-width': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
-    '--a11y-value-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-  } as React.CSSProperties), [textScaleFactor]);
-
   console.log("Text scale factor", textScaleFactor);
 
   return (
-    <ControlGroup title={t('Text Readability')} textScaleFactor={settings.fontSizeScaleOptionIndex}>
-      <div className={styles['a11y-button-text-control']} style={controlVars}>
+    <ControlGroup title={t('Text Readability')}>
+      <div className={styles['a11y-button-text-control']}>
         <label className={styles['a11y-button-text-label']}>{t('Font Size')}</label>
         <ScaleButtons
           stepsArray={fontSizeScaleOptions as unknown as number[]}
@@ -47,7 +34,7 @@ export function TextControls() {
         />
       </div>
 
-      <div className={styles['a11y-button-text-control']} style={controlVars}>
+      <div className={styles['a11y-button-text-control']}>
         <label className={styles['a11y-button-text-label']}>{t('Font Family')}</label>
         <select
           value={settings.fontOptionIndex}
@@ -66,7 +53,7 @@ export function TextControls() {
         </select>
       </div>
 
-      <div className={styles['a11y-button-text-control']} style={controlVars}>
+      <div className={styles['a11y-button-text-control']}>
         <label className={styles['a11y-button-text-label']}>{t('Text Case')}</label>
         <select
           value={settings.textTransformOptionIndex}
@@ -79,7 +66,7 @@ export function TextControls() {
         </select>
       </div>
       {controls.map(({ label, key, stepsArray }) => (
-        <div key={key} className={styles['a11y-button-text-control']} style={controlVars}>
+        <div key={key} className={styles['a11y-button-text-control']}>
           <label className={styles['a11y-button-text-label']}>{t(label)}</label>
           <ScaleButtons
             stepsArray={stepsArray as unknown as number[]}

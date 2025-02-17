@@ -3,7 +3,6 @@ import { AccessibilitySettings } from '../../types';
 import { validateColorContrast } from '../../utils/color';
 import { useAccessibility } from '../../context/AccessibilityContext';
 import styles from './VisualControls.module.css';
-import { getOption } from '../../utils/option';
 
 export function VisualControls() {
   const { t, visibleSettings: settings, updateSettings: onUpdate } = useAccessibility();
@@ -17,22 +16,9 @@ export function VisualControls() {
     }
   };
 
-  const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
-
-  const controlVars = {
-    '--a11y-control-gap': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-control-padding': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 0.5}) 0`,
-    '--a11y-label-font-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor})`,
-    '--a11y-label-min-width': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 7})`,
-    '--a11y-color-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 2})`,
-    '--a11y-checkbox-size': `calc(var(--a11y-button-base-font-size) * ${textScaleFactor * 1.5})`,
-    '--a11y-border-color': settings.color,
-    '--a11y-focus-color': 'rgba(0, 0, 0, 0.4)',
-  } as React.CSSProperties;
-
   return (
-    <ControlGroup title={t('Visual Aids')} textScaleFactor={settings.fontSizeScaleOptionIndex}>
-      <div className={styles['a11y-button-visual-control']} style={controlVars}>
+    <ControlGroup title={t('Visual Aids')}>
+      <div className={styles['a11y-button-visual-control']}>
         <label className={styles['a11y-button-visual-label']}>{t('Background Color')}</label>
         <input
           type="color"
@@ -42,7 +28,7 @@ export function VisualControls() {
         />
       </div>
 
-      <div className={styles['a11y-button-visual-control']} style={controlVars}>
+      <div className={styles['a11y-button-visual-control']}>
         <label className={styles['a11y-button-visual-label']}>{t('Text Color')}</label>
         <input
           type="color"
@@ -60,7 +46,7 @@ export function VisualControls() {
         { label: t('Number Lists'), key: 'numberListItems' },
         { label: t('Highlight Links'), key: 'customLinks' }
       ].map(({ label, key }) => (
-        <div key={key} className={styles['a11y-button-visual-control']} style={controlVars}>
+        <div key={key} className={styles['a11y-button-visual-control']}>
           <label className={styles['a11y-button-visual-label']}>{label}</label>
           <input
             type="checkbox"

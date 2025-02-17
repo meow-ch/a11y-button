@@ -2,14 +2,18 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: var(--a11y-toggle-width);
-  height: var(--a11y-toggle-height);
+  width: 3rem;
+  height: 1.5rem;
   padding: 2px;
-  border-radius: var(--a11y-toggle-height);
+  border-radius: 1.5rem;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: var(--a11y-toggle-bg, #ccc);
-  border: var(--a11y-toggle-border);
+  border: none;
+}
+
+.a11y-button-toggle--show-border {
+  border: 2px solid var(--a11y-toolbar-foreground);
 }
 
 .a11y-button-toggle[aria-checked="true"] {
@@ -19,14 +23,18 @@
 .a11y-button-toggle-knob {
   position: absolute;
   left: var(--a11y-toggle-knob-left, 2px);
-  width: var(--a11y-toggle-knob-size);
-  height: var(--a11y-toggle-knob-size);
-  background-color: var(--a11y-toggle-knob-bg, #ffffff);
+  width: calc(1.5rem - calc(4rem / 16));
+  height: calc(1.5rem - calc(4rem / 16));
+  background-color: var(--a11y-toolbar-background, #ffffff);
   border-radius: 50%;
   transition: left 0.3s;
-  box-shadow: var(--a11y-toggle-knob-shadow);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.a11y-button-toggle--show-border .a11y-button-toggle-knob {
+  box-shadow: 0 0 0 2px var(--a11y-toolbar-foreground);
 }
 
 .a11y-button-toggle[aria-checked="true"] .a11y-button-toggle-knob {
-  --a11y-toggle-knob-left: calc(var(--a11y-toggle-width) - var(--a11y-toggle-knob-size) - 2px);
+  --a11y-toggle-knob-left: calc(3rem - calc(1.5rem - calc(4rem / 16)) - 2px);
 }

@@ -1,37 +1,32 @@
-.a11y-button-trigger {
+.a11y-button-trigger-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: var(--a11y-button-position, fixed);
-  top: var(--a11y-button-top);
-  right: var(--a11y-button-right);
-  bottom: var(--a11y-button-bottom);
-  left: var(--a11y-button-left);
-  width: var(--a11y-button-size);
-  height: var(--a11y-button-size);
-  padding: var(--a11y-button-padding);
-  border-radius: var(--a11y-button-radius, 50%);
-  border: 2px solid var(--a11y-button-border-color);
-  background-color: var(--a11y-button-bg);
-  color: var(--a11y-button-color);
+  width: 3.5em;
+  height: 3.5em;
+  padding: 0em;
+  border: 2px solid currentColor;
+  background-color: #ffffff;
+  color: #000000;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 999998;
   outline: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
-.a11y-button-trigger:hover {
-  background-color: var(--a11y-button-hover-bg);
-  color: var(--a11y-button-hover-color);
+.a11y-button-trigger-button:hover {
+  background-color: #000000;
+  color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
 }
 
-.a11y-button-trigger:focus {
-  box-shadow: 0 0 0 3px var(--a11y-button-focus-ring-color);
+.a11y-button-trigger-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.4);
 }
 
-.a11y-button-icon {
-  width: var(--a11y-button-icon-size);
-  height: var(--a11y-button-icon-size);
+.a11y-button-trigger-button-icon {
+  width: 2.3em;
+  height: 2.3em;
 }

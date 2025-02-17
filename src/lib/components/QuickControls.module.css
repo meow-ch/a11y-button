@@ -2,16 +2,20 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--a11y-controls-gap);
-  opacity: var(--a11y-controls-opacity);
-  pointer-events: var(--a11y-controls-events);
+  gap: 0.5em;
+  opacity: 1;
+  pointer-events: auto;
+}
+.a11y-button-quick-controls--disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .a11y-button-quick-divider {
   border-left: 2px solid currentColor;
   border-right: 2px solid currentColor;
-  padding: var(--a11y-divider-padding);
-  margin: var(--a11y-divider-margin);
+  padding: 0.5em;
+  margin: 0.25em;
   display: flex;
-  gap: var(--a11y-divider-gap);
+  gap: 0.5em;
 }

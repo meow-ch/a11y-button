@@ -1,4 +1,4 @@
-.a11y-button-icon {
+.a11y-button-button-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,22 +17,22 @@
   font-size: var(--a11y-icon-button-font-size);
 }
 
-.a11y-button-icon:disabled {
+.a11y-button-button-icon:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.a11y-button-icon:not(:disabled):hover {
+.a11y-button-button-icon:not(:disabled):hover {
   background-color: var(--a11y-icon-button-hover-bg, #000000);
   color: var(--a11y-icon-button-hover-color, #ffffff);
 }
 
-.a11y-button-icon:focus {
+.a11y-button-button-icon:focus {
   outline: 2px solid var(--a11y-icon-button-focus-color, rgba(0, 0, 0, 0.4));
   outline-offset: 2px;
 }
 
-.a11y-button-icon-active {
+.a11y-button-button-icon-active {
   background-color: #000000;
   color: #ffffff;
 }

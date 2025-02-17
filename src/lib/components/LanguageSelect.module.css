@@ -1,7 +1,7 @@
 .a11y-button-language-select {
-  padding: var(--a11y-select-padding);
-  font-size: var(--a11y-select-font-size);
-  height: var(--a11y-select-height);
+  padding: 0.25em;
+  font-size: 1rem;
+  height: 2em;
   border-radius: 4px;
   border: 2px solid currentColor;
   background-color: transparent;
