@@ -51,8 +51,6 @@ function ToolbarContent({
     t,
   } = useAccessibility();
 
-  console.log("SETTINGS", settings)
-
   useAccessibilityStyles(settings, isEnabled);
 
   const handleClose = () => {
@@ -67,11 +65,18 @@ function ToolbarContent({
       }
     }
     setIsOpen(false);
+    setShowAdvanced(false);
   };
 
   const handleSave = () => {
     commitChanges();
     setIsOpen(false);
+  };
+
+  const handleReset = () => {
+    if (window.confirm(t('Are you sure you want to reset all settings to their defaults? You will need to save the changes to make them permanent.'))) {
+      resetSettings();
+    }
   };
 
   const toolbarVars = {
@@ -117,26 +122,6 @@ function ToolbarContent({
         </div>
 
         <div className={styles['a11y-button-toolbar-controls']}>
-          {isEnabled && hasChanges && (
-            <>
-              <Button
-                variant="primary"
-                icon={<Save size={getScaledFontSize(settings)} />}
-                onClick={handleSave}
-                textScaleFactor={textScaleFactor}
-              >
-                {t('Save Changes')}
-              </Button>
-              <Button
-                variant="ghost"
-                icon={<RotateCcw size={getScaledFontSize(settings)} />}
-                onClick={rollbackChanges}
-                textScaleFactor={textScaleFactor}
-              >
-                {t('Revert')}
-              </Button>
-            </>
-          )}
           {isEnabled && (
             <Button
               variant="secondary"
@@ -165,6 +150,43 @@ function ToolbarContent({
             updateSettings={updateSettings}
             resetSettings={resetSettings}
           />
+          <div className={styles['a11y-button-toolbar-footer']}>
+            <div className={styles['a11y-button-toolbar-footer-group']}>
+              <Button
+                className={styles['a11y-button-toolbar-footer-button']}
+                variant="danger"
+                icon={<RotateCcw size={getScaledFontSize(settings)} />}
+                onClick={handleReset}
+                textScaleFactor={textScaleFactor}
+              >
+                {t('Reset All Settings')}
+              </Button>
+            </div>
+            <div className={styles['a11y-button-toolbar-footer-group']}>
+              {hasChanges && (
+                <>
+                  <Button
+                    className={styles['a11y-button-toolbar-footer-button']}
+                    variant="ghost"
+                    icon={<RotateCcw size={getScaledFontSize(settings)} />}
+                    onClick={rollbackChanges}
+                    textScaleFactor={textScaleFactor}
+                  >
+                    {t('Revert')}
+                  </Button>
+                  <Button
+                    className={styles['a11y-button-toolbar-footer-button']}
+                    variant="primary"
+                    icon={<Save size={getScaledFontSize(settings)} />}
+                    onClick={handleSave}
+                    textScaleFactor={textScaleFactor}
+                  >
+                    {t('Save Changes')}
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>

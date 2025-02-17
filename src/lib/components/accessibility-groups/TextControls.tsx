@@ -8,8 +8,8 @@ import { useMemo } from 'react';
 
 const controls = [
   { label: 'Word Spacing', key: 'wordSpacingScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: wordSpacingScaleOptions },
+  { label: 'Line Height', key: 'lineHeightScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: lineHeightScaleOptions },
   { label: 'Letter Spacing', key: 'letterSpacingScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: letterSpacingScaleOptions },
-  { label: 'Line Height', key: 'lineHeightScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: lineHeightScaleOptions }
 ] as const;
 
 export function TextControls() {

@@ -47,3 +47,40 @@
   max-width: 100%;
   overflow-x: hidden;
 }
+
+.a11y-button-toolbar-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--a11y-toolbar-controls-gap);
+  padding: var(--a11y-toolbar-padding);
+  border-top: 1px solid var(--a11y-toolbar-border-color);
+  margin-top: calc(2 * var(--a11y-toolbar-padding));
+}
+
+@media (768px <= width <= 1000px) {
+  .a11y-button-toolbar-footer {
+    max-width: calc(100% - calc(calc(800 / 2) * calc(calc(100vw - 768px) / 372)));
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (1000px < width) {
+  .a11y-button-toolbar-footer {
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.a11y-button-toolbar-footer-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--a11y-toolbar-controls-gap);
+}
+
+.a11y-button-toolbar-footer-button {
+  margin-top: 1rem;
+}
