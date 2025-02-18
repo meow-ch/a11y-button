@@ -86,19 +86,20 @@ export const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySetting
   'clear-reading': {
     color: '#0000FF',
     backgroundColor: '#FFFFFF',
-    fontSizeScaleOptionIndex: 2, // 24px
-    wordSpacingScaleOptionIndex: 3, // 4px
-    letterSpacingScaleOptionIndex: 1,
-    lineHeightScaleOptionIndex: 3, // 2rem
+    fontSizeScaleOptionIndex: 1, // 24px
+    wordSpacingScaleOptionIndex: 1, // 4px
+    letterSpacingScaleOptionIndex: 0,
+    lineHeightScaleOptionIndex: 1, // 2rem
+    leftAlignText: true,
     colorize: true,
   },
   'easy-reading': {
-    color: '#0000FF',
+    color: '#000000',
     backgroundColor: '#FFFFFF',
-    fontSizeScaleOptionIndex: 2, // 24px
-    wordSpacingScaleOptionIndex: 1, // 4px
-    letterSpacingScaleOptionIndex: 3, // 1rem
-    lineHeightScaleOptionIndex: 1, // 1.8rem
+    fontSizeScaleOptionIndex: 1, // 24px
+    wordSpacingScaleOptionIndex: 0, // 4px
+    letterSpacingScaleOptionIndex: 0, // 1rem
+    lineHeightScaleOptionIndex: 2, // 1.8rem
     showReadingMask: true,
   }
 };
