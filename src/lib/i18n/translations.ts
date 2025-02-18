@@ -2,6 +2,7 @@ import { Language } from '../types';
 
 export const translations = {
   en: {
+    "Black & White": "Black & White",
     "Hide": "Hide",
     "Show": "Show",
     "Profile": "Profile",
@@ -59,6 +60,7 @@ export const translations = {
     "Reset All Settings": "Reset All Settings",
   },
   fr: {
+    "Black & White": "Noir & Blanc",
     "Hide": "Cacher",
     "Show": "Afficher",
     "Profile": "Profil",
@@ -116,6 +118,7 @@ export const translations = {
     "Reset All Settings": "Réinitialiser tout"
   },
   de: {
+    "Black & White": "Schwartz & Weiss",
     "Hide": "Verbergen",
     "Show": "Anzeigen",
     "Profile": "Profil",
@@ -173,6 +176,7 @@ export const translations = {
     "Reset All Settings": "Alle Einstellungen zurücksetzen"
   },
   it: {
+    "Black & White": "Bianco & Nero",
     "Hide": "Nascondi",
     "Show": "Mostra",
     "Profile": "Profilo",

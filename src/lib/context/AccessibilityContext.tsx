@@ -15,14 +15,14 @@ export const defaultSettings: AccessibilitySettings = {
   fontOptionIndex: DEFAULT_FONT_OPTION_INDEX,
   currentProfile: 'none',
   showReadingMask: false,
-  blackAndWhite: false,
-  removeBackgrounds: false,
+  blackAndWhiteImages: false,
+  colorize: false,
   cancelLayout: false,
   leftAlignText: false,
   numberListItems: false,
   customLinks: false,
-  backgroundColor: undefined,
-  color: undefined,
+  backgroundColor: '#ffffff',
+  color: '#000000'
 };
 
 interface StoredState {
@@ -91,7 +91,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const [isEnabled, setIsEnabled] = useState(storedState.isEnabled);
   const [pausedSettings, setPausedSettings] = useState<AccessibilitySettings | null>(null);
   const fontOptions = useFontOptions();
-  const hasChanges = JSON.stringify(visibleSettings) !== JSON.stringify(savedSettings);
+  const hasChanges = JSON.stringify(visibleSettings) !== JSON.stringify(savedSettings) && JSON.stringify(visibleSettings) !== JSON.stringify(defaultSettings);
 
   useEffect(() => {
     saveStoredState({
@@ -134,6 +134,8 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
   const resetSettings = useCallback(() => {
     setVisibleSettings(defaultSettings);
+    localStorage.removeItem(STORAGE_KEY);
+    setSavedSettings(null)
   }, [defaultSettings]);
 
   const setProfile = (profile: AccessibilityProfile) => {

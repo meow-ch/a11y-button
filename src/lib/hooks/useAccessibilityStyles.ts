@@ -74,23 +74,28 @@ export function useAccessibilityStyles(
         ? getOption({ fontOptionIndex: settings.fontOptionIndex }).value
         : originalStyles.fontFamily || "inherit";
 
+    const usedColors = {
+      backgroundColor: (settings.colorize && settings.backgroundColor) || null,
+      color: (settings.colorize && settings.color) || null,
+    }
+
     const toolbarStyles = `
       :root {
         --a11y-button-font-size: ${scaledFontSize}${unit};
-        --a11y-button-background: ${settings.backgroundColor || "initial"};
-        --a11y-button-foreground: ${settings.color || "initial"};
-        --a11y-button-border-color: ${settings.color || "initial"};
+        --a11y-button-background: ${usedColors.backgroundColor || "initial"};
+        --a11y-button-foreground: ${usedColors.color || "initial"};
+        --a11y-button-border-color: ${usedColors.color || "initial"};
         --a11y-button-focus-ring: rgba(0, 0, 0, 0.4);
       }
     `;
 
     const colors = `
-        ${settings.backgroundColor ? `background-color: var(--a11y-button-background) !important;` : ""}
-        ${settings.color ? `color: var(--a11y-button-foreground) !important;` : ""}
+        ${usedColors.backgroundColor ? `background-color: var(--a11y-button-background) !important;` : ""}
+        ${usedColors.color ? `color: var(--a11y-button-foreground) !important;` : ""}
     `
     const colorsHover = `
-        ${settings.backgroundColor ? `color: var(--a11y-button-background) !important;` : ""}
-        ${settings.color ? `background-color: var(--a11y-button-foreground) !important;` : ""}
+        ${usedColors.backgroundColor ? `color: var(--a11y-button-background) !important;` : ""}
+        ${usedColors.color ? `background-color: var(--a11y-button-foreground) !important;` : ""}
     `
 
     const globalStyles = isEnabled
@@ -106,7 +111,7 @@ export function useAccessibilityStyles(
         ${lineHeightCSS ? `line-height: ${lineHeightCSS} !important;` : ""}
         ${settings.fontOptionIndex !== 0 ? `font-family: ${fontFamily} !important;` : ""}
         ${textTransform.value !== "none" ? `text-transform: ${textTransform.value} !important;` : ""}
-        ${settings.color ? `border-color: var(--a11y-button-foreground) !important;` : ""}
+        ${usedColors.color ? `border-color: var(--a11y-button-foreground) !important;` : ""}
       }
       *:not([class*="reading-mask-overlay"]) {
         ${colors}
@@ -123,7 +128,7 @@ export function useAccessibilityStyles(
       button svg:hover circle,
       button:hover svg path,
       button:hover svg circle {
-        ${settings.backgroundColor ? `color: var(--a11y-button-background) !important;` : ""}
+        ${usedColors.backgroundColor ? `color: var(--a11y-button-background) !important;` : ""}
       }
 
       /* Ensure backgrounds are applied to all elements except toolbar */
@@ -139,7 +144,7 @@ export function useAccessibilityStyles(
       }
 
       /* Black and white mode */
-      ${settings.blackAndWhite ? `
+      ${settings.blackAndWhiteImages ? `
       img,
       video,
       canvas,
@@ -175,13 +180,13 @@ export function useAccessibilityStyles(
       ${settings.customLinks ? `
       a {
         text-decoration: underline !important;
-        color: ${settings.blackAndWhite ? settings.color : "blue"} !important;
+        color: ${settings.colorize ? usedColors.color : "blue"} !important;
       }
       a:visited {
-        color: ${settings.blackAndWhite ? settings.color : "purple"} !important;
+        color: ${settings.colorize ? usedColors.color : "purple"} !important;
       }
       a:hover {
-        color: ${settings.blackAndWhite ? settings.color : "red"} !important;
+        color: ${settings.colorize ? usedColors.color : "red"} !important;
       }
       ` : ""}
     `

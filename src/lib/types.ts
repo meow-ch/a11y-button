@@ -66,12 +66,12 @@ export interface AccessibilitySettings {
   fontOptionIndex: FontOptionIndex;
   currentProfile: AccessibilityProfile;
   showReadingMask: boolean;
-  blackAndWhite: boolean;
+  blackAndWhiteImages: boolean;
   cancelLayout: boolean;
   leftAlignText: boolean;
   numberListItems: boolean;
   customLinks: boolean;
-  removeBackgrounds: boolean;
+  colorize: boolean;
   backgroundColor?: string;
   color?: string;
 }
@@ -90,7 +90,7 @@ export const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySetting
     wordSpacingScaleOptionIndex: 3, // 4px
     letterSpacingScaleOptionIndex: 1,
     lineHeightScaleOptionIndex: 3, // 2rem
-    removeBackgrounds: true,
+    colorize: true,
   },
   'easy-reading': {
     color: '#0000FF',

@@ -101,7 +101,7 @@ function ToolbarContent({
                 textScaleFactor={textScaleFactor}
               />
               <QuickControls
-                blackAndWhite={settings?.blackAndWhite}
+                blackAndWhiteImages={settings?.blackAndWhiteImages}
                 textScaleFactor={textScaleFactor}
                 showReadingMask={settings?.showReadingMask}
                 onSettingsChange={updateSettings}

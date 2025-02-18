@@ -8,28 +8,24 @@ import { useMemo } from 'react';
 import { Button } from './ui/Button';
 
 interface QuickControlsProps {
-  blackAndWhite: AccessibilitySettings["blackAndWhite"];
+  blackAndWhiteImages: AccessibilitySettings["blackAndWhiteImages"];
   textScaleFactor: TextScaleFactor;
   showReadingMask: AccessibilitySettings["showReadingMask"];
   onSettingsChange: (settings: Partial<AccessibilitySettings>) => void;
   disabled: boolean;
 }
 
-export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask, onSettingsChange, disabled }: QuickControlsProps) {
+export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChange, disabled }: QuickControlsProps) {
   const { t, visibleSettings: settings, hasChanges, rollbackChanges, commitChanges } = useAccessibility();
 
-  const toggleBlackAndWhite = () => {
-    if (blackAndWhite) {
+  const toggleColorize = () => {
+    if (settings.colorize) {
       onSettingsChange({
-        blackAndWhite: false,
-        removeBackgrounds: false,
+        colorize: false,
       });
     } else {
       onSettingsChange({
-        blackAndWhite: true,
-        removeBackgrounds: true,
-        backgroundColor: '#ffffff',
-        color: '#000000'
+        colorize: true,
       });
     }
   };
@@ -68,10 +64,10 @@ export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask,
         <IconButton
           icon={<PaintBucket size={BASE_FONT_SIZE * textScaleFactor * 1.2} />}
           label={t(`{{enableDisable}} black and white mode`, {
-            enableDisable: blackAndWhite ? t('Disable') : t('Enable')
+            enableDisable: settings.colorize ? t('Disable') : t('Enable')
           })}
-          onClick={toggleBlackAndWhite}
-          active={blackAndWhite}
+          onClick={toggleColorize}
+          active={settings.colorize}
         />
       </div>
       {hasChanges && (
