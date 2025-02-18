@@ -1,6 +1,6 @@
 .a11y-button-toolbar {
-  background-color: var(--a11y-toolbar-background, #ffffff);
-  color: var(--a11y-toolbar-foreground, #000000);
+  background-color: var(--a11y-button-background, #ffffff);
+  color: var(--a11y-button-foreground, #000000);
   max-width: 100vw;
   overflow-x: hidden;
   border-bottom: 1px solid currentColor;

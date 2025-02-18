@@ -17,30 +17,30 @@
   width: 2rem;
   height: 2rem;
   padding: 2px;
-  border: 2px solid var(--a11y-toolbar-foreground, currentColor);
+  border: 2px solid var(--a11y-button-foreground, currentColor);
   border-radius: 4px;
   cursor: pointer;
 }
 
 .a11y-button-visual-color:focus {
-  outline: 2px solid var(--a11y-toolbar-button-outline-focus, rgba(0, 0, 0, 0.4));
+  outline: 2px solid var(--a11y-button-button-outline-focus, rgba(0, 0, 0, 0.4));
   outline-offset: 2px;
 }
 
 .a11y-button-visual-checkbox {
   width: 1.5rem;
   height: 1.5rem;
-  border: 2px solid var(--a11y-toolbar-foreground, currentColor);
+  border: 2px solid var(--a11y-button-foreground, currentColor);
   border-radius: 4px;
   cursor: pointer;
 }
 
 .a11y-button-visual-checkbox:checked {
-  background-color: var(--a11y-toolbar-background, currentColor);
-  border-color: var(--a11y-toolbar-foreground currentColor);
+  background-color: var(--a11y-button-background, currentColor);
+  border-color: var(--a11y-button-foreground currentColor);
 }
 
 .a11y-button-visual-checkbox:focus {
-  outline: 2px solid var(--a11y-toolbar-button-outline-focus, rgba(0, 0, 0, 0.4));
+  outline: 2px solid var(--a11y-button-button-outline-focus, rgba(0, 0, 0, 0.4));
   outline-offset: 2px;
 }

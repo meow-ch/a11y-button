@@ -4,7 +4,6 @@ import styles from './IconButton.module.css';
 type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   label: string;
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  scale?: number;
   active?: boolean;
 } & ({
   text?: string;
@@ -18,7 +17,6 @@ export function IconButton({
   icon,
   label,
   variant = 'secondary',
-  scale = 1.5,
   active = false,
   disabled = false,
   text,

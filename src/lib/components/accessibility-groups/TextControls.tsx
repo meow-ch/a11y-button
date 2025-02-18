@@ -24,13 +24,12 @@ export function TextControls() {
         <label className={styles['a11y-button-text-label']}>{t('Font Size')}</label>
         <ScaleButtons
           stepsArray={fontSizeScaleOptions as unknown as number[]}
-          icon={<span style={{ fontWeight: 'bold' }}>A</span>}
+          icon={<span>A</span>}
           gapScale={0.25}
           currentIndex={settings["fontSizeScaleOptionIndex"]}
           onChange={(_, index) => onUpdate({ fontSizeScaleOptionIndex: index as FontSizeScaleOptionsIndex })}
           labelIncrease={t('Increase font size')}
           labelDecrease={t('Decrease font size')}
-          textScaleFactor={textScaleFactor}
         />
       </div>
 
@@ -75,7 +74,6 @@ export function TextControls() {
             onChange={(_, index) => onUpdate({ [key]: index })}
             labelIncrease={t('Increase {{label}}', { label })}
             labelDecrease={t('Decrease {{label}}', { label })}
-            textScaleFactor={textScaleFactor}
           />
         </div>
       ))}

@@ -8,7 +8,6 @@ type ComponentProps = {
   currentIndex: number;
   labelIncrease: string;
   labelDecrease: string;
-  textScaleFactor: number;
   gapScale: number;
   icon?: React.ReactNode;
 } & ({
@@ -31,7 +30,6 @@ const ScaleButtons: React.FC<ComponentProps> = ({
   currentIndex,
   labelIncrease,
   labelDecrease,
-  textScaleFactor,
   gapScale,
   stepsArray,
   icon
@@ -64,7 +62,6 @@ const ScaleButtons: React.FC<ComponentProps> = ({
         label={labelDecrease}
         onClick={handleDecrease}
         disabled={currentIndex === 0}
-        scale={textScaleFactor}
       />
       <IconButton
         icon={icon}
@@ -72,7 +69,6 @@ const ScaleButtons: React.FC<ComponentProps> = ({
         label={labelIncrease}
         onClick={handleIncrease}
         disabled={currentIndex === scaleArray.length - 1}
-        scale={textScaleFactor}
       />
     </ButtonGroup>
   );

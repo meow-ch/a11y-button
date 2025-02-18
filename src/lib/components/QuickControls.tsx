@@ -1,10 +1,11 @@
-import { Eye, EyeOff, PaintBucket } from 'lucide-react';
+import { Eye, EyeOff, PaintBucket, RotateCcw, Save } from 'lucide-react';
 import { AccessibilitySettings, BASE_FONT_SIZE, fontSizeScaleOptions, FontSizeScaleOptionsIndex, TextScaleFactor } from '../types';
 import { IconButton } from './ui/IconButton';
 import { useAccessibility } from '../context/AccessibilityContext';
 import styles from './QuickControls.module.css';
 import ScaleButtons from './ui/ScaleButtons';
 import { useMemo } from 'react';
+import { Button } from './ui/Button';
 
 interface QuickControlsProps {
   blackAndWhite: AccessibilitySettings["blackAndWhite"];
@@ -15,7 +16,7 @@ interface QuickControlsProps {
 }
 
 export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask, onSettingsChange, disabled }: QuickControlsProps) {
-  const { t, visibleSettings: settings } = useAccessibility();
+  const { t, visibleSettings: settings, hasChanges, rollbackChanges, commitChanges } = useAccessibility();
 
   const toggleBlackAndWhite = () => {
     if (blackAndWhite) {
@@ -36,13 +37,12 @@ export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask,
   const scaleButtons = useMemo(() => (
     <ScaleButtons
       stepsArray={fontSizeScaleOptions as unknown as number[]}
-      icon={<span style={{ fontWeight: 'bold' }}>A</span>}
+      icon={<span>A</span>}
       gapScale={0.25}
       currentIndex={settings["fontSizeScaleOptionIndex"]}
       onChange={(_, index) => onSettingsChange({ fontSizeScaleOptionIndex: index as FontSizeScaleOptionsIndex })}
       labelIncrease={t('Increase font size')}
       labelDecrease={t('Decrease font size')}
-      textScaleFactor={textScaleFactor}
     />
   ), [t, onSettingsChange, textScaleFactor])
 
@@ -63,7 +63,6 @@ export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask,
           onClick={() => onSettingsChange({
             showReadingMask: !showReadingMask
           })}
-          scale={textScaleFactor}
           active={showReadingMask}
         />
         <IconButton
@@ -72,10 +71,31 @@ export function QuickControls({ blackAndWhite, textScaleFactor, showReadingMask,
             enableDisable: blackAndWhite ? t('Disable') : t('Enable')
           })}
           onClick={toggleBlackAndWhite}
-          scale={textScaleFactor}
           active={blackAndWhite}
         />
       </div>
+      {hasChanges && (
+        <>
+          <Button
+            className={styles['a11y-button-toolbar-footer-button']}
+            variant="ghost"
+            size="sm"
+            icon={<RotateCcw />}
+            onClick={rollbackChanges}
+          >
+            {t('Revert')}
+          </Button>
+          <Button
+            className={styles['a11y-button-toolbar-footer-button']}
+            size="sm"
+            variant="primary"
+            icon={<Save />}
+            onClick={commitChanges}
+          >
+            {t('Save Changes')}
+          </Button>
+        </>
+      )}
     </div>
   );
 }

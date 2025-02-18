@@ -10,7 +10,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   children?: ReactNode;
   fullWidth?: boolean;
-  textScaleFactor?: number;
 }
 
 export function Button({
@@ -19,7 +18,6 @@ export function Button({
   icon,
   children,
   fullWidth = false,
-  textScaleFactor = 1,
   disabled,
   className,
   ...props

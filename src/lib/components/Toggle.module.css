@@ -13,7 +13,7 @@
 }
 
 .a11y-button-toggle--show-border {
-  border: 2px solid var(--a11y-toolbar-foreground);
+  border: 2px solid var(--a11y-button-foreground);
 }
 
 .a11y-button-toggle[aria-checked="true"] {
@@ -25,14 +25,14 @@
   left: var(--a11y-toggle-knob-left, 2px);
   width: calc(1.5rem - calc(4rem / 16));
   height: calc(1.5rem - calc(4rem / 16));
-  background-color: var(--a11y-toolbar-background, #ffffff);
+  background-color: var(--a11y-button-background, #ffffff);
   border-radius: 50%;
   transition: left 0.3s;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .a11y-button-toggle--show-border .a11y-button-toggle-knob {
-  box-shadow: 0 0 0 2px var(--a11y-toolbar-foreground);
+  box-shadow: 0 0 0 2px var(--a11y-button-foreground);
 }
 
 .a11y-button-toggle[aria-checked="true"] .a11y-button-toggle-knob {

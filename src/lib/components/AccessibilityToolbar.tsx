@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect, useCallback } from 'react';
 import { XIcon, Save, RotateCcw, Settings2 } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { AccessibilityPanel } from './AccessibilityPanel';
@@ -114,10 +114,10 @@ function ToolbarContent({
         <div className={styles['a11y-button-toolbar-controls']}>
           {isEnabled && (
             <Button
+              size="sm"
               variant="secondary"
               icon={<Settings2 />}
               onClick={() => setShowAdvanced(!showAdvanced)}
-              textScaleFactor={textScaleFactor}
             >
               {showAdvanced ? t('Less Options') : t('More Options')}
             </Button>
@@ -128,7 +128,6 @@ function ToolbarContent({
             label="Close"
             onClick={handleClose}
             variant="danger"
-            scale={textScaleFactor}
           />
         </div>
       </div>
@@ -147,7 +146,6 @@ function ToolbarContent({
                 variant="danger"
                 icon={<RotateCcw />}
                 onClick={handleReset}
-                textScaleFactor={textScaleFactor}
               >
                 {t('Reset All Settings')}
               </Button>
@@ -160,7 +158,6 @@ function ToolbarContent({
                     variant="ghost"
                     icon={<RotateCcw />}
                     onClick={rollbackChanges}
-                    textScaleFactor={textScaleFactor}
                   >
                     {t('Revert')}
                   </Button>
@@ -169,7 +166,6 @@ function ToolbarContent({
                     variant="primary"
                     icon={<Save />}
                     onClick={handleSave}
-                    textScaleFactor={textScaleFactor}
                   >
                     {t('Save Changes')}
                   </Button>
@@ -182,16 +178,23 @@ function ToolbarContent({
     </div>
   ) : null;
 
+  const handleAccessibilityButtonClick = useCallback(() => {
+    if (!isOpen) {
+      window.scrollTo(0, 0);
+    }
+    setIsOpen(!isOpen)
+  }, [setIsOpen, isOpen]);
+
   return (
     <>
       {props.children ? (
-        <div onClick={() => setIsOpen(!isOpen)}>
+        <div onClick={handleAccessibilityButtonClick}>
           {props.children}
         </div>
       ) : (
         <AccessibilityButton
           isOpen={isOpen}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleAccessibilityButtonClick}
           textScaleFactor={textScaleFactor}
           position={props.position}
           top={props.top}

@@ -1,7 +1,6 @@
 export type Language = 'en' | 'fr' | 'de' | 'it';
 
 export const BASE_FONT_SIZE = 16;
-export const BASE_FONT_UNIT = 'px';
 
 export const textTransformOptions = [
   { value: 'none', label: 'Normal Case' },

@@ -1,15 +1,15 @@
+import { OriginalStyles } from "../hooks/useOriginalStyles";
 import { BASE_FONT_SIZE, fontSizeScaleOptions, FontSizeScaleOptionsIndex } from "../types";
-
 
   // Conversion map: each unit maps to a function that returns its pixel equivalent.
 export const conversionMapToPx = {
   // Absolute units
-  px: (v: number) => v,
-  pt: (v: number) => v * (4 / 3),          // 1pt ≈ 1.3333px
-  in: (v: number) => v * 96,               // 1in = 96px
-  cm: (v: number) => v * (96 / 2.54),        // 1cm = 96/2.54px
-  mm: (v: number) => v * (96 / 25.4),        // 1mm = 96/25.4px
-  pc: (v: number) => v * 16,               // 1pc = 16px (since 1pc = 12pt and 12pt×4/3 = 16px)
+  px: (v: number, _?: number) => v,
+  pt: (v: number, _?: number) => v * (4 / 3),          // 1pt ≈ 1.3333px
+  in: (v: number, _?: number) => v * 96,               // 1in = 96px
+  cm: (v: number, _?: number) => v * (96 / 2.54),        // 1cm = 96/2.54px
+  mm: (v: number, _?: number) => v * (96 / 25.4),        // 1mm = 96/25.4px
+  pc: (v: number, _?: number) => v * 16,               // 1pc = 16px (since 1pc = 12pt and 12pt×4/3 = 16px)
   // Relative units (using baseFontSize)
   em: (v: number, base: number) => v * base,
   rem: (v: number, base: number) => v * base,
@@ -47,6 +47,19 @@ export const conversionMapPxTo = {
 } as const;
 
 export type CssSizeUnit = keyof typeof conversionMapToPx;
+
+export const BASE_FONT_UNIT: CssSizeUnit = 'px';
+
+export function getOriginalFontSizeInPxOrDefault(originalStyles: OriginalStyles) {
+    const { value: originalFontSize, unit } = originalStyles.fontSize
+      ? splitCssSize(originalStyles.fontSize)
+      : { value: BASE_FONT_SIZE, unit: BASE_FONT_UNIT };
+
+      console.log(" origina fontSize", originalStyles.fontSize);
+      console.log(" origina orifontsize", originalFontSize, unit);
+
+    return conversionMapToPx[unit](originalFontSize, BASE_FONT_SIZE);
+}
 
 // List of supported units.
 const supportedUnits = Object.keys(conversionMapPxTo) as CssSizeUnit[];

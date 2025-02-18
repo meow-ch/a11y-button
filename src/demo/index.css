@@ -1,98 +1,126 @@
-/* Base styles */
-body {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 17.1px;
-  letter-spacing: 1.103px;
-  /* word-spacing leave black to see what it does*/
-  line-height: normal;
-  margin: 0.1px;
-  padding: 0.1px;
+@import "tailwindcss";
+
+.prose {
+  max-width: 65ch;
+  color: #374151;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.prose h1 {
+  font-size: 2.25em;
+  font-weight: 800;
+  margin-bottom: 1em;
+  color: #111827;
 }
 
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.bg-white {
-  background-color: white;
-}
-
-.p-8 {
-  padding: 2rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
-.mb-8 {
-  margin-bottom: 2rem;
-}
-
-.mb-12 {
-  margin-bottom: 3rem;
-}
-
-.text-4xl {
-  font-size: 2.25rem;
-}
-
-.text-2xl {
-  font-size: 1.5rem;
-}
-
-.font-bold {
+.prose h2 {
+  font-size: 1.5em;
   font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  color: #111827;
 }
 
-.font-semibold {
+.prose h3 {
+  font-size: 1.25em;
   font-weight: 600;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  color: #111827;
 }
 
-.border {
-  border: 1px solid #e5e7eb;
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  line-height: 1.75;
 }
 
-.rounded {
-  border-radius: 0.25rem;
+.prose ul {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+  list-style-type: disc;
 }
 
-.relative {
-  position: relative;
+.prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+  list-style-type: decimal;
 }
 
-.text-blue-500 {
-  color: #3b82f6;
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
-.hover\:underline:hover {
+.prose a {
+  color: #2563eb;
   text-decoration: underline;
+  font-weight: 500;
 }
 
-.bg-blue-500 {
-  background-color: #3b82f6;
+.prose a:hover {
+  color: #1d4ed8;
 }
 
-.text-white {
-  color: white;
+.prose code {
+  color: #1f2937;
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
 }
 
-.hover\:bg-blue-600:hover {
-  background-color: #2563eb;
+.prose pre {
+  background-color: #f3f4f6;
+  padding: 1.25em;
+  border-radius: 0.375em;
+  overflow-x: auto;
 }
 
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.875em;
+  color: #1f2937;
 }
 
-.py-2 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.prose blockquote {
+  border-left-width: 4px;
+  border-left-color: #e5e7eb;
+  padding-left: 1em;
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  font-style: italic;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.prose table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75em 1em;
+}
+
+.prose table td {
+  padding: 0.75em 1em;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.prose img {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-radius: 0.375em;
+}
+
+.prose hr {
+  margin-top: 3em;
+  margin-bottom: 3em;
+  border-color: #e5e7eb;
 }
