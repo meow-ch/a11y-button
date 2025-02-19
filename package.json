@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run build -- --watch & vite",
     "build": "tsc && vite build",
     "prepare": "npm run build",
     "preview": "vite preview"

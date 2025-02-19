@@ -2,7 +2,7 @@ import { AccessibilitySettings } from '../types';
 import { TextControls } from './accessibility-groups/TextControls';
 import { VisualControls } from './accessibility-groups/VisualControls';
 import styles from './AccessibilityPanel.module.css';
-import { getScaledFontSize } from '../utils/size';
+import { getScaledFontSizePxValue } from '../utils/size';
 
 interface AccessibilityPanelProps {
   settings: AccessibilitySettings;
@@ -15,7 +15,7 @@ export function AccessibilityPanel({ settings }: AccessibilityPanelProps) {
     settings.fontSizeScaleOptionIndex <= 2 ? styles.columnNormal : styles.columnLarge
   }`;
 
-  const fontSize = getScaledFontSize(settings);
+  const fontSize = getScaledFontSizePxValue(settings);
 
   return (
     <div

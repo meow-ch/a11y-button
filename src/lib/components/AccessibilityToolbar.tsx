@@ -12,7 +12,6 @@ import { Button } from './ui/Button';
 import { IconButton } from './ui/IconButton';
 import { AccessibilityButton } from './AccessibilityButton';
 import styles from './AccessibilityToolbar.module.css';
-import { getOption } from '../utils/option';
 import { LanguageSelect } from './LanguageSelect';
 
 export interface AccessibilityToolbarProps {
@@ -41,6 +40,7 @@ function ToolbarContent({
     visibleSettings: settings,
     isEnabled,
     hasChanges,
+    scaledFontSize,
     updateSettings,
     setEnabled,
     resetSettings,
@@ -78,8 +78,6 @@ function ToolbarContent({
     }
   };
 
-  const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
-
   const toolbarContent = isOpen && portalContainer ? (
     <div className={styles['a11y-button-toolbar']}>
       <div className={styles['a11y-button-toolbar-header']}>
@@ -98,11 +96,9 @@ function ToolbarContent({
                 currentProfile={settings.currentProfile}
                 onChange={setProfile}
                 disabled={false}
-                textScaleFactor={textScaleFactor}
               />
               <QuickControls
                 blackAndWhiteImages={settings?.blackAndWhiteImages}
-                textScaleFactor={textScaleFactor}
                 showReadingMask={settings?.showReadingMask}
                 onSettingsChange={updateSettings}
                 disabled={showAdvanced}
@@ -116,7 +112,7 @@ function ToolbarContent({
             <Button
               size="sm"
               variant="secondary"
-              icon={<Settings2 />}
+              icon={<Settings2 size={scaledFontSize * 1.2} />}
               onClick={() => setShowAdvanced(!showAdvanced)}
             >
               {showAdvanced ? t('Less Options') : t('More Options')}
@@ -124,7 +120,7 @@ function ToolbarContent({
           )}
           <LanguageSelect />
           <IconButton
-            icon={<XIcon />}
+            icon={<XIcon size={scaledFontSize * 1.2}/>}
             label="Close"
             onClick={handleClose}
             variant="danger"
@@ -144,7 +140,7 @@ function ToolbarContent({
               <Button
                 className={styles['a11y-button-toolbar-footer-button']}
                 variant="danger"
-                icon={<RotateCcw />}
+                icon={<RotateCcw size={scaledFontSize * 1.2} />}
                 onClick={handleReset}
               >
                 {t('Reset All Settings')}
@@ -156,7 +152,7 @@ function ToolbarContent({
                   <Button
                     className={styles['a11y-button-toolbar-footer-button']}
                     variant="ghost"
-                    icon={<RotateCcw />}
+                    icon={<RotateCcw size={scaledFontSize * 1.2} />}
                     onClick={rollbackChanges}
                   >
                     {t('Revert')}
@@ -164,7 +160,7 @@ function ToolbarContent({
                   <Button
                     className={styles['a11y-button-toolbar-footer-button']}
                     variant="primary"
-                    icon={<Save />}
+                    icon={<Save size={scaledFontSize * 1.2} />}
                     onClick={handleSave}
                   >
                     {t('Save Changes')}
@@ -195,7 +191,6 @@ function ToolbarContent({
         <AccessibilityButton
           isOpen={isOpen}
           onClick={handleAccessibilityButtonClick}
-          textScaleFactor={textScaleFactor}
           position={props.position}
           top={props.top}
           right={props.right}

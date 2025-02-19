@@ -6,7 +6,6 @@ import styles from './AccessibilityButton.module.css';
 interface AccessibilityButtonProps {
   isOpen: boolean;
   onClick: () => void;
-  textScaleFactor: number;
   position?: 'fixed' | 'absolute';
   top?: string;
   right?: string;
@@ -43,7 +42,7 @@ export function AccessibilityButton({
   hideWhenOpen = false
 }: AccessibilityButtonProps) {
   const Icon = iconMap[iconHandle] || Settings;
-  const { t } = useAccessibility();
+  const { t, scaledFontSize } = useAccessibility();
 
   // Don't render if hideWhenOpen is true and the toolbar is open
   if ((hideWhenOpen || position === "absolute") && isOpen) {
@@ -70,7 +69,7 @@ export function AccessibilityButton({
       })}
     >
       {children || (
-        <Icon className={styles['a11y-button-trigger-button-icon']} />
+        <Icon size={scaledFontSize * 1.2} className={styles['a11y-button-trigger-button-icon']} />
       )}
     </button>
   );

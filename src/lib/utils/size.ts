@@ -116,7 +116,7 @@ export function convertCssSizeToRem(cssSize: string, baseFontSize: number = 16):
   return convertCssSizeToPx(cssSize, baseFontSize) / baseFontSize;
 }
 
-export function getScaledFontSize({ fontSizeScaleOptionIndex }: { fontSizeScaleOptionIndex: FontSizeScaleOptionsIndex; }, baseFontSize = BASE_FONT_SIZE): number {
+export function getScaledFontSizePxValue({ fontSizeScaleOptionIndex }: { fontSizeScaleOptionIndex: FontSizeScaleOptionsIndex; }, baseFontSize = BASE_FONT_SIZE): number {
   const textScaleFactor = fontSizeScaleOptions[fontSizeScaleOptionIndex];
   return baseFontSize * textScaleFactor;
 }

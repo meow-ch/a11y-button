@@ -6,7 +6,6 @@ interface ProfileSelectorProps {
   currentProfile: AccessibilityProfile;
   onChange: (profile: AccessibilityProfile, settings: Partial<AccessibilitySettings>) => void;
   disabled?: boolean;
-  textScaleFactor: number;
 }
 
 export function ProfileSelector({

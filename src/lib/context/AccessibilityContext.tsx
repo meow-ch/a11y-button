@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode, useEffect, useCallback,
 import { AccessibilitySettings, AccessibilityProfile, PROFILES, Language, DEFAULT_FONT_OPTION_INDEX, FontFamilyOptions } from '../types';
 import { translations, getTranslation } from '../i18n/translations';
 import useFontOptions from '../hooks/useFontOptions';
+import { getScaledFontSizePxValue } from '../utils/size';
 
 const STORAGE_KEY = 'a11y-settings';
 
@@ -67,6 +68,7 @@ function saveStoredState(state: StoredState) {
 
 interface AccessibilityContextType {
   visibleSettings: AccessibilitySettings;
+  scaledFontSize: number;
   language: Language;
   isEnabled: boolean;
   hasChanges: boolean;
@@ -164,21 +166,25 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     return getTranslation(language, key, params);
   }, [language]);
 
-  const contextValue = useMemo(() => ({
-    visibleSettings: isEnabled && visibleSettings || defaultSettings,
-    language,
-    isEnabled,
-    hasChanges,
-    fontOptions,
-    updateSettings,
-    setEnabled: setEnabledState,
-    resetSettings,
-    setProfile,
-    commitChanges,
-    rollbackChanges,
-    t,
-    setLanguage,
-  }), [
+  const contextValue = useMemo(() => {
+    const settings = (isEnabled && visibleSettings) || defaultSettings;
+    return {
+      visibleSettings: settings,
+      scaledFontSize: getScaledFontSizePxValue(settings),
+      language,
+      isEnabled,
+      hasChanges,
+      fontOptions,
+      updateSettings,
+      setEnabled: setEnabledState,
+      resetSettings,
+      setProfile,
+      commitChanges,
+      rollbackChanges,
+      t,
+      setLanguage,
+    }
+  }, [
     isEnabled, visibleSettings, savedSettings,
     language, hasChanges, fontOptions,
     updateSettings, setEnabledState, resetSettings,

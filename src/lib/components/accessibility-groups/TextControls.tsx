@@ -3,7 +3,6 @@ import { FontOptionIndex, fontSizeScaleOptions, FontSizeScaleOptionsIndex, lette
 import { useAccessibility } from '../../context/AccessibilityContext';
 import styles from './TextControls.module.css';
 import ScaleButtons from '../ui/ScaleButtons';
-import { getOption } from '../../utils/option';
 
 const controls = [
   { label: 'Word Spacing', key: 'wordSpacingScaleOptionIndex' as NumericAccessibilitySettingsProps, stepsArray: wordSpacingScaleOptions },
@@ -13,10 +12,6 @@ const controls = [
 
 export function TextControls() {
   const { t, fontOptions, visibleSettings: settings, updateSettings: onUpdate } = useAccessibility();
-
-  const textScaleFactor = getOption({ fontSizeScaleOptionIndex: settings.fontSizeScaleOptionIndex });
-
-  console.log("Text scale factor", textScaleFactor);
 
   return (
     <ControlGroup title={t('Text Readability')}>

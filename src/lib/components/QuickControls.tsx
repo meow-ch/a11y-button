@@ -1,5 +1,5 @@
 import { Eye, EyeOff, PaintBucket, RotateCcw, Save } from 'lucide-react';
-import { AccessibilitySettings, BASE_FONT_SIZE, fontSizeScaleOptions, FontSizeScaleOptionsIndex, TextScaleFactor } from '../types';
+import { AccessibilitySettings, fontSizeScaleOptions, FontSizeScaleOptionsIndex } from '../types';
 import { IconButton } from './ui/IconButton';
 import { useAccessibility } from '../context/AccessibilityContext';
 import styles from './QuickControls.module.css';
@@ -9,14 +9,13 @@ import { Button } from './ui/Button';
 
 interface QuickControlsProps {
   blackAndWhiteImages: AccessibilitySettings["blackAndWhiteImages"];
-  textScaleFactor: TextScaleFactor;
   showReadingMask: AccessibilitySettings["showReadingMask"];
   onSettingsChange: (settings: Partial<AccessibilitySettings>) => void;
   disabled: boolean;
 }
 
-export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChange, disabled }: QuickControlsProps) {
-  const { t, visibleSettings: settings, hasChanges, rollbackChanges, commitChanges } = useAccessibility();
+export function QuickControls({ showReadingMask, onSettingsChange, disabled }: QuickControlsProps) {
+  const { t, visibleSettings: settings, hasChanges, rollbackChanges, commitChanges, scaledFontSize } = useAccessibility();
 
   const toggleColorize = () => {
     if (settings.colorize) {
@@ -40,7 +39,7 @@ export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChan
       labelIncrease={t('Increase font size')}
       labelDecrease={t('Decrease font size')}
     />
-  ), [t, onSettingsChange, textScaleFactor])
+  ), [t, onSettingsChange])
 
   const controlsClassName = `${styles['a11y-button-quick-controls']} ${disabled ? styles['a11y-button-quick-controls--disabled'] : ''}`
 
@@ -50,8 +49,8 @@ export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChan
       <div className={styles['a11y-button-quick-divider']}>
         <IconButton
           icon={showReadingMask ?
-            <EyeOff size={BASE_FONT_SIZE * textScaleFactor * 1.2} /> :
-            <Eye size={BASE_FONT_SIZE * textScaleFactor * 1.2} />
+            <EyeOff size={scaledFontSize * 1.2} /> :
+            <Eye size={scaledFontSize * 1.2} />
           }
           label={t(`{{enableDisable}} reading mask`, {
             enableDisable: showReadingMask ? t('Disable') : t('Enable')
@@ -62,7 +61,7 @@ export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChan
           active={showReadingMask}
         />
         <IconButton
-          icon={<PaintBucket size={BASE_FONT_SIZE * textScaleFactor * 1.2} />}
+          icon={<PaintBucket size={scaledFontSize * 1.2} />}
           label={t(`{{enableDisable}} black and white mode`, {
             enableDisable: settings.colorize ? t('Disable') : t('Enable')
           })}
@@ -76,7 +75,7 @@ export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChan
             className={styles['a11y-button-toolbar-footer-button']}
             variant="ghost"
             size="sm"
-            icon={<RotateCcw />}
+            icon={<RotateCcw size={scaledFontSize * 1.2} />}
             onClick={rollbackChanges}
           >
             {t('Revert')}
@@ -85,7 +84,7 @@ export function QuickControls({ textScaleFactor, showReadingMask, onSettingsChan
             className={styles['a11y-button-toolbar-footer-button']}
             size="sm"
             variant="primary"
-            icon={<Save />}
+            icon={<Save size={scaledFontSize * 1.2} />}
             onClick={commitChanges}
           >
             {t('Save Changes')}
