@@ -155,7 +155,7 @@ export function useAccessibilityStyles(
 
       /* Layout modifications */
       ${settings.cancelLayout ? `
-      * {
+      *:not([class*="reading-mask-overlay"]) {
         float: none !important;
         position: static !important;
         transform: none !important;

@@ -86,7 +86,7 @@ export const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySetting
   'clear-reading': {
     color: '#0000FF',
     backgroundColor: '#FFFFFF',
-    fontSizeScaleOptionIndex: 1, // 24px
+    fontSizeScaleOptionIndex: 2, // 24px
     wordSpacingScaleOptionIndex: 1, // 4px
     letterSpacingScaleOptionIndex: 0,
     lineHeightScaleOptionIndex: 1, // 2rem
@@ -96,7 +96,7 @@ export const PROFILES: Record<AccessibilityProfile, Partial<AccessibilitySetting
   'easy-reading': {
     color: '#000000',
     backgroundColor: '#FFFFFF',
-    fontSizeScaleOptionIndex: 1, // 24px
+    fontSizeScaleOptionIndex: 2, // 24px
     wordSpacingScaleOptionIndex: 0, // 4px
     letterSpacingScaleOptionIndex: 0, // 1rem
     lineHeightScaleOptionIndex: 2, // 1.8rem
