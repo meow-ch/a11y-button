@@ -12,7 +12,7 @@ interface AccessibilityPanelProps {
 
 export function AccessibilityPanel({ settings }: AccessibilityPanelProps) {
   const columnClassName = `${styles.column} ${
-    settings.fontSizeScaleOptionIndex <= 1.4 ? styles.columnNormal : styles.columnLarge
+    settings.fontSizeScaleOptionIndex <= 2 ? styles.columnNormal : styles.columnLarge
   }`;
 
   const fontSize = getScaledFontSize(settings);

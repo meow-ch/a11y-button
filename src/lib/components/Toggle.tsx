@@ -9,10 +9,9 @@ interface ToggleProps {
 
 export function Toggle({ checked, onChange}: ToggleProps) {
   const { visibleSettings } = useAccessibility();
-  const { colorize, blackAndWhiteImages } = visibleSettings;
-  const shouldShowBorder = colorize || blackAndWhiteImages;
+  const { colorize } = visibleSettings;
 
-  const className = `${styles['a11y-button-toggle']} ${shouldShowBorder ? styles['a11y-button-toggle--show-border'] : ''}`;
+  const className = `${styles['a11y-button-toggle']} ${colorize ? styles['a11y-button-toggle--show-border'] : ''}`;
 
   return (
     <button

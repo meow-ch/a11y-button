@@ -2,6 +2,11 @@ export type Language = 'en' | 'fr' | 'de' | 'it';
 
 export const BASE_FONT_SIZE = 16;
 
+export const DEFAULT_COLORS = {
+  backgroundColor: "#FFFFFF",
+  color: "#000000",
+} as const;
+
 export const textTransformOptions = [
   { value: 'none', label: 'Normal Case' },
   { value: 'uppercase', label: 'UPPERCASE' },

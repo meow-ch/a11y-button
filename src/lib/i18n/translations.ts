@@ -2,7 +2,7 @@ import { Language } from '../types';
 
 export const translations = {
   en: {
-    "Black & White": "Black & White",
+    "Black & White Images": "Black & White Images",
     "Hide": "Hide",
     "Show": "Show",
     "Profile": "Profile",
@@ -60,7 +60,7 @@ export const translations = {
     "Reset All Settings": "Reset All Settings",
   },
   fr: {
-    "Black & White": "Noir & Blanc",
+    "Black & White Images": "Images Noir & Blanc",
     "Hide": "Cacher",
     "Show": "Afficher",
     "Profile": "Profil",
@@ -118,7 +118,7 @@ export const translations = {
     "Reset All Settings": "Réinitialiser tout"
   },
   de: {
-    "Black & White": "Schwartz & Weiss",
+    "Black & White Images": "Schwarz-Weiß-Bilder",
     "Hide": "Verbergen",
     "Show": "Anzeigen",
     "Profile": "Profil",
@@ -176,7 +176,7 @@ export const translations = {
     "Reset All Settings": "Alle Einstellungen zurücksetzen"
   },
   it: {
-    "Black & White": "Bianco & Nero",
+    "Black & White Images": "Immagini in Bianco & Nero",
     "Hide": "Nascondi",
     "Show": "Mostra",
     "Profile": "Profilo",

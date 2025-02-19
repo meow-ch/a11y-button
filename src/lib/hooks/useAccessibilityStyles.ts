@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { AccessibilitySettings, BASE_FONT_SIZE } from '../types';
+import { AccessibilitySettings, BASE_FONT_SIZE, DEFAULT_COLORS } from '../types';
 import { useOriginalStyles } from './useOriginalStyles';
 import { getOption } from '../utils/option';
 import { BASE_FONT_UNIT, getScaledSpacing, getScaledUnitlessValue, splitCssSize } from '../utils/size';
@@ -82,9 +82,9 @@ export function useAccessibilityStyles(
     const toolbarStyles = `
       :root {
         --a11y-button-font-size: ${scaledFontSize}${unit};
-        --a11y-button-background: ${usedColors.backgroundColor || "initial"};
-        --a11y-button-foreground: ${usedColors.color || "initial"};
-        --a11y-button-border-color: ${usedColors.color || "initial"};
+        --a11y-button-background: ${usedColors.backgroundColor || DEFAULT_COLORS.backgroundColor};
+        --a11y-button-foreground: ${usedColors.color || DEFAULT_COLORS.color};
+        --a11y-button-border-color: ${usedColors.color || DEFAULT_COLORS.color};
         --a11y-button-focus-ring: rgba(0, 0, 0, 0.4);
       }
     `;

@@ -44,7 +44,7 @@ export function VisualControls() {
         { label: t('Simplify Layout'), key: 'cancelLayout' },
         { label: t('Left Align Text'), key: 'leftAlignText' },
         { label: t('Number Lists'), key: 'numberListItems' },
-        { label: t('Black & White'), key: 'blackAndWhiteImages' },
+        { label: t('Black & White Images'), key: 'blackAndWhiteImages' },
         { label: t('Highlight Links'), key: 'customLinks' }
       ].map(({ label, key }) => (
         <div key={key} className={styles['a11y-button-visual-control']}>
