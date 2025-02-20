@@ -173,4 +173,4 @@ Contributions are welcome! Please read our contributing guidelines for details.
 
 ## License
 
-MIT © 
+MIT
