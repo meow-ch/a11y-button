@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect, useCallback } from 'react';
+import { ReactNode, useState, useEffect, useCallback, useMemo } from 'react';
 import { XIcon, Save, RotateCcw, Settings2 } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { AccessibilityPanel } from './AccessibilityPanel';
@@ -13,6 +13,7 @@ import { IconButton } from './ui/IconButton';
 import { AccessibilityButton } from './AccessibilityButton';
 import styles from './AccessibilityToolbar.module.css';
 import { LanguageSelect } from './LanguageSelect';
+import React from 'react';
 
 export interface AccessibilityToolbarProps {
   position?: 'fixed' | 'absolute';
@@ -181,14 +182,27 @@ function ToolbarContent({
     setIsOpen(!isOpen)
   }, [setIsOpen, isOpen]);
 
+  const customButton = useMemo(() => {
+    if (React.isValidElement(props.children)) {
+      const children = props.children || null;
+      const child = children as React.ReactElement<any>;
+      const existingOnClick = child.props.onClick as React.MouseEventHandler<HTMLElement> | undefined;
+      return React.cloneElement(child, {
+        onClick: (e: React.MouseEvent<HTMLElement>) => {
+          handleAccessibilityButtonClick();
+          if (existingOnClick) {
+            existingOnClick(e);
+          }
+        },
+      });
+    }
+    return null;
+  }, [props.children, handleAccessibilityButtonClick]);
+
   return (
     <>
       {((!props.hideButtonWhenOpen || !isOpen) && (
-        (props.children && (
-          <div onClick={handleAccessibilityButtonClick}>
-            {props.children}
-          </div>
-        )) || (
+        customButton || (
           <AccessibilityButton
             isOpen={isOpen}
             onClick={handleAccessibilityButtonClick}
