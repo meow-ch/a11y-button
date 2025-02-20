@@ -1,6 +1,6 @@
 {
   "name": "a11y-button",
-  "version": "0.1.17",
+  "version": "0.1.19",
   "description": "A highly customizable accessibility toolbar for React applications",
   "type": "module",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
     "lucide-react": "^0.475.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.6",
+    "@tailwindcss/vite": "^4.0.7",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.3.4",
@@ -31,7 +31,7 @@
     "postcss": "^8.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss": "^4.0.6",
+    "tailwindcss": "^4.0.7",
     "typescript": "^5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-dts": "^4.5.0"

@@ -43,14 +43,16 @@ export function QuickControls({ showReadingMask, onSettingsChange, disabled }: Q
 
   const controlsClassName = `${styles['a11y-button-quick-controls']} ${disabled ? styles['a11y-button-quick-controls--disabled'] : ''}`
 
+  const iconSize = scaledFontSize * 1.2;
+
   return (
     <div className={controlsClassName}>
       {scaleButtons}
       <div className={styles['a11y-button-quick-divider']}>
         <IconButton
           icon={showReadingMask ?
-            <EyeOff size={scaledFontSize * 1.2} /> :
-            <Eye size={scaledFontSize * 1.2} />
+            <EyeOff size={iconSize} /> :
+            <Eye size={iconSize} />
           }
           label={t(`{{enableDisable}} reading mask`, {
             enableDisable: showReadingMask ? t('Disable') : t('Enable')
@@ -61,7 +63,7 @@ export function QuickControls({ showReadingMask, onSettingsChange, disabled }: Q
           active={showReadingMask}
         />
         <IconButton
-          icon={<PaintBucket size={scaledFontSize * 1.2} />}
+          icon={<PaintBucket size={iconSize} />}
           label={t(`{{enableDisable}} black and white mode`, {
             enableDisable: settings.colorize ? t('Disable') : t('Enable')
           })}
@@ -75,7 +77,7 @@ export function QuickControls({ showReadingMask, onSettingsChange, disabled }: Q
             className={styles['a11y-button-toolbar-footer-button']}
             variant="ghost"
             size="sm"
-            icon={<RotateCcw size={scaledFontSize * 1.2} />}
+            icon={<RotateCcw size={iconSize} />}
             onClick={rollbackChanges}
           >
             {t('Revert')}
@@ -84,7 +86,7 @@ export function QuickControls({ showReadingMask, onSettingsChange, disabled }: Q
             className={styles['a11y-button-toolbar-footer-button']}
             size="sm"
             variant="primary"
-            icon={<Save size={scaledFontSize * 1.2} />}
+            icon={<Save size={iconSize} />}
             onClick={commitChanges}
           >
             {t('Save Changes')}
