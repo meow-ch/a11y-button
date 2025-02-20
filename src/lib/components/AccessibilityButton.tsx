@@ -14,7 +14,6 @@ interface AccessibilityButtonProps {
   borderRadius?: string;
   iconHandle?: 'settings' | 'eye' | 'palette' | 'type' | 'layout' | 'accessibility';
   children?: ReactNode;
-  hideWhenOpen?: boolean;
 }
 
 const iconMap: Record<string, LucideIcon> = {
@@ -39,16 +38,11 @@ export function AccessibilityButton({
   borderRadius = '50%',
   iconHandle = 'accessibility',
   children,
-  hideWhenOpen = false
 }: AccessibilityButtonProps) {
   const Icon = iconMap[iconHandle] || Settings;
   const { t, scaledFontSize } = useAccessibility();
 
   // Don't render if hideWhenOpen is true and the toolbar is open
-  if ((hideWhenOpen || position === "absolute") && isOpen) {
-    return null;
-  }
-
   console.log("BUTTON", top, right, bottom, left);
   const buttonStyle = {
     position,

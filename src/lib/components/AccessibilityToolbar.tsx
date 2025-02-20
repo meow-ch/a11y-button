@@ -183,25 +183,25 @@ function ToolbarContent({
 
   return (
     <>
-      {props.children ? (
-        <div onClick={handleAccessibilityButtonClick}>
-          {props.children}
-        </div>
-      ) : (
-        <AccessibilityButton
-          isOpen={isOpen}
-          onClick={handleAccessibilityButtonClick}
-          position={props.position}
-          top={props.top}
-          right={props.right}
-          bottom={props.bottom}
-          left={props.left}
-          borderRadius={props.borderRadius}
-          iconHandle={props.iconHandle}
-          hideWhenOpen={props.hideButtonWhenOpen}
-        />
-      )}
-
+      {((!props.hideButtonWhenOpen || !isOpen) && (
+        (props.children && (
+          <div onClick={handleAccessibilityButtonClick}>
+            {props.children}
+          </div>
+        )) || (
+          <AccessibilityButton
+            isOpen={isOpen}
+            onClick={handleAccessibilityButtonClick}
+            position={props.position}
+            top={props.top}
+            right={props.right}
+            bottom={props.bottom}
+            left={props.left}
+            borderRadius={props.borderRadius}
+            iconHandle={props.iconHandle}
+          />
+        )
+      )) || null}
       {portalContainer && createPortal(toolbarContent, portalContainer)}
       {portalContainer && createPortal(
         <ReadingMask isEnabled={isEnabled && settings.showReadingMask} />,
