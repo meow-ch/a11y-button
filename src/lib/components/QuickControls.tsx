@@ -34,12 +34,12 @@ export function QuickControls({ showReadingMask, onSettingsChange, disabled }: Q
       stepsArray={fontSizeScaleOptions as unknown as number[]}
       icon={<span>A</span>}
       gapScale={0.25}
-      currentIndex={settings["fontSizeScaleOptionIndex"]}
+      currentIndex={settings.fontSizeScaleOptionIndex}
       onChange={(_, index) => onSettingsChange({ fontSizeScaleOptionIndex: index as FontSizeScaleOptionsIndex })}
       labelIncrease={t('Increase font size')}
       labelDecrease={t('Decrease font size')}
     />
-  ), [t, onSettingsChange])
+  ), [t, onSettingsChange, settings.fontSizeScaleOptionIndex])
 
   const controlsClassName = `${styles['a11y-button-quick-controls']} ${disabled ? styles['a11y-button-quick-controls--disabled'] : ''}`
 
