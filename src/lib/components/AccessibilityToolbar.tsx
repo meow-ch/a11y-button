@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect, useCallback, useMemo } from 'react';
+import { ReactNode, useState, useEffect, useCallback } from 'react';
 import { XIcon, Save, RotateCcw, Settings2 } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { AccessibilityPanel } from './AccessibilityPanel';
@@ -14,8 +14,10 @@ import { AccessibilityButton } from './AccessibilityButton';
 import styles from './AccessibilityToolbar.module.css';
 import { LanguageSelect } from './LanguageSelect';
 import React from 'react';
+import { ACCESSIBILITY_TOOLBAR_DEFAULT_ID } from '../types';
 
 export interface AccessibilityToolbarProps {
+  id?: string;
   position?: 'fixed' | 'absolute';
   top?: string;
   right?: string;
@@ -36,6 +38,8 @@ function ToolbarContent({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const { id, position, top, right, bottom, left, borderRadius, iconHandle, children, hideButtonWhenOpen } = props;
 
   const {
     visibleSettings: settings,
@@ -79,8 +83,42 @@ function ToolbarContent({
     }
   };
 
+  const handleAccessibilityButtonClick = useCallback(() => {
+    if (!isOpen) {
+      window.scrollTo(0, 0);
+    }
+    setIsOpen(!isOpen)
+  }, [setIsOpen, isOpen]);
+
+  const buttonWithMaybeHandler = React.isValidElement(children)
+    ? children
+    : <AccessibilityButton
+        id={id}
+        isOpen={isOpen}
+        onClick={undefined as unknown as () => void}
+        position={position}
+        top={top}
+        right={right}
+        bottom={bottom}
+        left={left}
+        borderRadius={borderRadius}
+        iconHandle={iconHandle}
+      />;
+  const child = buttonWithMaybeHandler as React.ReactElement<any>;
+  const finalId = child.props.id || id || ACCESSIBILITY_TOOLBAR_DEFAULT_ID;
+  const existingOnClick = child.props.onClick as React.MouseEventHandler<HTMLElement> | undefined;
+  const enhancedButton = React.cloneElement(child, {
+    onClick: (e: React.MouseEvent<HTMLElement>) => {
+      handleAccessibilityButtonClick();
+      if (existingOnClick) {
+        existingOnClick(e);
+      }
+    },
+    id: finalId,
+  });
+
   const toolbarContent = isOpen && portalContainer ? (
-    <div className={styles['a11y-button-toolbar']}>
+    <div id={finalId} tabIndex={-1} className={styles['a11y-button-toolbar']}>
       <div className={styles['a11y-button-toolbar-header']}>
         <div className={styles['a11y-button-toolbar-main']}>
           <h2 className={styles['a11y-button-toolbar-title']}>
@@ -175,47 +213,10 @@ function ToolbarContent({
     </div>
   ) : null;
 
-  const handleAccessibilityButtonClick = useCallback(() => {
-    if (!isOpen) {
-      window.scrollTo(0, 0);
-    }
-    setIsOpen(!isOpen)
-  }, [setIsOpen, isOpen]);
-
-  const customButton = useMemo(() => {
-    if (React.isValidElement(props.children)) {
-      const children = props.children || null;
-      const child = children as React.ReactElement<any>;
-      const existingOnClick = child.props.onClick as React.MouseEventHandler<HTMLElement> | undefined;
-      return React.cloneElement(child, {
-        onClick: (e: React.MouseEvent<HTMLElement>) => {
-          handleAccessibilityButtonClick();
-          if (existingOnClick) {
-            existingOnClick(e);
-          }
-        },
-      });
-    }
-    return null;
-  }, [props.children, handleAccessibilityButtonClick]);
 
   return (
     <>
-      {((!props.hideButtonWhenOpen || !isOpen) && (
-        customButton || (
-          <AccessibilityButton
-            isOpen={isOpen}
-            onClick={handleAccessibilityButtonClick}
-            position={props.position}
-            top={props.top}
-            right={props.right}
-            bottom={props.bottom}
-            left={props.left}
-            borderRadius={props.borderRadius}
-            iconHandle={props.iconHandle}
-          />
-        )
-      )) || null}
+      {((!hideButtonWhenOpen || !isOpen) && (enhancedButton)) || null}
       {portalContainer && createPortal(toolbarContent, portalContainer)}
       {portalContainer && createPortal(
         <ReadingMask isEnabled={isEnabled && settings.showReadingMask} />,

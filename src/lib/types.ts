@@ -1,6 +1,7 @@
 export type Language = 'en' | 'fr' | 'de' | 'it';
 
 export const BASE_FONT_SIZE = 16;
+export const ACCESSIBILITY_TOOLBAR_DEFAULT_ID = "a11y-button-id";
 
 export const DEFAULT_COLORS = {
   backgroundColor: "#FFFFFF",

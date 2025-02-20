@@ -4,6 +4,7 @@ import { useAccessibility } from '../context/AccessibilityContext';
 import styles from './AccessibilityButton.module.css';
 
 interface AccessibilityButtonProps {
+  id?: string;
   isOpen: boolean;
   onClick: () => void;
   position?: 'fixed' | 'absolute';
@@ -28,6 +29,7 @@ const iconMap: Record<string, LucideIcon> = {
 const SAFE_MARGIN = '1.5rem';
 
 export function AccessibilityButton({
+  id,
   isOpen,
   onClick,
   position = 'absolute',
@@ -42,8 +44,6 @@ export function AccessibilityButton({
   const Icon = iconMap[iconHandle] || Settings;
   const { t, scaledFontSize } = useAccessibility();
 
-  // Don't render if hideWhenOpen is true and the toolbar is open
-  console.log("BUTTON", top, right, bottom, left);
   const buttonStyle = {
     position,
     top: top || (position === 'absolute' ? SAFE_MARGIN : undefined),
@@ -55,6 +55,7 @@ export function AccessibilityButton({
 
   return (
     <button
+      id={id}
       className={styles['a11y-button-trigger-button']}
       style={buttonStyle}
       onClick={onClick}

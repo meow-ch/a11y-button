@@ -26,7 +26,7 @@ export function App() {
           </nav>
         </header>
 
-        <AccessibilityToolbar />
+        <AccessibilityToolbar hideButtonWhenOpen id="hello"/>
 
         <div className="container mx-auto px-4 py-8 flex">
           <aside className="hidden lg:block w-64 pr-8">
