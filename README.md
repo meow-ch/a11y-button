@@ -8,12 +8,12 @@ A highly customizable accessibility toolbar for React applications that helps us
 - 📏 Adjustable text size, spacing, and line height
 - 🎯 Reading mask for better focus
 - 🔤 Multiple font options including dyslexia-friendly fonts
+- 🎯 Easy navigation mode with auto-click
 - 💾 Save and restore preferences
 - 📱 Fully responsive
 - ⌨️ Keyboard accessible
 - 🎯 WCAG compliant
 - 🔌 Zero configuration required
-- 🎯 Multiple independent instances support
 
 ## Installation
 
@@ -25,25 +25,56 @@ npm install a11y-button
 
 ```jsx
 import { AccessibilityToolbar } from 'a11y-button';
-import 'a11y-button/dist/index.css';
+import { AccessibilityProvider } from 'a11y-button';
 
 function App() {
   return (
-    <div>
-      <AccessibilityToolbar />
-      {/* Your app content */}
-    </div>
+    <AccessibilityProvider>
+      <div>
+        <AccessibilityToolbar />
+        {/* Your app content */}
+      </div>
+    </AccessibilityProvider>
   );
 }
 ```
 
 ## Usage Examples
 
-### Basic Usage
+### Basic Usage with Default Button
 
 ```jsx
 // Simple implementation with default settings
-<AccessibilityToolbar />
+<AccessibilityProvider>
+  <AccessibilityToolbar />
+</AccessibilityProvider>
+```
+
+### Custom Button Implementation
+
+```jsx
+import { AccessibilityToolbar } from 'a11y-button';
+
+function App() {
+  return (
+    <AccessibilityToolbar
+      hideButtonWhenOpen={true}
+      id="accessibility-toolbar"
+    >
+      <button
+        id="accessibility-toolbar"
+        onClick={() => {
+          // Optional: Focus the toolbar after opening
+          setTimeout(() => {
+            window.document.getElementById("accessibility-toolbar")?.focus();
+          }, 300);
+        }}
+      >
+        Customize Accessibility
+      </button>
+    </AccessibilityToolbar>
+  );
+}
 ```
 
 ### Custom Positioning
@@ -72,76 +103,43 @@ function App() {
   borderRadius="4px"
   iconHandle="palette"
 />
-
-// Custom trigger button
-<AccessibilityToolbar>
-  <button className="my-custom-button">
-    Customize Accessibility
-  </button>
-</AccessibilityToolbar>
 ```
 
-### Multiple Independent Toolbars
+## Features Guide
 
-```jsx
-function App() {
-  return (
-    <div>
-      {/* Main toolbar */}
-      <AccessibilityToolbar />
-      
-      {/* Separate section with its own toolbar */}
-      <section className="special-content">
-        <AccessibilityToolbar 
-          position="absolute"
-          top="1rem"
-          right="1rem"
-          iconHandle="palette"
-        />
-        <p>This content can have different accessibility settings.</p>
-      </section>
-    </div>
-  );
-}
-```
+### Easy Navigation Mode
 
-### Framework-Specific Examples
+When enabled, this feature adds two large navigation buttons at the bottom right of the screen for scrolling up and down. Additionally, it provides an auto-click functionality:
 
-#### Next.js
+- Hover over any clickable element for 2 seconds to trigger a click
+- Visual progress indicator shows when auto-click will occur
+- Great for users with motor difficulties
 
-```jsx
-'use client';
+### Reading Mask
 
-import { AccessibilityToolbar } from 'a11y-button';
+A focused reading aid that:
+- Dims the entire page except for the current reading area
+- Follows mouse movement
+- Helps users focus on specific content
+- Adjustable mask size based on text size
 
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <body>
-        <AccessibilityToolbar />
-        {children}
-      </body>
-    </html>
-  );
-}
-```
+### Text Customization
 
-#### Vite
+Comprehensive text adjustment options:
+- Font size scaling
+- Line height adjustment
+- Letter spacing
+- Word spacing
+- Multiple font families including dyslexia-friendly options
 
-```jsx
-import { AccessibilityToolbar } from 'a11y-button';
+### Visual Aids
 
-function App() {
-  return (
-    <>
-      <AccessibilityToolbar />
-      <main>
-        {/* Your app content */}
-      </main>
-    </>
-  );
-}
-```
+Various visual enhancement features:
+- High contrast mode
+- Custom color schemes
+- Black and white image conversion
+- Link highlighting
+- Layout simplification
 
 ## Props
 
@@ -155,6 +153,12 @@ function App() {
 | borderRadius | string | '50%' | Border radius of the trigger button |
 | iconHandle | 'settings' \| 'eye' \| 'palette' \| 'type' \| 'layout' | 'settings' | Icon to display in the trigger button |
 | children | ReactNode | undefined | Custom trigger element |
+| hideButtonWhenOpen | boolean | false | Hide the trigger button when toolbar is open |
+| id | string | undefined | ID for the toolbar (required when using custom button) |
+
+## Persistence
+
+User preferences are automatically saved to localStorage and restored on page reload.
 
 ## Browser Support
 
@@ -169,4 +173,4 @@ Contributions are welcome! Please read our contributing guidelines for details.
 
 ## License
 
-MIT © [Your Name]
+MIT © 

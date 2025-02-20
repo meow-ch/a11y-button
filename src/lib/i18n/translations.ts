@@ -2,6 +2,7 @@ import { Language } from '../types';
 
 export const translations = {
   en: {
+    "Navigation Assistance": "Navigation Assistance",
     "Black & White Images": "Black & White Images",
     "Hide": "Hide",
     "Show": "Show",
@@ -60,6 +61,7 @@ export const translations = {
     "Reset All Settings": "Reset All Settings",
   },
   fr: {
+    "Navigation Assistance": "Assistance à la Navigation",
     "Black & White Images": "Images Noir & Blanc",
     "Hide": "Cacher",
     "Show": "Afficher",
@@ -118,6 +120,7 @@ export const translations = {
     "Reset All Settings": "Réinitialiser tout"
   },
   de: {
+    "Navigation Assistance": "Navigationshilfe",
     "Black & White Images": "Schwarz-Weiß-Bilder",
     "Hide": "Verbergen",
     "Show": "Anzeigen",
@@ -176,6 +179,7 @@ export const translations = {
     "Reset All Settings": "Alle Einstellungen zurücksetzen"
   },
   it: {
+    "Navigation Assistance": "Assistenza alla Navigazione",
     "Black & White Images": "Immagini in Bianco & Nero",
     "Hide": "Nascondi",
     "Show": "Mostra",

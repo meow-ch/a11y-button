@@ -15,6 +15,7 @@ import styles from './AccessibilityToolbar.module.css';
 import { LanguageSelect } from './LanguageSelect';
 import React from 'react';
 import { ACCESSIBILITY_TOOLBAR_DEFAULT_ID } from '../types';
+import { NavigationAssistant } from './NavigationAssistant';
 
 export interface AccessibilityToolbarProps {
   id?: string;
@@ -220,6 +221,10 @@ function ToolbarContent({
       {portalContainer && createPortal(toolbarContent, portalContainer)}
       {portalContainer && createPortal(
         <ReadingMask isEnabled={isEnabled && settings.showReadingMask} />,
+        portalContainer
+      )}
+      {portalContainer && createPortal(
+        <NavigationAssistant />,
         portalContainer
       )}
     </>

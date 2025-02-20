@@ -22,6 +22,9 @@ export const defaultSettings: AccessibilitySettings = {
   leftAlignText: false,
   numberListItems: false,
   customLinks: false,
+  easyNavigation: false,
+  easyNavigationScrollSpeed: 8,
+  easyNavigationClickDelayMs: 1000,
   backgroundColor: '#ffffff',
   color: '#000000'
 };
@@ -93,7 +96,12 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const [isEnabled, setIsEnabled] = useState(storedState.isEnabled);
   const [pausedSettings, setPausedSettings] = useState<AccessibilitySettings | null>(null);
   const fontOptions = useFontOptions();
-  const hasChanges = JSON.stringify(visibleSettings) !== JSON.stringify(savedSettings) && JSON.stringify(visibleSettings) !== JSON.stringify(defaultSettings);
+  const hasChanges = useMemo(() => {
+    if (!visibleSettings || !savedSettings) {
+      return Boolean(visibleSettings && JSON.stringify(visibleSettings) !== JSON.stringify(defaultSettings));
+    }
+    return JSON.stringify(visibleSettings) !== JSON.stringify(savedSettings);
+  }, [visibleSettings, savedSettings]);
 
   useEffect(() => {
     saveStoredState({

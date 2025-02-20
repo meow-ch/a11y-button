@@ -78,6 +78,9 @@ export interface AccessibilitySettings {
   numberListItems: boolean;
   customLinks: boolean;
   colorize: boolean;
+  easyNavigation: boolean;
+  easyNavigationScrollSpeed: number;
+  easyNavigationClickDelayMs: number;
   backgroundColor?: string;
   color?: string;
 }
