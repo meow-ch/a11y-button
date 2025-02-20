@@ -1,6 +1,6 @@
 {
   "name": "a11y-button",
-  "version": "0.1.24",
+  "version": "1.1.25",
   "description": "A highly customizable accessibility toolbar for React applications",
   "type": "module",
   "main": "dist/index.js",
