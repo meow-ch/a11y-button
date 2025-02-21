@@ -7,20 +7,29 @@
 }
 
 @font-face {
-  font-family: 'OpenSans';
-  src: url('https://github.com/edx/ux-pattern-library/raw/refs/heads/master/pattern-library/fonts/OpenSans/OpenSans-Regular-webfont.woff2') format('woff2');
-  font-weight: normal;
+  font-family: 'Open Sans';
   font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/open-sans@latest/files/open-sans-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Luciole';
-  src: url('https://forge.apps.education.fr/charles.poulmaire/documentation/-/raw/main/_client/fonts/luciole/Luciole-Regular.woff2') format('woff2');
-  font-weight: normal;
+  font-family: 'AccessibleDfA-VF';
+  src: url('/assets/font/AccessibleDfA-VF.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
-}
+} /* Copyright (c) Orange 2015, www.orange.com with Reserved Font Name Accessible-Dfa.  This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL */
+
+@font-face {
+  font-family: 'Luciole-Regular';
+  src: url('/assets/font/Luciole-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+} /* Ces fontes sont distribuées gratuitement sous Licence publique Creative Commons Attribution 4.0 International : https://creativecommons.org/licenses/by/4.0/legalcode.fr    These fonts are freely available under Creative Commons Attribution 4.0 International Public License: https://creativecommons.org/licenses/by/4.0/legalcode    Luciole © Laurent Bourcellier & Jonathan Perez */
 
 @font-face {
   font-family: 'Atkinson Hyperlegible';

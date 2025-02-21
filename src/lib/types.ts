@@ -46,6 +46,7 @@ export const fontFamilyOptions = [
   { value: 'Atkinson Hyperlegible', label: 'Atkinson Hyperlegible', description: 'High legibility font' },
   { value: 'OpenSans', label: 'OpenSans', description: 'Good font font' },
   { value: 'Luciole', label: 'Luciole', description: 'Optimized for low vision' },
+  { value: 'AccessibleDfA-VF', label: 'AccessibleDfA', description: 'Designed for dyslexic readers' },
 ] as const;
 
 export type FontFamilyOptions = typeof fontFamilyOptions;

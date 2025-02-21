@@ -1,19 +1,21 @@
 {
   "name": "a11y-button",
-  "version": "1.1.25",
+  "version": "1.1.32",
   "description": "A highly customizable accessibility toolbar for React applications",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "postinstall.js"
   ],
   "scripts": {
     "dev": "npm run build -- --watch & vite",
     "build": "tsc && vite build",
     "prepare": "npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npx static-font Luciole-Regular AccessibleDfA-VF"
   },
   "peerDependencies": {
     "react": "^18.0.0",
