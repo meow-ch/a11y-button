@@ -14,7 +14,7 @@ import { AccessibilityButton } from './AccessibilityButton';
 import styles from './AccessibilityToolbar.module.css';
 import { LanguageSelect } from './LanguageSelect';
 import React from 'react';
-import { ACCESSIBILITY_TOOLBAR_DEFAULT_ID } from '../types';
+import { ACCESSIBILITY_TOOLBAR_DEFAULT_ID, Language } from '../types';
 import { NavigationAssistant } from './NavigationAssistant';
 
 export interface AccessibilityToolbarProps {
@@ -27,6 +27,7 @@ export interface AccessibilityToolbarProps {
   borderRadius?: string;
   iconHandle?: 'settings' | 'eye' | 'palette' | 'type' | 'layout';
   children?: ReactNode;
+  languages?: Language[];
   hideButtonWhenOpen?: boolean;
 }
 
@@ -53,6 +54,7 @@ function ToolbarContent({
     setProfile,
     commitChanges,
     rollbackChanges,
+    defaultLanguage,
     t,
   } = useAccessibility();
 
@@ -90,6 +92,10 @@ function ToolbarContent({
     }
     setIsOpen(!isOpen)
   }, [setIsOpen, isOpen]);
+
+  if (props.languages && props.languages.length > 0 && !props.languages.includes(defaultLanguage)) {
+    throw new Error(`The 'languages' prop must contain the provider's 'defaultLanguage' prop value. Set the defaultLanguage in the provider, to one of: ${String(props.languages)}`);
+  }
 
   const buttonWithMaybeHandler = React.isValidElement(children)
     ? children
@@ -158,7 +164,7 @@ function ToolbarContent({
               {showAdvanced ? t('Less Options') : t('More Options')}
             </Button>
           )}
-          <LanguageSelect />
+          <LanguageSelect languages={props.languages}/>
           <IconButton
             icon={<XIcon size={scaledFontSize * 1.2}/>}
             label="Close"

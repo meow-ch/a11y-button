@@ -35,13 +35,14 @@ interface StoredState {
   isEnabled: boolean;
 }
 
-function loadStoredState(): StoredState {
+function loadStoredState(defaultLanguage: Language): StoredState {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
+      console.log(parsed);
       if (
-        parsed.settings &&
+        parsed.settings === null ||
         Object.keys(parsed.settings).sort().join(',') === Object.keys(defaultSettings).sort().join(',')
       ) {
         return parsed;
@@ -56,7 +57,7 @@ function loadStoredState(): StoredState {
 
   return {
     settings: null,
-    language: 'en',
+    language: defaultLanguage || 'en',
     isEnabled: true
   };
 }
@@ -73,6 +74,7 @@ interface AccessibilityContextType {
   visibleSettings: AccessibilitySettings;
   scaledFontSize: number;
   language: Language;
+  defaultLanguage: Language;
   isEnabled: boolean;
   hasChanges: boolean;
   setLanguage: (language: Language) => void;
@@ -88,9 +90,18 @@ interface AccessibilityContextType {
 
 const AccessibilityContext = createContext<AccessibilityContextType | null>(null);
 
-export function AccessibilityProvider({ children }: { children: ReactNode }) {
-  const storedState = loadStoredState();
-  const [language, setLanguage] = useState<Language>(storedState.language);
+type AccessibilityProviderProps = {
+  children: ReactNode;
+  defaultLanguage?: Language;
+}
+
+export function AccessibilityProvider({
+  children,
+  defaultLanguage = 'en',
+}: AccessibilityProviderProps) {
+  const storedState = loadStoredState(defaultLanguage);
+  console.log(defaultLanguage, storedState.language);
+  const [language, setLanguage] = useState<Language>(storedState.language || defaultLanguage);
   const [visibleSettings, setVisibleSettings] = useState<AccessibilitySettings | null>(storedState.settings || defaultSettings);
   const [savedSettings, setSavedSettings] = useState<AccessibilitySettings | null>(storedState.settings);
   const [isEnabled, setIsEnabled] = useState(storedState.isEnabled);
@@ -180,6 +191,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       visibleSettings: settings,
       scaledFontSize: getScaledFontSizePxValue(settings),
       language,
+      defaultLanguage,
       isEnabled,
       hasChanges,
       fontOptions,

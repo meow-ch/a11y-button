@@ -4,7 +4,7 @@ import { AccessibilityProvider } from '../lib/context/AccessibilityContext';
 
 export function App() {
   return (
-    <AccessibilityProvider>
+    <AccessibilityProvider defaultLanguage='fr'>
       <div className="min-h-screen bg-gray-50">
         <header className="bg-white shadow-sm">
           <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -26,7 +26,7 @@ export function App() {
           </nav>
         </header>
 
-        <AccessibilityToolbar hideButtonWhenOpen id="hello"/>
+        <AccessibilityToolbar hideButtonWhenOpen id="hello" languages={['de']}/>
 
         <div className="container mx-auto px-4 py-8 flex">
           <aside className="hidden lg:block w-64 pr-8">
